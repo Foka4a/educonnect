@@ -1,0 +1,16 @@
+# EduConnect — Instruções do projeto
+
+## Regras de HTML (obrigatórias)
+
+1. **Tags semânticas.** Use `header`, `nav`, `main`, `section`, `article`, `aside`, `footer`, `figure`/`figcaption`, `h1`–`h6` em ordem hierárquica, `button` para ações e `a` para navegação. `div`/`span` só quando nenhuma tag semântica servir.
+2. **`alt` em todas as imagens.** Toda `<img>` tem `alt`:
+   - imagem informativa → descreve o conteúdo/função (`alt="Aluna estudando no notebook"`);
+   - imagem decorativa → `alt=""` (vazio, mas presente).
+   - Ícone dentro de link/botão sem texto → `alt` diz a ação (`alt="Abrir menu"`).
+
+Checagem rápida antes de entregar: `grep -n "<img" -r . | grep -v "alt="` deve retornar vazio.
+
+## Registro de prompts e uso de IA
+
+- Todo prompt do trabalho entra em [`PROMPTS.md`](PROMPTS.md), na categoria certa, com o impacto no resultado final.
+- A declaração de uso de IA fica em [`DECLARACAO_IA.md`](DECLARACAO_IA.md). Mantenha-a coerente com o registro de prompts.
