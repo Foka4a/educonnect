@@ -3,13 +3,15 @@
 ## Ferramenta utilizada
 
 - **Claude Code** (Anthropic), modelo Claude Opus 5.5, usado como assistente de programação no terminal.
+- **Claude** (Anthropic), aplicativo web/desktop, modelo Claude Sonnet 5.5, usado para gerar os modelos de modal.
 
 ## Finalidade do uso
 
 A IA foi usada para:
 
 - definir e registrar as regras de código do projeto (HTML semântico e `alt` em todas as imagens), no `CLAUDE.md`;
-- organizar a documentação do trabalho (registro de prompts e esta declaração).
+- organizar a documentação do trabalho (registro de prompts e esta declaração);
+- criar os modelos de modal em HTML com Bootstrap 5.3, seguindo o guia de estilos do grupo (pasta `modais/`).
 
 <!-- Atualize esta lista conforme a IA for usada em outras partes (HTML, CSS, JS, conteúdo, correção de bugs). -->
 
