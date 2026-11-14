@@ -9,6 +9,23 @@ Categorias: **Configuração/Regras**, **Estrutura (HTML)**, **Estilo (CSS)**, *
 |---|------|--------|----------------------------|
 | 1 | 2026-11-13 | "Use tags semanticas, e adicione alt em todas as imagens, registre isso num claude.md. Registre todos os prompts do trabalho categorizados por categoria junto com o impacto no resultado final do trabalho." | Criou o `CLAUDE.md` com as regras de HTML semântico e `alt` obrigatório, que valem para todo o código do projeto. Também criou o registro de prompts. |
 
+## Estrutura (HTML)
+
+| # | Data | Prompt | Impacto no resultado final |
+|---|------|--------|----------------------------|
+| 1 | 2026-11-13 | "ajuste os li que eu esqueci de colocar" | Colocou o botão do menu, o logo e o `h1` da nav do `layout.html` dentro de `<li>`, o que deixou a `ul` com HTML válido. Os `li` do botão e do logo ganharam `d-flex` para não perder a centralização vertical. |
+
+## Estilo (CSS)
+
+| # | Data | Prompt | Impacto no resultado final |
+|---|------|--------|----------------------------|
+| 1 | 2026-11-13 | "como faz um botao sem estilo no bootstrap" | Explicou as opções do Bootstrap para botões sem aparência padrão (`btn`, `btn-link` e utilitários como `bg-transparent border-0 p-0`). Assim as ações continuam em `<button>`, sem trocar por `div`/`span` só por causa do visual. |
+| 2 | 2026-11-13 | "como centralizar verticalmente os elementos dessa nav?" | Orientou o uso de `align-items-center` e `mb-0` no `h1` da nav do `layout.html`. Também apontou que `button`, `img` e `h1` não podem ficar soltos dentro de `ul`, o que leva a uma estrutura de cabeçalho semântica. |
+| 3 | 2026-11-13 | "o texto tem que estar em vertical align também" | Adicionou `mb-0` ao `h1` (a margem inferior padrão do Bootstrap empurrava o texto para cima) e `d-flex` ao botão do menu, para o ícone também ficar centralizado. Agora texto, logo e ícone ficam alinhados no centro da nav. |
+| 4 | 2026-11-13 | "como faz gap no flex?" | Explicou as classes `gap-*` do Bootstrap e a propriedade `gap` do CSS para espaçar os itens da nav sem margens individuais. |
+| 5 | 2026-11-13 | "preciso que o perfil fique quadrado" | Na classe `.perfil` do `geral.css`, trocou o `padding` e o `vertical-align` por `display: inline-flex` com centralização. Assim o `width`/`height` de 36px passa a valer e o avatar com as iniciais fica um quadrado de 36×36 com o texto no centro. |
+| 6 | 2026-11-13 | "agora como faz pra que isso fique na direita" | Adicionou `ms-auto` ao `li` do perfil no `layout.html`. A margem esquerda automática ocupa o espaço livre e leva o avatar para a ponta direita da nav, enquanto menu, logo e título ficam à esquerda. |
+
 ## Acessibilidade
 
 | # | Data | Prompt | Impacto no resultado final |
