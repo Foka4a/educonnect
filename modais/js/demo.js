@@ -1,4 +1,5 @@
 /* Somente demonstração: tema automático e formulários/eventos que não enviam nada.
+/* Somente demonstração: tema automático e formulários que não enviam nada.
    Não carregue este arquivo no site final. */
 (function () {
   'use strict';
@@ -24,5 +25,13 @@
   });
   document.addEventListener('edu:novo-comentario', function (e) {
     dizer('Comentário particular para ' + e.detail.aluno + ': “' + e.detail.texto + '”.');
+  });
+  document.addEventListener('submit', function (e) {
+    var modal = e.target.closest && e.target.closest('.modal');
+    if (!modal || e.defaultPrevented) return;   // formulário inválido já foi barrado em modais.js
+    e.preventDefault();
+    var status = document.getElementById('status');
+    if (status) status.textContent = 'Formulário válido (nada foi enviado nesta demonstração).';
+    bootstrap.Modal.getOrCreateInstance(modal).hide();
   });
 })();

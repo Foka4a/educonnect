@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EduConnect · Modais Bootstrap</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='22' fill='%233a86eb'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+/* ===== Tema EduConnect sobre o Bootstrap 5.3 (cole no seu CSS global) ===== */
+:root{
+  --edu-azul:#3a86eb; --edu-laranja:#e97a1b; --edu-azul-claro:#d3e3fd; --edu-cinza:#bdc1c6;
+  --bs-primary:#3a86eb; --bs-primary-rgb:58,134,235;
+  --bs-warning:#e97a1b; --bs-warning-rgb:233,122,27;
+  --bs-body-font-family:"Google Sans","Google Sans Text","Product Sans",Figtree,system-ui,sans-serif;
+  --bs-body-font-size:14px; --bs-body-bg:#f5f8fe; --bs-body-color:#1d2433;
+  --bs-border-color:#bdc1c6; --bs-border-radius:4px; --bs-border-radius-lg:8px;
+  --bs-link-color:#2a6fd0; --bs-focus-ring-color:rgba(233,122,27,.35);
+  --edu-on-primary:#fff; --edu-soft:#d3e3fd; --edu-muted:#5a6270;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+[data-bs-theme="dark"]{
+  --bs-primary:#6ea5f2; --bs-primary-rgb:110,165,242; --bs-warning:#f09a4d; --bs-warning-rgb:240,154,77;
+  --bs-body-bg:#10151f; --bs-body-color:#e7ecf5; --bs-border-color:#3a4253; --bs-link-color:#8db8f5;
+  --edu-on-primary:#0c1a33; --edu-soft:#24365a; --edu-muted:#a2acbd;
+}
+body{line-height:1.5}
+.btn-primary{--bs-btn-bg:var(--bs-primary);--bs-btn-border-color:var(--bs-primary);--bs-btn-color:var(--edu-on-primary);
+  --bs-btn-hover-bg:var(--bs-primary);--bs-btn-hover-border-color:var(--bs-primary);--bs-btn-hover-color:var(--edu-on-primary);
+  --bs-btn-active-bg:var(--bs-primary);--bs-btn-active-border-color:var(--bs-primary);--bs-btn-active-color:var(--edu-on-primary);
+  --bs-btn-disabled-bg:var(--edu-soft);--bs-btn-disabled-border-color:var(--edu-soft);--bs-btn-disabled-color:var(--edu-muted);--bs-btn-disabled-opacity:1;font-weight:500}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-warning{--bs-btn-bg:var(--bs-warning);--bs-btn-border-color:var(--bs-warning);--bs-btn-color:#1d1204;
+  --bs-btn-hover-bg:var(--bs-warning);--bs-btn-hover-border-color:var(--bs-warning);--bs-btn-hover-color:#1d1204;font-weight:500}
+.btn-link-edu{--bs-btn-color:var(--bs-primary);--bs-btn-hover-color:var(--bs-primary);--bs-btn-hover-bg:var(--edu-soft);--bs-btn-active-bg:var(--edu-soft);--bs-btn-border-color:transparent;font-weight:500}
+.btn-sm-edu,.modal .btn{font-size:12px;padding:.5rem 1.25rem}
+.form-control:focus,.form-select:focus{border-color:var(--bs-primary);box-shadow:0 0 0 .2rem rgba(var(--bs-primary-rgb),.2)}
+.btn:focus-visible,.btn-check:focus-visible+.btn,.tile:focus-visible{outline:2px solid var(--bs-warning);outline-offset:2px;box-shadow:none}
+
+/* modais: texto 12px conforme o guia */
+.modal{--bs-modal-font-size:12px;--bs-modal-border-radius:8px;--bs-modal-header-padding:1rem 1.25rem .25rem;--bs-modal-padding:.5rem 1.25rem 1rem;--bs-modal-header-border-width:0;font-size:12px}
+.modal .modal-title{font-size:18px;font-weight:500}
+.modal .form-label{font-size:12px;font-weight:500;margin-bottom:.25rem}
+.modal .form-control,.modal .form-select{font-size:12px;border-color:var(--edu-cinza)}
+.modal .form-text{font-size:11px}
+.modal .alert{font-size:12px;border:0;border-left:3px solid var(--bs-warning);border-radius:4px;background:rgba(var(--bs-warning-rgb),.14);color:var(--bs-body-color)}
+.modal-footer{--bs-modal-footer-gap:.5rem;padding:.625rem 1.25rem .875rem}
+.modal-body p{color:var(--edu-muted)}
+.chip{background:var(--edu-soft);color:var(--bs-body-color);font-weight:400;font-size:12px;border-radius:999px;padding:.35rem .65rem}
+.banner{height:84px;border-radius:8px;padding:12px 14px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;background:var(--bs-primary);transition:background .15s}
+.banner b{font-size:22px;font-weight:500;line-height:1.1}
+.sw+.sw-label{display:block}
+.btn-check+.swatch{width:36px;height:36px;border-radius:50%;padding:0;border:2px solid var(--bs-body-bg);box-shadow:0 0 0 1px var(--edu-cinza)}
+.btn-check:checked+.swatch{box-shadow:0 0 0 2px var(--bs-body-color)}
+.av{width:28px;height:28px;border-radius:50%;background:var(--edu-soft);display:grid;place-items:center;font-weight:500;flex:none}
+
+/* página de demonstração */
+.tile{text-align:left;background:var(--bs-body-bg);border:1px solid var(--bs-border-color);border-radius:8px;padding:14px 16px;color:inherit;width:100%;height:100%}
+[data-bs-theme="light"] .tile{background:#fff}
+.tile:hover{border-color:var(--bs-primary);background:var(--edu-soft)}
+.tile b{display:block;font-weight:500}.tile span{color:var(--edu-muted);font-size:12px}.tile i{font-style:normal;font-size:11px;color:var(--bs-warning);font-weight:500}
+h1{font-size:32px;font-weight:500}
+code{background:var(--edu-soft);color:var(--bs-body-color);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<main class="container py-5" style="max-width:900px">
+  <div class="d-flex align-items-center gap-3 mb-2">
+    <svg viewBox="0 0 96 96" width="48" height="48" aria-hidden="true"><rect width="96" height="96" rx="22" fill="#3a86eb"/><circle cx="29" cy="38" r="7" fill="#d3e3fd"/><circle cx="67" cy="38" r="7" fill="#d3e3fd"/><path d="M16 60a13 12 0 0 1 26 0z" fill="#d3e3fd"/><path d="M54 60a13 12 0 0 1 26 0z" fill="#d3e3fd"/><circle cx="48" cy="35" r="9" fill="#fff"/><path d="M32 60a16 15 0 0 1 32 0z" fill="#fff"/><path d="M48 17 62 23 48 29 34 23z" fill="#e97a1b"/><path d="M59 24.5v8" stroke="#e97a1b" stroke-width="2" stroke-linecap="round"/><circle cx="59" cy="33.5" r="2" fill="#e97a1b"/><path d="M18 63c11-3 21-2 29 2v16c-8-4-18-5-29-2z" fill="#fff"/><path d="M78 63c-11-3-21-2-29 2v16c8-4 18-5 29-2z" fill="#fff"/></svg>
+    <h1 class="m-0">Modais em Bootstrap</h1>
+  </div>
+  <p class="mb-4" style="color:var(--edu-muted);max-width:62ch">Os mesmos seis modais, agora com o componente Modal do Bootstrap 5.3 e as cores do guia de estilos aplicadas por variáveis CSS.</p>
+
+  <div class="row g-3">
+    <div class="col-12 col-sm-6 col-md-4"><button class="tile" data-bs-toggle="modal" data-bs-target="#m-criar"><b>Criar turma</b><span>Professor · botão “+” em Início</span></button></div>
+    <div class="col-12 col-sm-6 col-md-4"><button class="tile" data-bs-toggle="modal" data-bs-target="#m-entrar"><b>Participar da turma</b><span>Aluno · código de 5 a 8 caracteres</span></button></div>
+    <div class="col-12 col-sm-6 col-md-4"><button class="tile" data-bs-toggle="modal" data-bs-target="#m-aparencia"><b>Personalizar aparência</b><span>Professor · lápis do cabeçalho</span></button></div>
+    <div class="col-12 col-sm-6 col-md-4"><button class="tile" data-bs-toggle="modal" data-bs-target="#m-entrega"><b>Entrega do aluno</b><span>Arquivo, nota /100 e comentário</span></button></div>
+    <div class="col-12 col-sm-6 col-md-4"><button class="tile" data-bs-toggle="modal" data-bs-target="#m-promover"><b>Promover a professor</b><span>Aba Pessoas</span> <i>apoio</i></button></div>
+    <div class="col-12 col-sm-6 col-md-4"><button class="tile" data-bs-toggle="modal" data-bs-target="#m-excluir"><b>Excluir atividade</b><span>Ação irreversível</span> <i>apoio</i></button></div>
+  </div>
+  <div id="status" class="mt-3" style="color:var(--edu-muted);min-height:1.5em" role="status" aria-live="polite"></div>
+
+  <div class="mt-4 p-3 border rounded-3" style="font-size:12px;color:var(--edu-muted)">
+    <b>No seu projeto PHP:</b> inclua o CSS e o JS do Bootstrap 5.3, copie o bloco “Tema EduConnect” para o seu CSS global e reutilize os <code>.modal</code> como <em>includes</em>. Abra com <code>data-bs-toggle="modal" data-bs-target="#id"</code>; o fechamento por Esc, clique fora e foco preso já vêm do Bootstrap. Para o tema escuro, use <code>data-bs-theme="dark"</code> no <code>&lt;html&gt;</code>.
+  </div>
+</main>
+
+<!-- CRIAR TURMA -->
+<div class="modal fade" id="m-criar" tabindex="-1" aria-labelledby="t1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content">
+    <div class="modal-header"><h2 class="modal-title" id="t1">Criar turma</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button></div>
+    <form id="f-criar" novalidate>
+    <div class="modal-body">
+      <label class="form-label" for="c-nome">Nome da turma (obrigatório)</label><input class="form-control mb-3" id="c-nome" name="nome" autocomplete="off" required>
+      <label class="form-label" for="c-sec">Seção</label><input class="form-control mb-3" id="c-sec" name="secao" autocomplete="off">
+      <div class="row g-3">
+        <div class="col-12 col-sm-6"><label class="form-label" for="c-disc">Disciplina</label><input class="form-control" id="c-disc" name="disciplina" autocomplete="off"></div>
+        <div class="col-12 col-sm-6"><label class="form-label" for="c-sala">Sala</label><input class="form-control" id="c-sala" name="sala" autocomplete="off"></div>
+      </div>
+      <div class="form-text mt-3">O código da turma é gerado ao criar, e você vai direto para o Mural.</div>
+    </div>
+    <div class="modal-footer"><button type="button" class="btn btn-link-edu" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary" id="c-ok" data-action="Turma criada" disabled>Criar</button></div>
+    </form>
+  </div></div>
+</div>
+
+<!-- PARTICIPAR DA TURMA -->
+<div class="modal fade" id="m-entrar" tabindex="-1" aria-labelledby="t2" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h2 class="modal-title" id="t2">Participar da turma</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button></div>
+    <div class="modal-body">
+      <p>Peça o código ao professor e digite abaixo. Você entra como aluno.</p>
+      <label class="form-label" for="e-cod">Código da turma</label>
+      <input class="form-control" id="e-cod" maxlength="8" placeholder="Ex.: x7k2m9q" autocomplete="off" aria-describedby="e-fb">
+      <div class="invalid-feedback" id="e-fb">Código inválido. Use de 5 a 8 letras ou números, sem espaços.</div>
+    </div>
+    <div class="modal-footer"><button type="button" class="btn btn-link-edu" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" id="e-ok">Participar</button></div>
+  </div></div>
+</div>
+
+<!-- PERSONALIZAR APARÊNCIA -->
+<div class="modal fade" id="m-aparencia" tabindex="-1" aria-labelledby="t3" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h2 class="modal-title" id="t3">Personalizar aparência</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button></div>
+    <div class="modal-body">
+      <div class="banner mb-3" id="banner"><b>Desenvolvimento Web I</b><span>Turma A</span></div>
+      <div class="form-label" id="lbl-cor">Cor do cabeçalho</div>
+      <div class="d-flex gap-2" role="radiogroup" aria-labelledby="lbl-cor">
+        <input type="radio" class="btn-check" name="cor" id="cor1" value="#3a86eb" checked><label class="btn swatch" for="cor1" style="background:#3a86eb" aria-label="Azul"></label>
+        <input type="radio" class="btn-check" name="cor" id="cor2" value="#e97a1b"><label class="btn swatch" for="cor2" style="background:#e97a1b" aria-label="Laranja"></label>
+        <input type="radio" class="btn-check" name="cor" id="cor3" value="#bdc1c6"><label class="btn swatch" for="cor3" style="background:#bdc1c6" aria-label="Cinza"></label>
+        <input type="radio" class="btn-check" name="cor" id="cor4" value="#d3e3fd"><label class="btn swatch" for="cor4" style="background:#d3e3fd" aria-label="Azul-claro"></label>
+      </div>
+    </div>
+    <div class="modal-footer"><button type="button" class="btn btn-link-edu" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" data-action="Aparência salva" data-bs-dismiss="modal">Salvar</button></div>
+  </div></div>
+</div>
+
+<!-- ENTREGA DO ALUNO -->
+<div class="modal fade" id="m-entrega" tabindex="-1" aria-labelledby="t4" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"><div class="modal-content">
+    <div class="modal-header"><h2 class="modal-title" id="t4">Entrega de Ana Souza</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button></div>
+    <div class="modal-body">
+      <p>Redação sobre o meio ambiente · entregue em 10 nov.</p>
+      <div class="form-label">Arquivo enviado</div>
+      <div class="mb-3"><a href="#" class="badge chip text-decoration-none">redacao-ana.pdf</a></div>
+      <label class="form-label" for="g-nota">Nota</label>
+      <div class="input-group mb-3" style="max-width:140px"><input class="form-control" id="g-nota" type="number" min="0" max="100"><span class="input-group-text" style="font-size:12px">/ 100</span></div>
+      <label class="form-label" for="g-com">Comentário particular</label>
+      <textarea class="form-control" id="g-com" rows="3" placeholder="Só você e o aluno veem este comentário"></textarea>
+    </div>
+    <div class="modal-footer"><button type="button" class="btn btn-link-edu" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" data-action="Nota devolvida" data-bs-dismiss="modal">Devolver</button></div>
+  </div></div>
+</div>
+
+<!-- PROMOVER A PROFESSOR -->
+<div class="modal fade" id="m-promover" tabindex="-1" aria-labelledby="t5" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h2 class="modal-title" id="t5">Promover a professor</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button></div>
+    <div class="modal-body">
+      <p>Professores podem criar atividades, corrigir entregas e convidar alunos.</p>
+      <div class="d-flex align-items-center gap-2"><span class="av">AS</span><span>Ana Souza<br><span style="color:var(--edu-muted)">ana@escola.com</span></span></div>
+    </div>
+    <div class="modal-footer"><button type="button" class="btn btn-link-edu" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" data-action="Aluno promovido a professor" data-bs-dismiss="modal">Promover</button></div>
+  </div></div>
+</div>
+
+<!-- EXCLUIR ATIVIDADE -->
+<div class="modal fade" id="m-excluir" tabindex="-1" role="alertdialog" aria-labelledby="t6" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h2 class="modal-title" id="t6">Excluir atividade?</h2><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button></div>
+    <div class="modal-body">
+      <div class="alert mb-3" role="alert">Esta ação não pode ser desfeita.</div>
+      <p class="mb-0">As entregas, as notas e os comentários desta atividade também serão excluídos.</p>
+    </div>
+    <div class="modal-footer"><button type="button" class="btn btn-link-edu" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-warning" data-action="Atividade excluída" data-bs-dismiss="modal">Excluir</button></div>
+  </div></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const $=(s)=>document.querySelector(s), st=$('#status');
+// tema automático (Bootstrap 5.3 usa data-bs-theme)
+const mq=matchMedia('(prefers-color-scheme: dark)');
+const setTheme=()=>document.documentElement.setAttribute('data-bs-theme',mq.matches?'dark':'light');
+setTheme(); mq.addEventListener('change',setTheme);
+
+document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>{ st.textContent=b.dataset.action+'.'; }));
+
+// Criar turma: habilita com nome; submit fecha o modal (aqui entra o envio ao PHP)
+$('#c-nome').addEventListener('input',e=>{ $('#c-ok').disabled=!e.target.value.trim(); });
+$('#f-criar').addEventListener('submit',e=>{ e.preventDefault(); st.textContent='Turma criada.'; bootstrap.Modal.getInstance($('#m-criar')).hide(); });
+
+// Participar: valida 5 a 8 letras/números
+$('#e-ok').addEventListener('click',()=>{
+  const i=$('#e-cod'), ok=/^[a-z0-9]{5,8}$/i.test(i.value.trim());
+  i.classList.toggle('is-invalid',!ok);
+  if(ok){ st.textContent='Você entrou na turma.'; bootstrap.Modal.getInstance($('#m-entrar')).hide(); }
+});
+
+// Aparência: prévia do cabeçalho
+document.querySelectorAll('input[name=cor]').forEach(r=>r.addEventListener('change',()=>{
+  const c=r.value, b=$('#banner'); b.style.background=c;
+  b.style.color=(c==='#d3e3fd'||c==='#bdc1c6')?'#1d2433':'#fff';
+}));
+</script>
+</body>
+</html>

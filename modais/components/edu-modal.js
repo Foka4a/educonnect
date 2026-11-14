@@ -21,6 +21,10 @@
     alerta: '<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.5"/>'
   };
 
+   Atributos aceitos por todos:  action="url"  (destino do formulário, método POST) */
+(function () {
+  'use strict';
+
   class EduModal extends HTMLElement {
     connectedCallback() {
       if (this._pronto) return;
@@ -56,6 +60,7 @@
     render() { return ''; }
     /* gancho para ligar eventos do próprio componente depois de montar o HTML */
     depoisDeRenderizar() {}
+    render() { return ''; }
   }
 
   window.EduModal = EduModal;
