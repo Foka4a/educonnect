@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96">
+  <rect width="96" height="96" rx="22" fill="#3a86eb"/>
+  <!-- pessoas laterais -->
+  <circle cx="29" cy="38" r="7" fill="#d3e3fd"/>
+  <circle cx="67" cy="38" r="7" fill="#d3e3fd"/>
+  <path d="M16 60a13 12 0 0 1 26 0z" fill="#d3e3fd"/>
+  <path d="M54 60a13 12 0 0 1 26 0z" fill="#d3e3fd"/>
+  <!-- pessoa central -->
+  <circle cx="48" cy="35" r="9" fill="#ffffff"/>
+  <path d="M32 60a16 15 0 0 1 32 0z" fill="#ffffff"/>
+  <!-- capelo -->
+  <path d="M48 17 62 23 48 29 34 23z" fill="#e97a1b"/>
+  <path d="M59 24.5v8" stroke="#e97a1b" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="59" cy="33.5" r="2" fill="#e97a1b"/>
+  <!-- livro -->
+  <path d="M18 63c11-3 21-2 29 2v16c-8-4-18-5-29-2z" fill="#ffffff"/>
+  <path d="M78 63c-11-3-21-2-29 2v16c8-4 18-5 29-2z" fill="#ffffff"/>
+</svg>
