@@ -21,6 +21,11 @@ h1 {
     border-radius: 50%;
 }
 
+main {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+}
+
 @media (max-width: 390px) {
     .componente-logo-nav {
         display: none;
