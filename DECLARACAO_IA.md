@@ -13,6 +13,7 @@ A IA foi usada para:
 - definir e registrar as regras de código do projeto (HTML semântico e `alt` em todas as imagens), no `CLAUDE.md`;
 - organizar a documentação do trabalho (registro de prompts e esta declaração);
 - ajustar o layout base (cabeçalho, menu lateral responsivo e rodapé) e o JavaScript do menu, reutilizados pelas páginas;
+- montar a aba Atividades conforme o mapa de telas (lista expansível, menu "+ Criar", menu ⋮ e confirmação de exclusão) e revisar os modais da pasta `modais/`;
 - criar os modais como componentes (Web Components com Bootstrap 5.3), seguindo o guia de estilos e os wireframes do mapa de telas do grupo, em versão desktop e mobile, mais três modais extras derivados das funcionalidades do projeto (pasta `modais/`);
 - resolver um conflito de merge do Git e consolidar o registro de prompts;
 - criar os modelos de modal em HTML com Bootstrap 5.3, seguindo o guia de estilos do grupo (pasta `modais/`).

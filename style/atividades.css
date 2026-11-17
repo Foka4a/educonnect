@@ -1,0 +1,317 @@
+/* Aba Atividades: botão "+ Criar", lista expansível de atividades/materiais e menu ⋮. */
+.atividades {
+    width: min(100%, 760px);
+    margin: 0 auto;
+}
+
+/* ---------- Menu suspenso ("+ Criar" e ⋮) ---------- */
+
+.menu-suspenso {
+    position: relative;
+}
+
+.menu-suspenso > summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+.menu-suspenso > summary::-webkit-details-marker {
+    display: none;
+}
+
+.menu-suspenso__lista {
+    position: absolute;
+    z-index: 15;
+    min-width: 180px;
+    margin: 4px 0 0;
+    padding: 6px 0;
+    list-style: none;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgb(32 33 36 / 14%);
+}
+
+.menu-suspenso__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 16px;
+    color: var(--cor-texto);
+    background: none;
+    border: 0;
+    font-size: 14px;
+    text-align: left;
+    text-decoration: none;
+}
+
+.menu-suspenso__item:hover {
+    background: var(--cor-hover);
+}
+
+.menu-suspenso__item .material-symbols-outlined {
+    width: 20px;
+    color: var(--cor-texto-suave);
+    font-size: 20px;
+}
+
+/* ---------- "+ Criar" ---------- */
+
+.atividades__criar {
+    width: fit-content;
+    margin-bottom: 24px;
+}
+
+.botao-criar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 22px 0 16px;
+    color: #ffffff;
+    background: #1a73e8;
+    border-radius: 22px;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgb(32 33 36 / 24%);
+}
+
+.botao-criar:hover {
+    background: #1765cc;
+}
+
+/* ---------- Lista de atividades/materiais ---------- */
+
+.lista-atividades {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item-atividade {
+    position: relative;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+}
+
+.item-atividade:has(.item-atividade__detalhes[open]) {
+    border-color: #8ab4f8;
+}
+
+.item-atividade__resumo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 64px;
+    /* espaço à direita para o botão ⋮, que fica fora do <summary> */
+    padding: 0 64px 0 16px;
+    list-style: none;
+    cursor: pointer;
+}
+
+.item-atividade__resumo::-webkit-details-marker {
+    display: none;
+}
+
+.item-atividade__resumo:hover {
+    background: var(--cor-hover);
+    border-radius: 8px;
+}
+
+.item-atividade__icone {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    color: #ffffff;
+    background: #1a73e8;
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.item-atividade[data-tipo="material"] .item-atividade__icone {
+    background: #5f6368;
+}
+
+.item-atividade__titulo {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.item-atividade__prazo {
+    flex-shrink: 0;
+    color: var(--cor-texto-suave);
+    font-size: 13px;
+}
+
+.item-atividade__menu {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+
+.item-atividade__menu .menu-suspenso__lista {
+    right: 0;
+}
+
+.item-atividade__conteudo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px 24px;
+    padding: 16px 16px 0;
+    border-top: 1px solid var(--cor-borda);
+}
+
+.item-atividade__texto p {
+    margin: 0 0 8px;
+    color: var(--cor-texto-suave);
+    font-size: 14px;
+}
+
+.item-atividade__texto .item-atividade__data {
+    color: var(--cor-texto);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.item-atividade__contadores {
+    display: flex;
+    margin: 0;
+}
+
+.item-atividade__contadores div {
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 0 20px;
+    border-left: 1px solid var(--cor-borda);
+}
+
+.item-atividade__contadores dd {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.2;
+}
+
+.item-atividade__contadores dt {
+    color: var(--cor-texto-suave);
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.item-atividade__link {
+    grid-column: 1 / -1;
+    padding: 12px 0 14px;
+    color: #1967d2;
+    border-top: 1px solid var(--cor-borda);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* ---------- Confirmação de exclusão e aviso ---------- */
+
+.dialogo {
+    width: min(400px, calc(100% - 32px));
+    padding: 24px;
+    color: var(--cor-texto);
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 18px 48px rgb(32 33 36 / 24%);
+}
+
+.dialogo::backdrop {
+    background: rgb(32 33 36 / 44%);
+}
+
+.dialogo__titulo {
+    margin: 0 0 12px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.dialogo p {
+    margin: 0 0 8px;
+    color: var(--cor-texto-suave);
+    font-size: 14px;
+}
+
+.dialogo strong {
+    color: var(--cor-texto);
+}
+
+.dialogo__acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.botao-texto {
+    min-height: 40px;
+    padding: 0 16px;
+    color: #1967d2;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.botao-texto:hover {
+    background: var(--cor-destaque);
+}
+
+.botao-texto--perigo {
+    color: #c5221f;
+}
+
+.botao-texto--perigo:hover {
+    background: #fce8e6;
+}
+
+.aviso {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 40;
+    margin: 0;
+    padding: 12px 16px;
+    color: #ffffff;
+    background: #323232;
+    border-radius: 6px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 160ms ease;
+}
+
+.aviso--visivel {
+    opacity: 1;
+}
+
+@media (max-width: 640px) {
+    /* No celular a linha recolhida mostra só ícone + título (como no mapa). */
+    .item-atividade__prazo {
+        display: none;
+    }
+
+    .item-atividade__conteudo {
+        grid-template-columns: 1fr;
+    }
+
+    .item-atividade__contadores div:first-child {
+        padding-left: 0;
+        border-left: 0;
+    }
+
+    .aviso {
+        right: 16px;
+        left: 16px;
+        bottom: 16px;
+    }
+}

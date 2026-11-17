@@ -74,36 +74,6 @@
     stroke-width: 1.8;
 }
 
-.abas-mural {
-    display: flex;
-    gap: 8px;
-    min-height: 64px;
-    align-items: stretch;
-    padding: 0 12px;
-    background: #fff;
-    border-bottom: 1px solid #dadce0;
-}
-
-.aba {
-    display: inline-flex;
-    min-width: 92px;
-    align-items: center;
-    justify-content: center;
-    padding: 4px 16px 0;
-    color: #5f6368;
-    border-bottom: 3px solid transparent;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: color 160ms ease, border-color 160ms ease;
-}
-
-.aba:hover,
-.aba--ativa {
-    color: #1967d2;
-    border-bottom-color: #1a73e8;
-}
-
 .mural-conteudo {
     padding: 32px 8px 0;
 }
@@ -193,19 +163,6 @@
     .mural-cabecalho {
         min-height: 220px;
         padding: 24px;
-    }
-
-    .abas-mural {
-        gap: 0;
-        overflow-x: auto;
-        padding: 0;
-    }
-
-    .aba {
-        flex: 1 1 auto;
-        min-width: 0;
-        padding-right: 12px;
-        padding-left: 12px;
     }
 
     .mural-conteudo {
