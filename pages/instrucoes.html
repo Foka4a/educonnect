@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduConnect | Instruções da atividade</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../style/layout.css">
+    <link rel="stylesheet" href="../style/instrucoes.css">
+    <script src="../scripts/layout.js" defer></script>
+    <script src="../scripts/instrucoes.js" defer></script>
+</head>
+
+<body>
+    <header class="barra-superior">
+        <div class="barra-superior__marca">
+            <button class="botao-icone" type="button" aria-label="Abrir menu de navegação" aria-controls="menu-lateral"
+                aria-expanded="true" data-menu-toggle>
+                <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+            </button>
+            <a class="marca" href="inicio.html" aria-label="EduConnect, página inicial">
+                <img src="../img/icon.svg" alt="Logo do EduConnect">
+                <span>EduConnect</span>
+            </a>
+            <p class="trilha"><span class="trilha__separador" aria-hidden="true">›</span><span class="trilha__nome">Matemática</span></p>
+        </div>
+
+        <div class="barra-superior__acoes">
+            <button class="botao-icone" type="button" aria-label="Criar novo item" title="Criar novo item">
+                <span class="material-symbols-outlined" aria-hidden="true">add</span>
+            </button>
+            <a class="perfil" href="cadastro.html" aria-label="Abrir perfil de Gabriel Somariva">GP</a>
+        </div>
+    </header>
+
+    <div class="estrutura-aplicacao">
+        <aside class="menu-lateral" id="menu-lateral" aria-label="Navegação principal">
+            <nav>
+                <a class="menu-link" href="inicio.html">
+                    <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                    <span>Início</span>
+                </a>
+                <details class="menu-grupo" open>
+                    <summary class="menu-link menu-grupo__titulo">
+                        <span class="material-symbols-outlined" aria-hidden="true">school</span>
+                        <span>Turmas</span>
+                        <span class="material-symbols-outlined menu-grupo__seta" aria-hidden="true">expand_more</span>
+                    </summary>
+                    <div class="menu-grupo__itens">
+                        <a class="menu-link menu-link--subitem menu-link--ativo" href="mural.html" aria-current="true">
+                            <span class="material-symbols-outlined" aria-hidden="true">class</span>
+                            <span>Matemática</span>
+                        </a>
+                    </div>
+                </details>
+            </nav>
+        </aside>
+
+        <!-- Abas da atividade -->
+        <nav class="abas-mural" aria-label="Seções da atividade">
+            <a class="aba aba--ativa" href="instrucoes.html" aria-current="page">Instruções</a>
+            <a class="aba" href="trabalho-estudantes.html">Trabalhos dos estudantes</a>
+            <a class="botao-icone abas-mural__config" href="config-turma.html" aria-label="Configurações da turma" title="Configurações da turma">
+                <span class="material-symbols-outlined" aria-hidden="true">settings</span>
+            </a>
+        </nav>
+
+        <main class="conteudo-principal">
+            <article class="instrucoes" aria-labelledby="titulo-atividade">
+                <header class="instrucoes__cabecalho">
+                    <span class="instrucoes__icone material-symbols-outlined" aria-hidden="true">assignment</span>
+                    <h1 id="titulo-atividade">Lista de exercícios 1</h1>
+                    <!-- Só professor -->
+                    <details class="menu-suspenso instrucoes__menu">
+                        <summary class="botao-icone" aria-label="Mais opções da atividade" title="Mais opções">
+                            <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+                        </summary>
+                        <ul class="menu-suspenso__lista">
+                            <li><a class="menu-suspenso__item" href="criar-atividade.html">Editar</a></li>
+                            <li><button class="menu-suspenso__item" type="button" data-excluir>Excluir</button></li>
+                        </ul>
+                    </details>
+                </header>
+
+                <p class="instrucoes__meta">Gabriel Somariva <span aria-hidden="true">•</span> <time datetime="2026-11-17">17 de nov.</time></p>
+                <p class="instrucoes__pontos">100 pontos</p>
+
+                <div class="instrucoes__descricao">
+                    <p>Resolver os exercícios do capítulo 3.</p>
+                </div>
+
+                <section class="comentarios-turma" aria-labelledby="titulo-comentarios">
+                    <h2 id="titulo-comentarios">
+                        <span class="material-symbols-outlined" aria-hidden="true">group</span>
+                        <span>Comentários da turma</span>
+                    </h2>
+                    <ul class="comentarios-turma__lista" data-comentarios></ul>
+                    <details class="comentarios-turma__novo">
+                        <summary>
+                            <span class="material-symbols-outlined" aria-hidden="true">comment</span>
+                            Adicionar comentário
+                        </summary>
+                        <form class="comentarios-turma__form" data-form-comentario>
+                            <label class="visualmente-oculto" for="comentario-turma">Comentário da turma</label>
+                            <input class="comentarios-turma__campo" id="comentario-turma" name="comentario" placeholder="Adicionar comentário para a turma..." required autocomplete="off">
+                            <button class="botao-icone" type="submit" aria-label="Enviar comentário">
+                                <span class="material-symbols-outlined" aria-hidden="true">send</span>
+                            </button>
+                        </form>
+                    </details>
+                </section>
+            </article>
+        </main>
+    </div>
+
+    <!-- Confirmação do "Excluir" do menu ⋮ -->
+    <dialog class="dialogo" id="dialogo-excluir" aria-labelledby="titulo-excluir">
+        <form method="dialog">
+            <h2 class="dialogo__titulo" id="titulo-excluir">Excluir atividade?</h2>
+            <p>As notas e os comentários de <strong>Lista de exercícios 1</strong> também serão excluídos.</p>
+            <div class="dialogo__acoes">
+                <button class="botao-texto" type="submit" value="cancelar">Cancelar</button>
+                <button class="botao-texto botao-texto--perigo" type="submit" value="excluir">Excluir</button>
+            </div>
+        </form>
+    </dialog>
+
+    <p class="aviso" role="status" data-aviso></p>
+</body>
+
+</html>
