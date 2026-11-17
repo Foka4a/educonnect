@@ -14,3 +14,4 @@ Checagem rápida antes de entregar: `grep -n "<img" -r . | grep -v "alt="` deve 
 
 - Todo prompt do trabalho entra em [`PROMPTS.md`](PROMPTS.md), na categoria certa, com o impacto no resultado final.
 - A declaração de uso de IA fica em [`DECLARACAO_IA.md`](DECLARACAO_IA.md). Mantenha-a coerente com o registro de prompts.
+- Antes de qualquer alteração nos arquivos [`PROMPTS.md`](PROMPTS.md) e [`DECLARACAO_IA.md`](DECLARACAO_IA.md) verifique possiveis conflitos com outras branches, para evitar problemas no marge.
