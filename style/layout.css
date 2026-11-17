@@ -13,6 +13,10 @@
     --largura-menu-recolhido: 72px;
 }
 
+:root {
+    scrollbar-gutter: auto;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -152,12 +156,12 @@ button {
     text-decoration: none;
 }
 
-/* ---------- Estrutura: menu | conteúdo / rodapé ---------- */
-
 .estrutura-aplicacao {
     display: grid;
     grid-template-columns: var(--largura-menu) minmax(0, 1fr);
-    grid-template-rows: 1fr auto;
+    /* 1ª linha: barra opcional da página (ex.: abas do mural), só a altura dela.
+       2ª linha: o <main>, que ocupa o resto da tela. */
+    grid-template-rows: auto 1fr;
     min-height: calc(100vh - var(--altura-barra));
     transition: grid-template-columns 180ms ease;
 }
@@ -338,7 +342,6 @@ button {
         transform: none;
     }
 
-    /* Fundo escurecido atrás da gaveta; clicar nele fecha o menu (layout.js). */
     .menu-aberto::after {
         content: "";
         position: fixed;
