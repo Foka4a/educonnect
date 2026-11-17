@@ -92,3 +92,28 @@
         border-radius: 0;
     }
 }
+
+/* "Informações da turma" (botão ⓘ do Mural): lista só de leitura. */
+.info-turma__lista {
+    display: grid;
+    gap: 12px;
+    margin: 8px 0 0;
+}
+
+.info-turma__lista dt {
+    color: var(--cor-texto-suave);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.info-turma__lista dd {
+    margin: 2px 0 0;
+    font-size: 15px;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.info-turma__lista .info-turma__vazio {
+    color: var(--cor-texto-suave);
+    font-style: italic;
+}
