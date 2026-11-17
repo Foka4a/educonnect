@@ -11,9 +11,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../style/layout.css">
     <link rel="stylesheet" href="../modais/css/configuracoes-turma.css">
+    <link rel="stylesheet" href="../modais/css/personalizar-aparencia.css">
     <link rel="stylesheet" href="../style/mural.css">
     <script src="../scripts/layout.js" defer></script>
     <script src="../modais/components/configuracoes-turma.js" defer></script>
+    <script src="../modais/components/personalizar-aparencia.js" defer></script>
 </head>
 <body>
     <header class="barra-superior">
@@ -80,7 +82,7 @@
                     </div>
 
                     <div class="mural-cabecalho__acoes" aria-label="Ações da turma">
-                        <button class="botao-icone" type="button" aria-label="Editar informações da turma" title="Editar turma">
+                        <button class="botao-icone" type="button" data-abrir="modal-personalizar-aparencia" aria-label="Personalizar aparência" title="Personalizar aparência">
                             <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
                                 <path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17v3Zm10.5-12.5 2 2" />
                             </svg>
@@ -124,5 +126,8 @@
 
     <!-- Configurações da turma (engrenagem das abas) -->
     <edu-modal-configuracoes-turma nome="Matemática" materia="Matemática"></edu-modal-configuracoes-turma>
+
+    <!-- Personalizar aparência (lápis do cabeçalho do Mural) -->
+    <edu-modal-personalizar-aparencia></edu-modal-personalizar-aparencia>
 </body>
 </html>
