@@ -1,132 +1,174 @@
-/* <edu-modal-personalizar-aparencia> · Modal "Personalizar aparência" (mapa de telas, Mural). Abrir: data-bs-target="#modal-personalizar-aparencia"
-   Só upload de foto (a galeria de temas e cores foi removida). O envio usa input type="file" accept="image/*".
-   A prévia é atualizada ao escolher; Salvar só habilita depois de escolher a foto e aplica no banner do Mural.
-   Cancelar fecha sem alterar. Aceita JPG ou PNG de até 2 MB (valide também no servidor).
-   Atributos: action (destino do POST, multipart), imagem-atual (URL da imagem do cabeçalho atual) */
+/* <edu-modal-personalizar-aparencia> · "Personalizar aparência" (mapa de telas, Mural: lápis do cabeçalho). Somente professor.
+   Foto do cabeçalho (JPG/PNG até 2 MB) ou uma cor; a última escolha vale. "Remover foto" volta para a cor escolhida.
+   Independente do edu-modal.js e do Bootstrap: usa <dialog> nativo e as classes do style/layout.css
+   + modais/css/personalizar-aparencia.css.
+
+   Uso na página:
+     <link rel="stylesheet" href="../modais/css/personalizar-aparencia.css">
+     <script src="../modais/components/personalizar-aparencia.js" defer></script>
+     <button type="button" data-abrir="modal-personalizar-aparencia">…</button>
+     <edu-modal-personalizar-aparencia></edu-modal-personalizar-aparencia>
+
+   Aplica em .mural-cabecalho. Salvar só habilita quando algo mudou; Cancelar, Esc ou clique fora descartam. */
 (function () {
   'use strict';
+
   var LIMITE = 2 * 1024 * 1024;
+  var CHAVE = 'educonnect:aparencia';
+  var CORES = [
+    ['', 'Padrão (azul)'],
+    ['#3a86eb', 'Azul'],
+    ['#e97a1b', 'Laranja'],
+    ['#bdc1c6', 'Cinza'],
+    ['#d3e3fd', 'Azul-claro']
+  ];
 
-  class EduModalPersonalizarAparencia extends EduModal {
-    render() {
-      return `
-<div class="modal fade" id="modal-personalizar-aparencia" tabindex="-1" aria-labelledby="titulo-personalizar-aparencia" aria-hidden="true">
-  <div class="modal-dialog dialogo-medio modal-dialog-centered modal-dialog-scrollable">
-    <form class="modal-content" id="form-personalizar-aparencia" ${this.formAttrs()} enctype="multipart/form-data" novalidate>
-      <header class="modal-header">
-        <h2 class="modal-title" id="titulo-personalizar-aparencia">Personalizar aparência</h2>
-      </header>
-      <section class="modal-body">
-        <div class="previa-cabecalho" id="aparencia-previa">
-          <div class="vazio">${this.icone('imagem')}<span>Prévia do cabeçalho</span></div>
-        </div>
-        <p class="rotulo-forte" id="aparencia-rotulo">Selecione a imagem do cabeçalho do mural</p>
-        <button type="button" class="btn btn-contorno" id="aparencia-escolher" aria-describedby="aparencia-ajuda aparencia-erro">${this.icone('upload')}Fazer upload da foto</button>
-        <input type="file" name="imagem" id="aparencia-arquivo" accept="image/*" hidden>
-        <p class="form-text mt-2 mb-0" id="aparencia-ajuda">JPG ou PNG, até 2 MB</p>
-        <p class="msg-erro" id="aparencia-erro" role="alert">${this.icone('alerta')}<span>Arquivo inválido. Use JPG ou PNG de até 2 MB.</span></p>
-      </section>
-      <footer class="modal-footer">
-        <button type="button" class="btn btn-link-edu" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-link-edu" id="aparencia-salvar" disabled>Salvar</button>
-/* <edu-modal-personalizar-aparencia> · Personalizar aparência (professor). Abrir: data-bs-target="#modal-personalizar-aparencia"
-   Atributos: action, turma-nome, turma-secao */
-(function () {
-  'use strict';
-  class EduModalPersonalizarAparencia extends EduModal {
-    render() {
-      var nome = this.esc(this.attr('turma-nome', 'Desenvolvimento Web I'));
-      var secao = this.esc(this.attr('turma-secao', 'Turma A'));
-      return `
-<div class="modal fade" id="modal-personalizar-aparencia" tabindex="-1" aria-labelledby="titulo-personalizar-aparencia" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <form class="modal-content" ${this.formAttrs()}>
-      <header class="modal-header">
-        <h2 class="modal-title" id="titulo-personalizar-aparencia">Personalizar aparência</h2>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </header>
-      <section class="modal-body">
-        <div class="banner mb-3" id="aparencia-previa">
-          <strong>${nome}</strong>
-          <span>${secao}</span>
-        </div>
-        <p class="form-label mb-2" id="aparencia-rotulo-cor">Cor do cabeçalho</p>
-        <div class="d-flex gap-2" role="radiogroup" aria-labelledby="aparencia-rotulo-cor">
-          <input type="radio" class="btn-check" name="cor" id="aparencia-cor-azul" value="#3a86eb" checked>
-          <label class="btn swatch" for="aparencia-cor-azul" style="background:#3a86eb" aria-label="Azul"></label>
-          <input type="radio" class="btn-check" name="cor" id="aparencia-cor-laranja" value="#e97a1b">
-          <label class="btn swatch" for="aparencia-cor-laranja" style="background:#e97a1b" aria-label="Laranja"></label>
-          <input type="radio" class="btn-check" name="cor" id="aparencia-cor-cinza" value="#bdc1c6">
-          <label class="btn swatch" for="aparencia-cor-cinza" style="background:#bdc1c6" aria-label="Cinza"></label>
-          <input type="radio" class="btn-check" name="cor" id="aparencia-cor-azul-claro" value="#d3e3fd">
-          <label class="btn swatch" for="aparencia-cor-azul-claro" style="background:#d3e3fd" aria-label="Azul-claro"></label>
-        </div>
-      </section>
-      <footer class="modal-footer">
-        <button type="button" class="btn btn-link-edu" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Salvar</button>
-      </footer>
-    </form>
-  </div>
-</div>`;
-    }
+  // ponytail: sem back-end, a aparência fica no navegador (localStorage); trocar por upload no servidor quando ele existir.
+  function lerSalvo() {
+    try { return JSON.parse(localStorage.getItem(CHAVE)) || { cor: '', foto: '' }; } catch (erro) { return { cor: '', foto: '' }; }
+  }
 
-    depoisDeRenderizar() {
-      var modal = this.querySelector('.modal');
-      var previa = this.querySelector('#aparencia-previa');
-      var escolher = this.querySelector('#aparencia-escolher');
-      var arquivo = this.querySelector('#aparencia-arquivo');
-      var erro = this.querySelector('#aparencia-erro');
-      var salvar = this.querySelector('#aparencia-salvar');
-      var atual = this.getAttribute('imagem-atual');
-      var urlTemporaria = null;
+  function gravar(estado) {
+    try { localStorage.setItem(CHAVE, JSON.stringify(estado)); return true; } catch (erro) { return false; }
+  }
+
+  // Foto ou cor viram o fundo; a classe aplica a sombra escura que mantém o texto branco legível.
+  function aplicar(elemento, estado) {
+    var fundo = estado.foto ? 'url("' + estado.foto + '") center / cover no-repeat' : estado.cor;
+    elemento.classList.toggle('cabecalho-personalizado', Boolean(fundo));
+    elemento.style.setProperty('--cabecalho-fundo', fundo || '');
+  }
+
+  class EduModalPersonalizarAparencia extends HTMLElement {
+    connectedCallback() {
+      if (this.dialogo) return;
       var self = this;
+      var salvo = lerSalvo();
+      var rascunho = Object.assign({}, salvo);
+      this.style.display = 'contents';
+      this.innerHTML = `
+<dialog class="dialogo aparencia" id="modal-personalizar-aparencia" aria-labelledby="titulo-aparencia">
+  <form method="dialog">
+    <h2 class="dialogo__titulo" id="titulo-aparencia">Personalizar aparência</h2>
+    <div class="aparencia__previa" data-previa>
+      <strong data-previa-nome></strong>
+      <span>Prévia do cabeçalho</span>
+    </div>
 
-      function mostrarImagem(src) {
-        var img = previa.querySelector('img');
-        if (!img) {
-          img = document.createElement('img');
-          img.alt = 'Prévia do cabeçalho do mural';
-          previa.appendChild(img);
-        }
-        img.src = src;
-        previa.classList.add('com-imagem');
+    <p class="aparencia__rotulo">Selecione a imagem do cabeçalho do mural</p>
+    <div class="aparencia__fotos">
+      <label class="aparencia__upload">
+        <span class="material-symbols-outlined" aria-hidden="true">upload</span>
+        Fazer upload da foto
+        <input class="visualmente-oculto" type="file" name="foto" accept="image/png,image/jpeg" aria-describedby="aparencia-ajuda aparencia-erro">
+      </label>
+      <button class="botao-texto" type="button" data-remover-foto hidden>Remover foto</button>
+    </div>
+    <p class="aparencia__ajuda" id="aparencia-ajuda">JPG ou PNG, até 2 MB</p>
+    <p class="aparencia__erro" id="aparencia-erro" role="alert" data-erro hidden>
+      <span class="material-symbols-outlined" aria-hidden="true">warning</span>
+      <span data-erro-texto>Arquivo inválido. Use JPG ou PNG de até 2 MB.</span>
+    </p>
+
+    <fieldset class="aparencia__cores">
+      <legend class="aparencia__rotulo">Cor do cabeçalho</legend>
+      ${CORES.map(function (cor, i) {
+        return `<label class="aparencia__cor" style="--cor: ${cor[0] || 'linear-gradient(135deg, #155b93, #1769aa)'}">
+          <input class="visualmente-oculto" type="radio" name="cor" value="${cor[0]}" aria-label="${cor[1]}"${i === 0 ? ' checked' : ''}>
+        </label>`;
+      }).join('')}
+    </fieldset>
+
+    <div class="dialogo__acoes">
+      <button class="botao-texto" type="submit" value="cancelar">Cancelar</button>
+      <button class="botao-texto" type="submit" value="salvar" disabled data-salvar>Salvar</button>
+    </div>
+  </form>
+</dialog>`;
+
+      this.dialogo = this.querySelector('dialog');
+      var form = this.querySelector('form');
+      var previa = this.querySelector('[data-previa]');
+      var arquivo = form.elements.foto;
+      var removerFoto = this.querySelector('[data-remover-foto]');
+      var erro = this.querySelector('[data-erro]');
+      var salvar = this.querySelector('[data-salvar]');
+
+      function mostrarErro(texto) {
+        self.querySelector('[data-erro-texto]').textContent = texto;
+        erro.hidden = false;
       }
-      function limparPrevia() {
-        if (urlTemporaria) { URL.revokeObjectURL(urlTemporaria); urlTemporaria = null; }
-        var img = previa.querySelector('img');
-        if (img) img.remove();
-        previa.classList.remove('com-imagem');
-        if (atual) mostrarImagem(atual);
+
+      function atualizar() {
+        aplicar(previa, rascunho);
+        removerFoto.hidden = !rascunho.foto;
+        salvar.disabled = rascunho.cor === salvo.cor && rascunho.foto === salvo.foto;
+        // Com foto, nenhuma cor fica marcada (a foto é que vale).
+        form.querySelectorAll('[name="cor"]').forEach(function (radio) {
+          radio.checked = !rascunho.foto && radio.value === rascunho.cor;
+        });
       }
-      function falhar() {
+
+      // Ao carregar a página: aplica o que foi salvo no cabeçalho do Mural.
+      var cabecalho = document.querySelector('.mural-cabecalho');
+      if (cabecalho) aplicar(cabecalho, salvo);
+
+      document.addEventListener('click', function (evento) {
+        if (!evento.target.closest('[data-abrir="modal-personalizar-aparencia"]')) return;
+        rascunho = Object.assign({}, salvo);
         arquivo.value = '';
-        salvar.disabled = true;
-        erro.classList.add('visivel');
-      }
-
-      limparPrevia();
-      escolher.addEventListener('click', function () { arquivo.click(); });
-
-      arquivo.addEventListener('change', function () {
-        var f = arquivo.files[0];
-        erro.classList.remove('visivel');
-        if (!f) { salvar.disabled = true; limparPrevia(); return; }
-        if (!/^image\/(jpeg|png)$/.test(f.type) || f.size > LIMITE) { limparPrevia(); falhar(); return; }
-        if (urlTemporaria) URL.revokeObjectURL(urlTemporaria);
-        urlTemporaria = URL.createObjectURL(f);
-        mostrarImagem(urlTemporaria);
-        salvar.disabled = false;
+        erro.hidden = true;
+        var titulo = document.querySelector('#titulo-disciplina');
+        self.querySelector('[data-previa-nome]').textContent = titulo ? titulo.textContent : '';
+        atualizar();
+        self.dialogo.showModal();
       });
 
-      // Cancelar fecha sem alterar nada
-      modal.addEventListener('hidden.bs.modal', function () {
+      arquivo.addEventListener('change', function () {
+        var foto = arquivo.files[0];
+        erro.hidden = true;
+        if (!foto) return;
+        if (!/^image\/(jpeg|png)$/.test(foto.type) || foto.size > LIMITE) {
+          arquivo.value = '';
+          mostrarErro('Arquivo inválido. Use JPG ou PNG de até 2 MB.');
+          return;
+        }
+        // Data URL (e não blob:) para a foto continuar valendo depois de recarregar a página.
+        var leitor = new FileReader();
+        leitor.addEventListener('load', function () {
+          rascunho.foto = leitor.result;
+          atualizar();
+        });
+        leitor.readAsDataURL(foto);
+      });
+
+      form.addEventListener('change', function (evento) {
+        if (evento.target.name !== 'cor') return;
+        rascunho = { cor: evento.target.value, foto: '' };
         arquivo.value = '';
-        salvar.disabled = true;
-        erro.classList.remove('visivel');
-        limparPrevia();
+        atualizar();
+      });
+
+      removerFoto.addEventListener('click', function () {
+        rascunho.foto = '';
+        arquivo.value = '';
+        atualizar();
+        form.querySelector('[name="cor"]:checked').focus();
+      });
+
+      form.addEventListener('submit', function (evento) {
+        if (evento.submitter.value !== 'salvar') return;
+        if (!gravar(rascunho)) {
+          // Navegador sem espaço/bloqueado: não fecha, avisa e deixa tentar outra foto.
+          evento.preventDefault();
+          mostrarErro('Não foi possível salvar a foto neste navegador. Tente uma imagem menor.');
+          return;
+        }
+        salvo = Object.assign({}, rascunho);
+        if (cabecalho) aplicar(cabecalho, salvo);
       });
     }
   }
+
   customElements.define('edu-modal-personalizar-aparencia', EduModalPersonalizarAparencia);
 })();
