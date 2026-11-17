@@ -1,0 +1,233 @@
+/* EduConnect · tema sobre o Bootstrap 5.3 + estilos dos modais
+   Carregue DEPOIS do bootstrap.min.css. Valores do guia de estilos:
+   cores #3a86eb, #e97a1b, #d3e3fd, #bdc1c6 · Google Sans · 14 px (texto) · 12 px (menus e modais)
+   Modais seguem o mapa de telas: Criar turma, Participar da turma, Personalizar aparência, Entrega do aluno.
+   Breakpoint mobile = abaixo de 576 px (Bootstrap "sm"): Criar turma e Entrega viram tela cheia. */
+   cores #3a86eb, #e97a1b, #d3e3fd, #bdc1c6 · Google Sans · 14 px (texto) · 12 px (menus e modais) */
+
+:root{
+  --edu-azul:#3a86eb; --edu-laranja:#e97a1b; --edu-azul-claro:#d3e3fd; --edu-cinza:#bdc1c6;
+  --bs-primary:#3a86eb; --bs-primary-rgb:58,134,235;
+  --bs-warning:#e97a1b; --bs-warning-rgb:233,122,27;
+  --bs-danger:#c5362b; --bs-danger-rgb:197,54,43;
+  --bs-body-font-family:"Google Sans","Google Sans Text","Product Sans",Figtree,system-ui,sans-serif;
+  --bs-body-font-size:14px; --bs-body-bg:#f5f8fe; --bs-body-color:#1d2433;
+  --bs-border-color:#bdc1c6; --bs-border-radius:4px; --bs-border-radius-lg:8px;
+  --bs-link-color:#2a6fd0; --bs-focus-ring-color:rgba(233,122,27,.35);
+  --edu-on-primary:#fff; --edu-soft:#d3e3fd; --edu-muted:#5a6270;
+  --edu-campo:#eef1f6; --edu-painel:#f1f3f4; --edu-desativado:#8b929c; --edu-erro:#c5362b;
+}
+[data-bs-theme="dark"]{
+  --bs-primary:#6ea5f2; --bs-primary-rgb:110,165,242; --bs-warning:#f09a4d; --bs-warning-rgb:240,154,77;
+  --bs-danger:#ff8a7d; --bs-danger-rgb:255,138,125;
+  --bs-body-bg:#10151f; --bs-body-color:#e7ecf5; --bs-border-color:#3a4253; --bs-link-color:#8db8f5;
+  --edu-on-primary:#0c1a33; --edu-soft:#24365a; --edu-muted:#a2acbd;
+  --edu-campo:#232b3b; --edu-painel:#202838; --edu-desativado:#6f7888; --edu-erro:#ff8a7d;
+}
+body{line-height:1.5}
+
+/* ---------- botões ---------- */
+}
+[data-bs-theme="dark"]{
+  --bs-primary:#6ea5f2; --bs-primary-rgb:110,165,242; --bs-warning:#f09a4d; --bs-warning-rgb:240,154,77;
+  --bs-body-bg:#10151f; --bs-body-color:#e7ecf5; --bs-border-color:#3a4253; --bs-link-color:#8db8f5;
+  --edu-on-primary:#0c1a33; --edu-soft:#24365a; --edu-muted:#a2acbd;
+}
+body{line-height:1.5}
+
+/* botões */
+.btn-primary{
+  --bs-btn-bg:var(--bs-primary);--bs-btn-border-color:var(--bs-primary);--bs-btn-color:var(--edu-on-primary);
+  --bs-btn-hover-bg:var(--bs-primary);--bs-btn-hover-border-color:var(--bs-primary);--bs-btn-hover-color:var(--edu-on-primary);
+  --bs-btn-active-bg:var(--bs-primary);--bs-btn-active-border-color:var(--bs-primary);--bs-btn-active-color:var(--edu-on-primary);
+  --bs-btn-disabled-bg:var(--edu-soft);--bs-btn-disabled-border-color:var(--edu-soft);--bs-btn-disabled-color:var(--edu-muted);--bs-btn-disabled-opacity:1;
+  font-weight:500;
+}
+.btn-primary:hover{filter:brightness(1.08)}
+/* botão de texto azul (Cancelar, Criar, Participar, Salvar) */
+.btn-link-edu{
+  --bs-btn-color:var(--bs-primary);--bs-btn-hover-color:var(--bs-primary);--bs-btn-active-color:var(--bs-primary);
+  --bs-btn-hover-bg:var(--edu-soft);--bs-btn-active-bg:var(--edu-soft);--bs-btn-border-color:transparent;
+  --bs-btn-hover-border-color:transparent;--bs-btn-active-border-color:transparent;
+  --bs-btn-disabled-color:var(--edu-desativado);--bs-btn-disabled-border-color:transparent;--bs-btn-disabled-opacity:1;
+  font-weight:600;
+}
+/* botão com contorno azul e cantos arredondados (upload) */
+.btn-contorno{
+  --bs-btn-color:var(--bs-primary);--bs-btn-border-color:var(--bs-primary);--bs-btn-bg:transparent;
+  --bs-btn-hover-color:var(--bs-primary);--bs-btn-hover-bg:var(--edu-soft);--bs-btn-hover-border-color:var(--bs-primary);
+  --bs-btn-active-color:var(--bs-primary);--bs-btn-active-bg:var(--edu-soft);--bs-btn-active-border-color:var(--bs-primary);
+  font-weight:600;border-radius:999px;
+}
+/* botão redondo com contorno azul (fechar, enviar) */
+.btn-redondo{
+  --bs-btn-color:var(--bs-primary);--bs-btn-border-color:var(--bs-primary);--bs-btn-bg:transparent;
+  --bs-btn-hover-color:var(--bs-primary);--bs-btn-hover-bg:var(--edu-soft);--bs-btn-hover-border-color:var(--bs-primary);
+  --bs-btn-active-color:var(--bs-primary);--bs-btn-active-bg:var(--edu-soft);--bs-btn-active-border-color:var(--bs-primary);
+  width:36px;height:36px;padding:0;border-radius:50%;display:inline-grid;place-items:center;flex:none;
+}
+.btn-redondo svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* foco visível */
+.form-control:focus,.form-select:focus{border-color:var(--bs-primary);box-shadow:0 0 0 .2rem rgba(var(--bs-primary-rgb),.25)}
+.btn:focus-visible,.btn-check:focus-visible+.btn{outline:2px solid var(--bs-warning);outline-offset:2px;box-shadow:none}
+
+/* ---------- modais: texto de 12 px conforme o guia ---------- */
+.modal{
+  --bs-modal-font-size:12px;--bs-modal-border-radius:12px;--bs-modal-width:480px;
+  --bs-modal-header-padding:1.25rem 1.5rem .5rem;--bs-modal-padding:.75rem 1.5rem 1rem;--bs-modal-header-border-width:0;
+  --bs-modal-footer-gap:.25rem;--bs-modal-footer-border-width:0;
+  font-size:12px;
+}
+.modal .modal-title{font-size:20px;font-weight:400}
+.modal .btn{font-size:12px;padding:.5rem 1rem}
+.modal .form-text{font-size:11px;color:var(--edu-muted)}
+.modal-footer{padding:.5rem 1.25rem 1rem}
+.modal-body p{color:var(--edu-muted)}
+.modal-dialog.dialogo-medio{--bs-modal-width:600px}
+.modal-dialog.dialogo-largo{--bs-modal-width:760px}
+
+/* campo preenchido com contorno azul e rótulo flutuante (Criar turma) */
+.modal .form-floating>.form-control{font-size:12px;background:var(--edu-campo);border:1px solid var(--bs-primary);border-radius:6px;color:var(--bs-body-color)}
+.modal .form-floating>label::after{background:transparent!important}
+.modal .form-floating>label{font-size:12px;color:var(--edu-muted)}
+.modal .form-floating>.form-control:not(:placeholder-shown)~label,
+.modal .form-floating>.form-control:focus~label{color:var(--edu-muted)}
+.modal .form-control.is-invalid{border-color:var(--edu-erro);background-image:none;padding-right:.75rem}
+.modal .invalid-feedback{font-size:11px;color:var(--edu-erro)}
+.modal .form-floating:has(.is-invalid)+.form-text{display:none}
+.modal .form-floating:has(.is-invalid){margin-bottom:.75rem}
+
+/* ---------- Participar da turma ---------- */
+.painel-codigo{background:var(--edu-painel);border-radius:8px;padding:1rem 1.25rem}
+.painel-codigo h3{font-size:12px;font-weight:700;margin:0 0 .25rem}
+.painel-codigo p{margin:0 0 .75rem}
+.painel-codigo .form-control{font-size:12px;background:var(--bs-body-bg);border:1px solid var(--bs-primary);border-radius:6px;max-width:260px;width:100%}
+[data-bs-theme="light"] .painel-codigo .form-control{background:#fff}
+.modal .msg-erro{color:var(--edu-erro)}
+.msg-erro{display:none;align-items:flex-start;gap:.35rem;margin:.5rem 0 0;font-size:11px;color:var(--edu-erro)}
+.msg-erro.visivel{display:flex}
+.msg-erro svg{width:12px;height:12px;flex:none;margin-top:1px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- Personalizar aparência ---------- */
+.previa-cabecalho{position:relative;aspect-ratio:3.2/1;border:1px solid var(--edu-cinza);border-radius:6px;background:var(--edu-painel);overflow:hidden;display:grid;place-items:center;color:var(--edu-muted);margin-bottom:1rem}
+.previa-cabecalho img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.previa-cabecalho .vazio{display:grid;justify-items:center;gap:.25rem}
+.previa-cabecalho .vazio svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.previa-cabecalho.com-imagem .vazio{display:none}
+.modal .rotulo-forte{font-size:12px;font-weight:700;margin:0 0 .5rem;color:var(--bs-body-color)}
+.btn-contorno svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-right:.35rem;vertical-align:-2px}
+
+/* ---------- Entrega do aluno ---------- */
+.entrega-cab{display:grid;grid-template-columns:1fr auto;grid-template-areas:"nome fechar" "status nota";align-items:start;column-gap:1rem;row-gap:.25rem}
+.entrega-cab .modal-title{grid-area:nome;align-self:center}
+.entrega-cab .btn-redondo{grid-area:fechar}
+.entrega-status{grid-area:status;margin:0;color:var(--edu-muted)}
+.entrega-nota-caixa{grid-area:nota;justify-self:end;display:flex;flex-direction:column;align-items:flex-end;gap:.15rem}
+.entrega-nota{display:inline-flex;align-items:center;gap:.4rem;background:var(--edu-campo);border:1px solid var(--bs-primary);border-radius:6px;padding:.4rem .75rem;margin:0;font-weight:400;white-space:nowrap}
+.entrega-nota input{width:3.2em;border:0;background:transparent;color:inherit;font:inherit;text-align:center;border-bottom:1px solid var(--edu-muted);padding:0;-moz-appearance:textfield}
+.entrega-nota input::-webkit-outer-spin-button,.entrega-nota input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.entrega-nota input:focus{outline:none;border-bottom-color:var(--bs-primary)}
+.entrega-nota.invalida{border-color:var(--edu-erro)}
+.entrega-nota-msg{font-size:11px;min-height:1.2em;color:var(--edu-muted)}
+.entrega-nota-msg.erro{color:var(--edu-erro)}
+.btn-historico{all:unset;cursor:pointer;color:var(--bs-primary);font-weight:700;border-bottom:1px dotted var(--bs-primary)}
+.btn-historico:focus-visible{outline:2px solid var(--bs-warning);outline-offset:2px}
+.historico{margin:.5rem 0 0;padding:.5rem .75rem;list-style:none;background:var(--edu-painel);border-radius:6px;font-size:11px;color:var(--edu-muted)}
+.historico[hidden]{display:none}
+.arquivo-cartao{display:flex;align-items:stretch;max-width:340px;border:1px solid var(--bs-primary);border-radius:8px;overflow:hidden;text-decoration:none;color:inherit;background:var(--bs-body-bg)}
+[data-bs-theme="light"] .arquivo-cartao{background:#fff}
+.arquivo-cartao:hover{background:var(--edu-soft);color:inherit}
+.arquivo-cartao:focus-visible{outline:2px solid var(--bs-warning);outline-offset:2px}
+.arquivo-info{flex:1;min-width:0;padding:.75rem 1rem;display:flex;flex-direction:column;justify-content:center;gap:.2rem}
+.arquivo-info strong{font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arquivo-info span{font-size:11px;color:var(--edu-muted)}
+.arquivo-miniatura{width:88px;flex:none;background:var(--edu-painel);border-left:1px solid var(--edu-cinza);display:grid;place-items:center;color:var(--edu-muted)}
+.arquivo-miniatura img{width:100%;height:100%;object-fit:cover}
+.arquivo-miniatura svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.modal-footer.entrega-rodape{display:block;padding:.75rem 1.5rem 1.25rem}
+.entrega-comentarios{width:100%;border-top:1px solid var(--bs-border-color);padding-top:.75rem;margin:0}
+.entrega-comentarios h3{display:flex;align-items:center;gap:.5rem;font-size:12px;font-weight:700;margin:0 0 .75rem}
+.entrega-comentarios h3 svg{width:14px;height:14px;fill:none;stroke:var(--bs-primary);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lista-comentarios{list-style:none;margin:0 0 .75rem;padding:0;display:grid;gap:.75rem;max-height:28vh;overflow:auto}
+.lista-comentarios li{display:flex;gap:.65rem;align-items:flex-start}
+.lista-comentarios p{margin:0;color:var(--bs-body-color)}
+.lista-comentarios .quem{font-weight:700}
+.lista-comentarios .quem span{font-weight:400;color:var(--edu-muted)}
+.av{width:28px;height:28px;border-radius:50%;background:var(--edu-cinza);color:#1d2433;display:grid;place-items:center;font-weight:700;font-size:11px;flex:none}
+.novo-comentario{display:flex;align-items:center;gap:.5rem}
+.novo-comentario .form-control{flex:1;font-size:12px;border:1px solid var(--bs-primary);border-radius:999px;padding:.5rem 1rem;background:transparent;color:var(--bs-body-color)}
+
+/* ---------- modais extras: Promover a professor, Excluir atividade, Convidar alunos ---------- */
+.btn-link-edu.btn-perigo{--bs-btn-color:var(--edu-erro);--bs-btn-hover-color:var(--edu-erro);--bs-btn-active-color:var(--edu-erro);--bs-btn-hover-bg:rgba(var(--bs-danger-rgb),.12);--bs-btn-active-bg:rgba(var(--bs-danger-rgb),.12)}
+.pessoa{display:flex;align-items:center;gap:.75rem}
+.pessoa-email{color:var(--edu-muted)}
+.codigo-linha{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
+.codigo-valor{font-size:20px;font-weight:500;color:var(--bs-primary);letter-spacing:.04em;margin-right:auto;word-break:break-all}
+.chips-email{list-style:none;margin:.75rem 0 0;padding:0;display:flex;flex-wrap:wrap;gap:.4rem}
+.chips-email:empty{display:none}
+.chip-email{display:inline-flex;align-items:center;gap:.25rem;background:var(--edu-soft);border-radius:999px;padding:.2rem .25rem .2rem .75rem;max-width:100%;overflow-wrap:anywhere}
+.chip-email button{all:unset;cursor:pointer;width:20px;height:20px;border-radius:50%;text-align:center;line-height:20px;flex:none}
+.chip-email button:hover{background:var(--edu-cinza)}
+.chip-email button:focus-visible{outline:2px solid var(--bs-warning);outline-offset:1px}
+.modal .form-control[type="email"]{font-size:12px;border:1px solid var(--bs-primary);border-radius:6px;background:var(--edu-campo)}
+
+/* ---------- mobile (< 576 px): tela cheia como no wireframe de 360 px ---------- */
+@media (max-width:575.98px){
+  .modal-fullscreen-sm-down .modal-content{border-radius:0}
+  .modal-fullscreen-sm-down .modal-header{padding:.75rem 1rem;border-bottom:1px solid var(--bs-border-color)}
+  .modal-fullscreen-sm-down .modal-body{padding:1rem}
+  /* Criar turma: [X] título .......... [Criar] */
+  .cab-criar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.75rem}
+  .cab-criar .modal-title{font-size:16px;font-weight:700}
+  /* Entrega: [X] nome / status / nota em largura total */
+  .entrega-cab{grid-template-columns:auto 1fr;grid-template-areas:"fechar nome" "status status" "nota nota";row-gap:.5rem}
+  .entrega-cab .modal-title{font-size:16px;font-weight:700}
+  .entrega-nota-caixa{justify-self:stretch;align-items:stretch}
+  .entrega-nota{width:100%}
+  .arquivo-cartao{max-width:none}
+  .entrega-comentarios{margin-top:auto}
+  .modal-footer.entrega-rodape{padding:.5rem 1rem 1rem}
+  .painel-codigo .form-control{max-width:none}
+}
+
+@media (prefers-reduced-motion:reduce){.modal.fade .modal-dialog{transition:none}}
+.btn-warning{
+  --bs-btn-bg:var(--bs-warning);--bs-btn-border-color:var(--bs-warning);--bs-btn-color:#1d1204;
+  --bs-btn-hover-bg:var(--bs-warning);--bs-btn-hover-border-color:var(--bs-warning);--bs-btn-hover-color:#1d1204;
+  font-weight:500;
+}
+.btn-link-edu{
+  --bs-btn-color:var(--bs-primary);--bs-btn-hover-color:var(--bs-primary);
+  --bs-btn-hover-bg:var(--edu-soft);--bs-btn-active-bg:var(--edu-soft);--bs-btn-border-color:transparent;
+  font-weight:500;
+}
+
+/* foco visível */
+.form-control:focus,.form-select:focus{border-color:var(--bs-primary);box-shadow:0 0 0 .2rem rgba(var(--bs-primary-rgb),.2)}
+.btn:focus-visible,.btn-check:focus-visible+.btn{outline:2px solid var(--bs-warning);outline-offset:2px;box-shadow:none}
+
+/* modais: texto de 12 px conforme o guia */
+.modal{
+  --bs-modal-font-size:12px;--bs-modal-border-radius:8px;
+  --bs-modal-header-padding:1rem 1.25rem .25rem;--bs-modal-padding:.5rem 1.25rem 1rem;--bs-modal-header-border-width:0;
+  font-size:12px;
+}
+.modal .modal-title{font-size:18px;font-weight:500}
+.modal .btn{font-size:12px;padding:.5rem 1.25rem}
+.modal .form-label{font-size:12px;font-weight:500;margin-bottom:.25rem}
+.modal .form-control,.modal .form-select{font-size:12px;border-color:var(--edu-cinza)}
+.modal .form-text{font-size:11px}
+.modal .alert{font-size:12px;border:0;border-left:3px solid var(--bs-warning);border-radius:4px;background:rgba(var(--bs-warning-rgb),.14);color:var(--bs-body-color)}
+.modal-footer{--bs-modal-footer-gap:.5rem;padding:.625rem 1.25rem .875rem}
+.modal-body p{color:var(--edu-muted)}
+
+/* componentes usados dentro dos modais */
+.chip{background:var(--edu-soft);color:var(--bs-body-color);font-weight:400;font-size:12px;border-radius:999px;padding:.35rem .65rem}
+.banner{height:84px;border-radius:8px;padding:12px 14px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;background:var(--bs-primary);transition:background .15s}
+.banner strong{font-size:22px;font-weight:500;line-height:1.1}
+.btn-check+.swatch{width:36px;height:36px;border-radius:50%;padding:0;border:2px solid var(--bs-body-bg);box-shadow:0 0 0 1px var(--edu-cinza)}
+.btn-check:checked+.swatch{box-shadow:0 0 0 2px var(--bs-body-color)}
+.av{width:28px;height:28px;border-radius:50%;background:var(--edu-soft);display:grid;place-items:center;font-weight:500;flex:none}
+
+@media (prefers-reduced-motion:reduce){.banner{transition:none}}
