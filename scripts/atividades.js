@@ -1,33 +1,7 @@
-// Aba Atividades: menus suspensos ("+ Criar" e ⋮), excluir com confirmação e copiar link.
-// A lista expansível usa <details name="..."> nativo: não precisa de JS.
-const menus = document.querySelectorAll('.menu-suspenso');
+// Aba Atividades: ações do menu ⋮ (excluir com confirmação e copiar link).
+// A lista expansível usa <details name="..."> nativo, e os menus/avisos vêm do layout.js.
 const dialogoExcluir = document.getElementById('dialogo-excluir');
-const aviso = document.querySelector('[data-aviso]');
 let itemParaExcluir = null;
-let timerAviso;
-
-function avisar(texto) {
-    aviso.textContent = texto;
-    aviso.classList.add('aviso--visivel');
-    clearTimeout(timerAviso);
-    timerAviso = setTimeout(() => aviso.classList.remove('aviso--visivel'), 3000);
-}
-
-// Só um menu aberto por vez: clicar fora fecha (inclusive ao abrir outro menu).
-document.addEventListener('click', (evento) => {
-    menus.forEach((menu) => {
-        if (menu.open && !menu.contains(evento.target)) menu.open = false;
-    });
-});
-
-document.addEventListener('keydown', (evento) => {
-    if (evento.key !== 'Escape') return;
-    menus.forEach((menu) => {
-        if (!menu.open) return;
-        menu.open = false;
-        menu.querySelector('summary').focus();
-    });
-});
 
 // Ações do menu ⋮
 document.addEventListener('click', (evento) => {
@@ -40,7 +14,6 @@ document.addEventListener('click', (evento) => {
         itemParaExcluir = item;
         dialogoExcluir.querySelector('[data-excluir-tipo]').textContent = item.dataset.tipo;
         dialogoExcluir.querySelector('[data-excluir-titulo]').textContent = item.dataset.titulo;
-        dialogoExcluir.returnValue = '';
         dialogoExcluir.showModal();
     }
 
@@ -52,13 +25,9 @@ document.addEventListener('click', (evento) => {
     }
 });
 
-// Clicar no fundo escuro fecha a confirmação, como "Cancelar".
-dialogoExcluir.addEventListener('click', (evento) => {
-    if (evento.target === dialogoExcluir) dialogoExcluir.close();
-});
-
-dialogoExcluir.addEventListener('close', () => {
-    if (dialogoExcluir.returnValue !== 'excluir' || !itemParaExcluir) return;
+// "submit" (e não "close") diz na hora qual botão foi usado; Esc e clique no fundo não disparam.
+dialogoExcluir.addEventListener('submit', (evento) => {
+    if (evento.submitter.value !== 'excluir') return;
     // ponytail: só remove da tela; trocar por envio ao back-end quando ele existir.
     itemParaExcluir.remove();
     avisar(`"${itemParaExcluir.dataset.titulo}" foi excluído.`);

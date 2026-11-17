@@ -425,3 +425,169 @@ button {
     clip-path: inset(50%);
     white-space: nowrap;
 }
+
+/* ---------- Menu suspenso (<details class="menu-suspenso">): "+ Criar", ⋮ ---------- */
+
+.menu-suspenso {
+    position: relative;
+}
+
+.menu-suspenso > summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+.menu-suspenso > summary::-webkit-details-marker {
+    display: none;
+}
+
+.menu-suspenso__lista {
+    position: absolute;
+    z-index: 15;
+    min-width: 180px;
+    margin: 4px 0 0;
+    padding: 6px 0;
+    list-style: none;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgb(32 33 36 / 14%);
+}
+
+.menu-suspenso__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 16px;
+    color: var(--cor-texto);
+    background: none;
+    border: 0;
+    font-size: 14px;
+    text-align: left;
+    text-decoration: none;
+}
+
+.menu-suspenso__item:hover {
+    background: var(--cor-hover);
+}
+
+.menu-suspenso__item .material-symbols-outlined {
+    width: 20px;
+    color: var(--cor-texto-suave);
+    font-size: 20px;
+}
+
+/* ---------- Diálogo (<dialog>), botão de texto e aviso ---------- */
+
+.dialogo {
+    width: min(400px, calc(100% - 32px));
+    padding: 0;
+    color: var(--cor-texto);
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 18px 48px rgb(32 33 36 / 24%);
+}
+
+.dialogo > form {
+    padding: 24px;
+}
+
+.dialogo::backdrop {
+    background: rgb(32 33 36 / 44%);
+}
+
+.dialogo__titulo {
+    margin: 0 0 12px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.dialogo p {
+    margin: 0 0 8px;
+    color: var(--cor-texto-suave);
+    font-size: 14px;
+}
+
+.dialogo strong {
+    color: var(--cor-texto);
+}
+
+.dialogo__rotulo {
+    display: block;
+    margin: 8px 0 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.dialogo__campo {
+    width: 100%;
+    padding: 10px 12px;
+    color: var(--cor-texto);
+    background: var(--cor-fundo);
+    border: 1px solid var(--cor-borda);
+    border-radius: 6px;
+    font: inherit;
+}
+
+.dialogo__campo:focus {
+    border-color: #1a73e8;
+    outline: 3px solid rgb(26 115 232 / 18%);
+}
+
+.dialogo__acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.botao-texto {
+    min-height: 40px;
+    padding: 0 16px;
+    color: #1967d2;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.botao-texto:hover {
+    background: var(--cor-destaque);
+}
+
+.botao-texto--perigo {
+    color: #c5221f;
+}
+
+.botao-texto--perigo:hover {
+    background: #fce8e6;
+}
+
+.aviso {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 40;
+    margin: 0;
+    padding: 12px 16px;
+    color: #ffffff;
+    background: #323232;
+    border-radius: 6px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 160ms ease;
+}
+
+.aviso--visivel {
+    opacity: 1;
+}
+
+@media (max-width: 640px) {
+    .aviso {
+        right: 16px;
+        left: 16px;
+        bottom: 16px;
+    }
+}

@@ -31,3 +31,33 @@ document.addEventListener('keydown', (evento) => {
 celular.addEventListener('change', fecharGaveta);
 
 atualizarAria();
+
+// ---------- Componentes compartilhados pelas páginas ----------
+
+// Menus suspensos (<details class="menu-suspenso">): só um aberto por vez;
+// clicar fora ou apertar Esc fecha.
+document.addEventListener('click', (evento) => {
+    document.querySelectorAll('.menu-suspenso[open]').forEach((menu) => {
+        if (!menu.contains(evento.target)) menu.open = false;
+    });
+    // Clicar no fundo escuro de um <dialog> fecha, como "Cancelar".
+    if (evento.target instanceof HTMLDialogElement) evento.target.close();
+});
+
+document.addEventListener('keydown', (evento) => {
+    if (evento.key !== 'Escape') return;
+    document.querySelectorAll('.menu-suspenso[open]').forEach((menu) => {
+        menu.open = false;
+        menu.querySelector('summary').focus();
+    });
+});
+
+// Aviso rápido no rodapé da tela. Precisa de <p class="aviso" role="status" data-aviso></p> na página.
+let timerAviso;
+function avisar(texto) {
+    const aviso = document.querySelector('[data-aviso]');
+    aviso.textContent = texto;
+    aviso.classList.add('aviso--visivel');
+    clearTimeout(timerAviso);
+    timerAviso = setTimeout(() => aviso.classList.remove('aviso--visivel'), 3000);
+}
