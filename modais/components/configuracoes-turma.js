@@ -8,7 +8,8 @@
      <button type="button" data-abrir="modal-configuracoes-turma">…</button>
      <edu-modal-configuracoes-turma nome="Matemática" materia="Matemática"></edu-modal-configuracoes-turma>
 
-   Atributos: nome, descricao, secao, niveis, materia, sala (valores atuais da turma).
+   Atributos: nome, descricao, secao, niveis, materia, sala (valores atuais da turma) e codigo (código de convite).
+   Também traz "Informações da turma": <button data-abrir="modal-informacoes-turma"> mostra os mesmos dados só para leitura.
    Salvar só habilita quando algo mudou, grava no navegador (vale em todas as páginas da turma) e mostra "Alterações salvas";
    × com alterações pergunta antes de descartar. */
 (function () {
@@ -78,6 +79,17 @@
     </section>
   </form>
   <p class="aviso" role="status" data-aviso-config></p>
+</dialog>
+
+<dialog class="dialogo info-turma" id="modal-informacoes-turma" aria-labelledby="titulo-info-turma">
+  <form method="dialog">
+    <h2 class="dialogo__titulo" id="titulo-info-turma">Informações da turma</h2>
+    <dl class="info-turma__lista" data-info></dl>
+    <div class="dialogo__acoes">
+      <button class="botao-texto" type="button" data-editar-turma>Editar</button>
+      <button class="botao-texto" type="submit">Fechar</button>
+    </div>
+  </form>
 </dialog>`;
 
       this.dialogo = this.querySelector('dialog');
@@ -121,8 +133,35 @@
         self.timer = setTimeout(function () { aviso.classList.remove('aviso--visivel'); }, 3000);
       });
 
+      // "Informações da turma" (botão ⓘ do Mural): os mesmos dados salvos, só para leitura.
+      var info = this.querySelector('#modal-informacoes-turma');
+      var lista = info.querySelector('[data-info]');
+
+      function mostrarInformacoes() {
+        var linhas = CAMPOS.map(function (campo, i) { return [campo[1].replace(' *', ''), salvos[i]]; });
+        if (self.getAttribute('codigo')) linhas.push(['Código da turma', self.getAttribute('codigo')]);
+        lista.replaceChildren();
+        linhas.forEach(function (linha) {
+          var item = document.createElement('div');
+          var termo = document.createElement('dt');
+          var valor = document.createElement('dd');
+          termo.textContent = linha[0];
+          valor.textContent = linha[1] || 'Não informado';
+          valor.classList.toggle('info-turma__vazio', !linha[1]);
+          item.append(termo, valor);
+          lista.append(item);
+        });
+        info.showModal();
+      }
+
+      info.querySelector('[data-editar-turma]').addEventListener('click', function () {
+        info.close();
+        self.dialogo.showModal();
+      });
+
       document.addEventListener('click', function (evento) {
         if (evento.target.closest('[data-abrir="modal-configuracoes-turma"]')) self.dialogo.showModal();
+        if (evento.target.closest('[data-abrir="modal-informacoes-turma"]')) mostrarInformacoes();
       });
     }
   }
