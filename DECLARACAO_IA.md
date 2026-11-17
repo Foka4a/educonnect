@@ -5,6 +5,7 @@
 - **Claude Code** (Anthropic), modelo Claude Opus 5.5, usado como assistente de programação no terminal.
 - **Claude** (Anthropic), aplicativo web/desktop, modelo Claude Sonnet 5.5, usado para criar os modais e resolver um conflito de merge do Git.
 - **Claude** (Anthropic), aplicativo web/desktop, modelo Claude Sonnet 5.5, usado para gerar os modelos de modal.
+- **Copilot** (Microsoft), Copilot GitHub, usado para corrigir conflitos em branches. 
 
 ## Finalidade do uso
 
@@ -15,6 +16,8 @@ A IA foi usada para:
 - ajustar o layout base (cabeçalho, menu lateral responsivo e rodapé) e o JavaScript do menu, reutilizados pelas páginas;
 - montar a aba Atividades conforme o mapa de telas (lista expansível, menu "+ Criar", menu ⋮ e confirmação de exclusão) e revisar os modais da pasta `modais/`;
 - montar a aba Pessoas conforme o mapa de telas (professores, estudantes, convite e remoção da turma), com o CSS e o JavaScript próprios;
+- ajustar a tela Trabalhos dos estudantes (`trabalho-estudantes.html`) ao mapa de telas e torná-la responsiva, com filtro, nota /100 e o modal de entrega do aluno, deixando a aba Notas como redirecionamento para ela;
+- criar a página de instruções da atividade (`instrucoes.html`) a partir de uma captura de tela, com menu ⋮ e comentários da turma;
 - criar os modais como componentes (Web Components com Bootstrap 5.3), seguindo o guia de estilos e os wireframes do mapa de telas do grupo, em versão desktop e mobile, mais três modais extras derivados das funcionalidades do projeto (pasta `modais/`);
 - resolver um conflito de merge do Git e consolidar o registro de prompts;
 - criar os modelos de modal em HTML com Bootstrap 5.3, seguindo o guia de estilos do grupo (pasta `modais/`).
