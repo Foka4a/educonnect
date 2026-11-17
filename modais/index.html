@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>EduConnect · Componentes de modal</title>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="css/educonnect-modais.css" rel="stylesheet">
 <style>
@@ -15,6 +14,7 @@
   .tile strong{display:block;font-weight:500}
   .tile small{color:var(--edu-muted);font-size:12px}
   h1{font-size:32px;font-weight:500}
+  .grupo-titulo{font-size:18px;font-weight:500;margin-top:1.5rem}
   pre{background:var(--edu-soft);padding:12px 14px;border-radius:8px;font-size:12px;overflow:auto}
 </style>
 </head>
@@ -22,7 +22,7 @@
 <main class="container py-5" style="max-width:900px">
   <header class="mb-4">
     <h1>Componentes de modal</h1>
-    <p style="color:var(--edu-muted)">Os quatro modais do mapa de telas e três extras, como componentes (<code>&lt;edu-modal-…&gt;</code>). Em telas abaixo de 576 px, Criar turma e Entrega do aluno viram tela cheia; os demais ficam em caixa centralizada.</p>
+    <p style="color:var(--edu-muted)">Os quatro modais do mapa de telas e mais 15 derivados das funcionalidades do projeto (criar, editar, excluir, enviar trabalho), como componentes (<code>&lt;edu-modal-…&gt;</code>). Em telas abaixo de 576 px, os formulários grandes (turma, atividade, material e entrega do aluno) viram tela cheia; os demais ficam em caixa centralizada.</p>
   </header>
 
   <ul class="row g-3 list-unstyled p-0">
@@ -31,21 +31,35 @@
     <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-personalizar-aparencia"><strong>Personalizar aparência</strong><small>Mural · professor · &lt;edu-modal-personalizar-aparencia&gt;</small></button></li>
     <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-entrega-aluno"><strong>Entrega do aluno</strong><small>Trabalhos dos estudantes · professor · &lt;edu-modal-entrega-aluno&gt;</small></button></li>
   </ul>
-  <h2 style="font-size:18px;font-weight:500">Extras <small style="color:var(--edu-muted);font-size:12px;font-weight:400">· não estão nos wireframes, mas vêm das funcionalidades do projeto</small></h2>
+  <h2 class="grupo-titulo" style="margin-top:0">Extras <small style="color:var(--edu-muted);font-size:12px;font-weight:400">· não estão nos wireframes, mas vêm das funcionalidades do projeto</small></h2>
   <ul class="row g-3 list-unstyled p-0">
     <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-promover-professor"><strong>Promover a professor</strong><small>Pessoas · administrador · &lt;edu-modal-promover-professor&gt;</small></button></li>
     <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-excluir-atividade"><strong>Excluir atividade</strong><small>Menu ⋮ da atividade · &lt;edu-modal-excluir-atividade&gt;</small></button></li>
     <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-convidar-alunos"><strong>Convidar alunos</strong><small>Código da turma · e-mails · &lt;edu-modal-convidar-alunos&gt;</small></button></li>
-    <p style="color:var(--edu-muted)">Cada modal é um componente (<code>&lt;edu-modal-…&gt;</code>) em <code>components/</code>. Basta colocar a tag na página e abrir com um botão do Bootstrap.</p>
-  </header>
-
+  </ul>
+  <h2 class="grupo-titulo">Turma (criar, editar, sair, excluir)</h2>
   <ul class="row g-3 list-unstyled p-0">
-    <li class="col-12 col-sm-6 col-md-4"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-criar-turma"><strong>Criar turma</strong><small>&lt;edu-modal-criar-turma&gt;</small></button></li>
-    <li class="col-12 col-sm-6 col-md-4"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-participar-turma"><strong>Participar da turma</strong><small>&lt;edu-modal-participar-turma&gt;</small></button></li>
-    <li class="col-12 col-sm-6 col-md-4"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-personalizar-aparencia"><strong>Personalizar aparência</strong><small>&lt;edu-modal-personalizar-aparencia&gt;</small></button></li>
-    <li class="col-12 col-sm-6 col-md-4"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-entrega-aluno"><strong>Entrega do aluno</strong><small>&lt;edu-modal-entrega-aluno&gt;</small></button></li>
-    <li class="col-12 col-sm-6 col-md-4"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-promover-professor"><strong>Promover a professor</strong><small>&lt;edu-modal-promover-professor&gt;</small></button></li>
-    <li class="col-12 col-sm-6 col-md-4"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-excluir-atividade"><strong>Excluir atividade</strong><small>&lt;edu-modal-excluir-atividade&gt;</small></button></li>
+    <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-editar-turma"><strong>Editar turma</strong><small>Detalhes da turma · professor · &lt;edu-modal-editar-turma&gt;</small></button></li>
+    <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-sair-da-turma"><strong>Sair da turma</strong><small>Menu da turma · aluno/professor · &lt;edu-modal-sair-da-turma&gt;</small></button></li>
+    <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-excluir-turma"><strong>Excluir turma</strong><small>Detalhes da turma · administrador · &lt;edu-modal-excluir-turma&gt;</small></button></li>
+  </ul>
+  <h2 class="grupo-titulo">Atividades</h2>
+  <ul class="row g-3 list-unstyled p-0">
+    <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-criar-atividade"><strong>Criar atividade</strong><small>Atividades · professor · &lt;edu-modal-criar-atividade&gt;</small></button></li>
+    <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-editar-atividade"><strong>Editar atividade</strong><small>Menu ⋮ da atividade · &lt;edu-modal-editar-atividade&gt;</small></button></li>
+    <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-enviar-trabalho"><strong>Enviar trabalho</strong><small>Atividade · aluno · &lt;edu-modal-enviar-trabalho&gt;</small></button></li>
+  </ul>
+  <h2 class="grupo-titulo">Materiais e avisos</h2>
+  <ul class="row g-3 list-unstyled p-0">
+    <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-criar-material"><strong>Criar material</strong><small>Atividades / Mural · professor · &lt;edu-modal-criar-material&gt;</small></button></li>
+    <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-editar-material"><strong>Editar material</strong><small>Menu ⋮ do material · &lt;edu-modal-editar-material&gt;</small></button></li>
+    <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-excluir-material"><strong>Excluir material</strong><small>Menu ⋮ do material · &lt;edu-modal-excluir-material&gt;</small></button></li>
+  </ul>
+  <h2 class="grupo-titulo">Comentários e pessoas</h2>
+  <ul class="row g-3 list-unstyled p-0">
+    <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-editar-comentario"><strong>Editar comentário</strong><small>Material e atividade · &lt;edu-modal-editar-comentario&gt;</small></button></li>
+    <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-excluir-comentario"><strong>Excluir comentário</strong><small>Material e atividade · &lt;edu-modal-excluir-comentario&gt;</small></button></li>
+    <li class="col-12 col-sm-6"><button type="button" class="tile" data-bs-toggle="modal" data-bs-target="#modal-remover-pessoa"><strong>Remover da turma</strong><small>Pessoas · menu ⋮ · &lt;edu-modal-remover-pessoa&gt;</small></button></li>
   </ul>
   <p id="status" role="status" aria-live="polite" style="color:var(--edu-muted);min-height:1.5em"></p>
 
@@ -60,12 +74,6 @@
 
 // nota e comentário chegam por eventos:
 document.addEventListener('edu:salvar-nota', e =&gt; console.log(e.detail));</code></pre>
-&lt;edu-modal-entrega-aluno action="corrigir"
-    aluno-nome="Ana Souza" atividade-titulo="Redação" nota="85"&gt;&lt;/edu-modal-entrega-aluno&gt;
-
-&lt;script src="components/edu-modal.js"&gt;&lt;/script&gt;
-&lt;script src="components/entrega-aluno.js"&gt;&lt;/script&gt;
-&lt;script src="js/modais.js"&gt;&lt;/script&gt;</code></pre>
   </aside>
 </main>
 
@@ -77,10 +85,18 @@ document.addEventListener('edu:salvar-nota', e =&gt; console.log(e.detail));</co
 <edu-modal-promover-professor pessoa-nome="Aluno Exemplo" pessoa-email="aluno@escola.com"></edu-modal-promover-professor>
 <edu-modal-excluir-atividade atividade-titulo="Lista de exercícios 1"></edu-modal-excluir-atividade>
 <edu-modal-convidar-alunos codigo="t7hz2z4m"></edu-modal-convidar-alunos>
-<edu-modal-personalizar-aparencia turma-nome="Desenvolvimento Web I" turma-secao="Turma A"></edu-modal-personalizar-aparencia>
-<edu-modal-entrega-aluno aluno-nome="Ana Souza" atividade-titulo="Redação sobre o meio ambiente" entrega-data="10 nov." arquivo-nome="redacao-ana.pdf"></edu-modal-entrega-aluno>
-<edu-modal-promover-professor pessoa-nome="Ana Souza" pessoa-email="ana@escola.com"></edu-modal-promover-professor>
-<edu-modal-excluir-atividade></edu-modal-excluir-atividade>
+<edu-modal-editar-turma turma-id="1" nome="Matemática" niveis="1º ano" materia="Matemática"></edu-modal-editar-turma>
+<edu-modal-sair-da-turma turma-nome="Matemática"></edu-modal-sair-da-turma>
+<edu-modal-excluir-turma turma-nome="Matemática"></edu-modal-excluir-turma>
+<edu-modal-criar-atividade></edu-modal-criar-atividade>
+<edu-modal-editar-atividade atividade-id="1" titulo="Lista de exercícios 1" descricao="Resolver os exercícios do capítulo 3." entrega="2026-11-20T23:59" anexos-atuais="capitulo3.pdf|gabarito.png"></edu-modal-editar-atividade>
+<edu-modal-enviar-trabalho atividade-id="1" atividade-titulo="Lista de exercícios 1" atrasada></edu-modal-enviar-trabalho>
+<edu-modal-criar-material></edu-modal-criar-material>
+<edu-modal-editar-material material-id="1" titulo="Aviso de prova" descricao="A prova do 1º bimestre será no dia 27/11. Conteúdo: capítulos 1 a 3." anexos-atuais="roteiro.pdf"></edu-modal-editar-material>
+<edu-modal-excluir-material material-titulo="Aviso de prova"></edu-modal-excluir-material>
+<edu-modal-editar-comentario comentario-id="1" texto="Professor, pode ser em dupla?"></edu-modal-editar-comentario>
+<edu-modal-excluir-comentario comentario-id="1" trecho="Professor, pode ser em dupla?"></edu-modal-excluir-comentario>
+<edu-modal-remover-pessoa pessoa-nome="João Silva"></edu-modal-remover-pessoa>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="components/edu-modal.js"></script>
@@ -91,7 +107,20 @@ document.addEventListener('edu:salvar-nota', e =&gt; console.log(e.detail));</co
 <script src="components/promover-professor.js"></script>
 <script src="components/excluir-atividade.js"></script>
 <script src="components/convidar-alunos.js"></script>
-<script src="js/modais.js"></script>
+<script src="components/confirmar-base.js"></script>
+<script src="components/publicacao-base.js"></script>
+<script src="components/editar-turma.js"></script>
+<script src="components/sair-da-turma.js"></script>
+<script src="components/excluir-turma.js"></script>
+<script src="components/criar-atividade.js"></script>
+<script src="components/editar-atividade.js"></script>
+<script src="components/enviar-trabalho.js"></script>
+<script src="components/criar-material.js"></script>
+<script src="components/editar-material.js"></script>
+<script src="components/excluir-material.js"></script>
+<script src="components/editar-comentario.js"></script>
+<script src="components/excluir-comentario.js"></script>
+<script src="components/remover-pessoa.js"></script>
 <script src="js/demo.js"></script>
 </body>
 </html>

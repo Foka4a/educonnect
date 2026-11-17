@@ -1,9 +1,8 @@
 /* EduConnect · tema sobre o Bootstrap 5.3 + estilos dos modais
    Carregue DEPOIS do bootstrap.min.css. Valores do guia de estilos:
    cores #3a86eb, #e97a1b, #d3e3fd, #bdc1c6 · Google Sans · 14 px (texto) · 12 px (menus e modais)
-   Modais seguem o mapa de telas: Criar turma, Participar da turma, Personalizar aparência, Entrega do aluno.
-   Breakpoint mobile = abaixo de 576 px (Bootstrap "sm"): Criar turma e Entrega viram tela cheia. */
-   cores #3a86eb, #e97a1b, #d3e3fd, #bdc1c6 · Google Sans · 14 px (texto) · 12 px (menus e modais) */
+   Modais do mapa de telas: Criar turma, Participar da turma, Personalizar aparência, Entrega do aluno; os demais são criar/editar/excluir derivados das funcionalidades do projeto.
+   Breakpoint mobile = abaixo de 576 px (Bootstrap "sm"): Criar/Editar turma, Criar/Editar atividade, Criar/Editar material e Entrega viram tela cheia. */
 
 :root{
   --edu-azul:#3a86eb; --edu-laranja:#e97a1b; --edu-azul-claro:#d3e3fd; --edu-cinza:#bdc1c6;
@@ -27,15 +26,6 @@
 body{line-height:1.5}
 
 /* ---------- botões ---------- */
-}
-[data-bs-theme="dark"]{
-  --bs-primary:#6ea5f2; --bs-primary-rgb:110,165,242; --bs-warning:#f09a4d; --bs-warning-rgb:240,154,77;
-  --bs-body-bg:#10151f; --bs-body-color:#e7ecf5; --bs-border-color:#3a4253; --bs-link-color:#8db8f5;
-  --edu-on-primary:#0c1a33; --edu-soft:#24365a; --edu-muted:#a2acbd;
-}
-body{line-height:1.5}
-
-/* botões */
 .btn-primary{
   --bs-btn-bg:var(--bs-primary);--bs-btn-border-color:var(--bs-primary);--bs-btn-color:var(--edu-on-primary);
   --bs-btn-hover-bg:var(--bs-primary);--bs-btn-hover-border-color:var(--bs-primary);--bs-btn-hover-color:var(--edu-on-primary);
@@ -172,6 +162,24 @@ body{line-height:1.5}
 .chip-email button:focus-visible{outline:2px solid var(--bs-warning);outline-offset:1px}
 .modal .form-control[type="email"]{font-size:12px;border:1px solid var(--bs-primary);border-radius:6px;background:var(--edu-campo)}
 
+
+/* ---------- criar/editar atividade e material, enviar trabalho, comentários ---------- */
+.modal .form-floating>textarea.campo-texto{min-height:110px;height:110px;font-size:12px;background:var(--edu-campo);border:1px solid var(--bs-primary);border-radius:6px;color:var(--bs-body-color);resize:vertical}
+.modal .form-floating>textarea.campo-texto.is-invalid{border-color:var(--edu-erro);background-image:none}
+.modal input[type="datetime-local"].form-control{font-size:12px;background:var(--edu-campo);border:1px solid var(--bs-primary);border-radius:6px;color:var(--bs-body-color)}
+.anexos-lista{list-style:none;margin:.5rem 0 .75rem;padding:0;display:grid;gap:.4rem}
+.anexos-lista:empty{display:none}
+.anexos-lista li{display:flex;align-items:center;justify-content:space-between;gap:.5rem;background:var(--edu-painel);border-radius:6px;padding:.35rem .5rem .35rem .75rem}
+.anexo-nome{display:flex;align-items:center;gap:.4rem;min-width:0;color:var(--bs-body-color)}
+.anexo-nome span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.anexo-nome svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;color:var(--edu-muted)}
+.anexos-lista .btn-sm{font-size:11px;padding:.2rem .6rem}
+.anexos-lista .form-check-label{font-size:11px;color:var(--edu-muted)}
+.aviso-atraso{display:flex;align-items:flex-start;gap:.4rem;background:rgba(var(--bs-warning-rgb),.15);border-radius:6px;padding:.5rem .75rem;margin:0 0 .75rem;color:var(--bs-body-color)}
+.aviso-atraso svg{width:14px;height:14px;flex:none;margin-top:1px;fill:none;stroke:var(--bs-warning);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.trecho-comentario{margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--bs-primary);background:var(--edu-painel);border-radius:0 6px 6px 0;color:var(--bs-body-color);overflow-wrap:anywhere}
+.modal-footer .me-auto{margin-right:auto!important}
+
 /* ---------- mobile (< 576 px): tela cheia como no wireframe de 360 px ---------- */
 @media (max-width:575.98px){
   .modal-fullscreen-sm-down .modal-content{border-radius:0}
@@ -192,42 +200,3 @@ body{line-height:1.5}
 }
 
 @media (prefers-reduced-motion:reduce){.modal.fade .modal-dialog{transition:none}}
-.btn-warning{
-  --bs-btn-bg:var(--bs-warning);--bs-btn-border-color:var(--bs-warning);--bs-btn-color:#1d1204;
-  --bs-btn-hover-bg:var(--bs-warning);--bs-btn-hover-border-color:var(--bs-warning);--bs-btn-hover-color:#1d1204;
-  font-weight:500;
-}
-.btn-link-edu{
-  --bs-btn-color:var(--bs-primary);--bs-btn-hover-color:var(--bs-primary);
-  --bs-btn-hover-bg:var(--edu-soft);--bs-btn-active-bg:var(--edu-soft);--bs-btn-border-color:transparent;
-  font-weight:500;
-}
-
-/* foco visível */
-.form-control:focus,.form-select:focus{border-color:var(--bs-primary);box-shadow:0 0 0 .2rem rgba(var(--bs-primary-rgb),.2)}
-.btn:focus-visible,.btn-check:focus-visible+.btn{outline:2px solid var(--bs-warning);outline-offset:2px;box-shadow:none}
-
-/* modais: texto de 12 px conforme o guia */
-.modal{
-  --bs-modal-font-size:12px;--bs-modal-border-radius:8px;
-  --bs-modal-header-padding:1rem 1.25rem .25rem;--bs-modal-padding:.5rem 1.25rem 1rem;--bs-modal-header-border-width:0;
-  font-size:12px;
-}
-.modal .modal-title{font-size:18px;font-weight:500}
-.modal .btn{font-size:12px;padding:.5rem 1.25rem}
-.modal .form-label{font-size:12px;font-weight:500;margin-bottom:.25rem}
-.modal .form-control,.modal .form-select{font-size:12px;border-color:var(--edu-cinza)}
-.modal .form-text{font-size:11px}
-.modal .alert{font-size:12px;border:0;border-left:3px solid var(--bs-warning);border-radius:4px;background:rgba(var(--bs-warning-rgb),.14);color:var(--bs-body-color)}
-.modal-footer{--bs-modal-footer-gap:.5rem;padding:.625rem 1.25rem .875rem}
-.modal-body p{color:var(--edu-muted)}
-
-/* componentes usados dentro dos modais */
-.chip{background:var(--edu-soft);color:var(--bs-body-color);font-weight:400;font-size:12px;border-radius:999px;padding:.35rem .65rem}
-.banner{height:84px;border-radius:8px;padding:12px 14px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;background:var(--bs-primary);transition:background .15s}
-.banner strong{font-size:22px;font-weight:500;line-height:1.1}
-.btn-check+.swatch{width:36px;height:36px;border-radius:50%;padding:0;border:2px solid var(--bs-body-bg);box-shadow:0 0 0 1px var(--edu-cinza)}
-.btn-check:checked+.swatch{box-shadow:0 0 0 2px var(--bs-body-color)}
-.av{width:28px;height:28px;border-radius:50%;background:var(--edu-soft);display:grid;place-items:center;font-weight:500;flex:none}
-
-@media (prefers-reduced-motion:reduce){.banner{transition:none}}
