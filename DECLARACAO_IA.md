@@ -9,7 +9,8 @@
 A IA foi usada para:
 
 - definir e registrar as regras de código do projeto (HTML semântico e `alt` em todas as imagens), no `CLAUDE.md`;
-- organizar a documentação do trabalho (registro de prompts e esta declaração).
+- organizar a documentação do trabalho (registro de prompts e esta declaração);
+- ajustar o layout base (cabeçalho, menu lateral responsivo e rodapé) e o JavaScript do menu, reutilizados pelas páginas.
 
 <!-- Atualize esta lista conforme a IA for usada em outras partes (HTML, CSS, JS, conteúdo, correção de bugs). -->
 

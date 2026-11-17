@@ -1,0 +1,361 @@
+/* Layout base: barra superior + menu lateral + rodapé. Reutilizado por todas as páginas internas. */
+:root {
+    --cor-texto: #202124;
+    --cor-texto-suave: #5f6368;
+    --cor-borda: #dadce0;
+    --cor-superficie: #ffffff;
+    --cor-fundo: #f8fafd;
+    --cor-hover: #f1f3f4;
+    --cor-destaque: #e8f0fe;
+    --cor-destaque-texto: #174ea6;
+    --altura-barra: 64px;
+    --largura-menu: 256px;
+    --largura-menu-recolhido: 72px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    color: var(--cor-texto);
+    background: var(--cor-fundo);
+    font-family: "Google Sans", sans-serif;
+}
+
+button,
+a {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+:focus-visible {
+    outline: 3px solid rgb(26 115 232 / 35%);
+    outline-offset: 2px;
+}
+
+.material-symbols-outlined {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 24px;
+    overflow: hidden;
+    font-family: "Material Symbols Outlined", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* ---------- Barra superior ---------- */
+
+.barra-superior {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    height: var(--altura-barra);
+    padding: 0 16px;
+    background: var(--cor-superficie);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.barra-superior__marca,
+.barra-superior__acoes,
+.marca {
+    display: flex;
+    align-items: center;
+}
+
+.barra-superior__marca {
+    gap: 8px;
+    min-width: 0;
+}
+
+.barra-superior__acoes {
+    flex-shrink: 0;
+    gap: 12px;
+}
+
+.marca {
+    flex-shrink: 0;
+    gap: 10px;
+    color: var(--cor-texto);
+    font-size: 22px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.marca img {
+    width: 34px;
+    height: 34px;
+}
+
+/* Trilha opcional: "EduConnect › Nome da turma" */
+.trilha {
+    display: flex;
+    gap: 8px;
+    min-width: 0;
+    margin: 0;
+    color: var(--cor-texto);
+    font-size: 20px;
+}
+
+.trilha__nome,
+.menu-link span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.trilha__separador {
+    color: var(--cor-texto-suave);
+}
+
+.botao-icone {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    color: var(--cor-texto-suave);
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+}
+
+.botao-icone:hover {
+    background: var(--cor-hover);
+}
+
+.perfil {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: #ffffff;
+    background: #3c4043;
+    border-radius: 50%;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* ---------- Estrutura: menu | conteúdo / rodapé ---------- */
+
+.estrutura-aplicacao {
+    display: grid;
+    grid-template-columns: var(--largura-menu) minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+    min-height: calc(100vh - var(--altura-barra));
+    transition: grid-template-columns 180ms ease;
+}
+
+.menu-lateral {
+    grid-row: 1 / -1;
+    position: sticky;
+    top: var(--altura-barra);
+    height: calc(100vh - var(--altura-barra));
+    padding: 16px 12px 16px 0;
+    overflow: hidden auto;
+    background: var(--cor-superficie);
+    border-right: 1px solid var(--cor-borda);
+}
+
+.menu-lateral nav,
+.menu-grupo,
+.menu-grupo__itens {
+    display: grid;
+    gap: 4px;
+}
+
+.menu-grupo__titulo {
+    list-style: none;
+}
+
+.menu-grupo__titulo::-webkit-details-marker {
+    display: none;
+}
+
+.menu-grupo__seta {
+    width: 20px;
+    margin-left: auto;
+    font-size: 20px;
+    transition: transform 140ms ease;
+}
+
+.menu-grupo:not([open]) .menu-grupo__seta {
+    transform: rotate(-90deg);
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 48px;
+    padding: 0 20px 0 24px;
+    color: var(--cor-texto-suave);
+    border-radius: 0 0px 0px 0;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 140ms ease, color 140ms ease;
+}
+
+.menu-link:hover {
+    color: var(--cor-texto);
+    background: var(--cor-hover);
+}
+
+.menu-link--subitem {
+    min-height: 44px;
+    padding-left: 40px;
+}
+
+.menu-link--ativo {
+    color: var(--cor-destaque-texto);
+    background: var(--cor-destaque);
+    font-weight: 600;
+}
+
+.conteudo-principal {
+    min-width: 0;
+    padding: 28px clamp(16px, 4vw, 48px);
+}
+
+.conteudo-principal__placeholder {
+    display: grid;
+    place-items: center;
+    min-height: 260px;
+    color: var(--cor-texto-suave);
+    text-align: center;
+}
+
+.conteudo-principal__placeholder .material-symbols-outlined {
+    width: 48px;
+    color: #8ab4f8;
+    font-size: 48px;
+}
+
+.rodape {
+    padding: 12px 16px;
+    color: var(--cor-texto-suave);
+    border-top: 1px solid var(--cor-borda);
+    font-size: 12px;
+    text-align: center;
+}
+
+.rodape p {
+    margin: 0;
+}
+
+@media (min-width: 641px) {
+    .menu-recolhido .estrutura-aplicacao {
+        grid-template-columns: var(--largura-menu-recolhido) minmax(0, 1fr);
+    }
+
+    .menu-recolhido .menu-link {
+        justify-content: center;
+        padding: 0;
+        margin-left: 12px;
+        border-radius: 24px;
+    }
+
+    .menu-recolhido .menu-link span:not(.material-symbols-outlined) {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+    }
+
+    .menu-recolhido .menu-grupo__seta {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    :root {
+        --altura-barra: 56px;
+    }
+
+    .barra-superior {
+        padding: 0 8px;
+    }
+
+    .marca {
+        font-size: 18px;
+    }
+
+    .marca img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .barra-superior__marca:has(.trilha) .marca,
+    .trilha__separador {
+        display: none;
+    }
+
+    .trilha {
+        font-size: 18px;
+    }
+
+    .estrutura-aplicacao {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .menu-lateral {
+        position: fixed;
+        top: var(--altura-barra);
+        bottom: 0;
+        left: 0;
+        z-index: 30;
+        width: min(var(--largura-menu), 86vw);
+        height: auto;
+        visibility: hidden;
+        transform: translateX(-100%);
+        box-shadow: 8px 0 24px rgb(32 33 36 / 16%);
+        transition: transform 180ms ease, visibility 180ms;
+    }
+
+    .menu-aberto {
+        overflow: hidden;
+    }
+
+    .menu-aberto .menu-lateral {
+        visibility: visible;
+        transform: none;
+    }
+
+    /* Fundo escurecido atrás da gaveta; clicar nele fecha o menu (layout.js). */
+    .menu-aberto::after {
+        content: "";
+        position: fixed;
+        inset: var(--altura-barra) 0 0;
+        z-index: 25;
+        background: rgb(32 33 36 / 40%);
+    }
+
+    .conteudo-principal {
+        padding: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+    }
+}
