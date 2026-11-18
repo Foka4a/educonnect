@@ -10,7 +10,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../style/layout.css">
+    <link rel="stylesheet" href="../modais/css/criar-turma.css">
+    <link rel="stylesheet" href="../modais/css/participar-turma.css">
     <script src="../scripts/layout.js" defer></script>
+    <script src="../modais/components/criar-turma.js" defer></script>
+    <script src="../modais/components/participar-turma.js" defer></script>
 </head>
 <body>
     <header class="barra-superior">
@@ -29,9 +33,25 @@
         </div>
 
         <div class="barra-superior__acoes">
-            <button class="botao-icone" type="button" aria-label="Criar novo item" title="Criar novo item">
-                <span class="material-symbols-outlined" aria-hidden="true">add</span>
-            </button>
+            <details class="menu-suspenso barra-superior__criar">
+                <summary class="botao-icone" aria-label="Criar ou participar de turma" title="Criar ou participar de turma">
+                    <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                </summary>
+                <ul class="menu-suspenso__lista">
+                    <li>
+                        <button class="menu-suspenso__item" type="button" data-abrir="modal-participar-turma">
+                            <span class="material-symbols-outlined" aria-hidden="true">group_add</span>
+                            <span>Participar da turma</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="menu-suspenso__item" type="button" data-abrir="modal-criar-turma">
+                            <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                            <span>Criar turma</span>
+                        </button>
+                    </li>
+                </ul>
+            </details>
             <a class="perfil" href="cadastro.html" aria-label="Abrir perfil de Gabriel Pereira">GP</a>
         </div>
     </header>
@@ -67,5 +87,7 @@
             </div>
         </main>
     </div>
+    <edu-modal-criar-turma></edu-modal-criar-turma>
+    <edu-modal-participar-turma></edu-modal-participar-turma>
 </body>
 </html>

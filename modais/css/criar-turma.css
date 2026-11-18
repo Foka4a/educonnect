@@ -1,0 +1,58 @@
+/* Modal "Criar turma" (modais/components/criar-turma.js). Base: .dialogo do style/layout.css. */
+
+.criar-turma__cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.criar-turma__cabecalho .dialogo__titulo {
+    flex: 1;
+}
+
+.criar-turma .criar-turma__erro {
+    margin: 4px 0 0;
+    color: #c5221f;
+    font-size: 13px;
+}
+
+.criar-turma .criar-turma__ajuda {
+    margin: 4px 0 8px;
+    font-size: 12px;
+}
+
+.criar-turma .dialogo__campo[aria-invalid="true"] {
+    border-color: #c5221f;
+}
+
+.criar-turma__so-celular {
+    display: none;
+}
+
+/* Celular: tela cheia com [×] título [Criar] no topo. */
+@media (max-width: 575.98px) {
+    .criar-turma {
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        max-height: none;
+        border-radius: 0;
+    }
+
+    .criar-turma__cabecalho {
+        margin-bottom: 12px;
+    }
+
+    .criar-turma__cabecalho .dialogo__titulo {
+        margin: 0;
+    }
+
+    .criar-turma__so-celular {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .criar-turma__so-desktop {
+        display: none;
+    }
+}

@@ -1,96 +1,94 @@
-/* <edu-modal-criar-turma> · Modal "Criar turma" (mapa de telas, Início). Abrir: data-bs-target="#modal-criar-turma"
-   Campos: Nome da turma (obrigatório), Níveis e Matéria (opcionais). Seção e Sala foram removidas.
-   Desktop: título + Cancelar / Criar (botões de texto). Mobile (< 576 px): tela cheia com [×] título [Criar].
-   Quem cria vira professor da turma; o back-end gera o código e abre o Mural.
-   Atributo: action (destino do POST) */
-/* <edu-modal-criar-turma> · Criar turma (professor). Abrir: data-bs-target="#modal-criar-turma"
-   Atributos: action */
+/* <edu-modal-criar-turma> · Modal "Criar turma" (mapa de telas, Início).
+   Independente do edu-modal.js e do Bootstrap: usa <dialog> nativo e as classes do style/layout.css
+   (.dialogo, .dialogo__campo, .botao-texto, .botao-icone) + modais/css/criar-turma.css.
+
+   Uso na página:
+     <link rel="stylesheet" href="../modais/css/criar-turma.css">
+     <script src="../modais/components/criar-turma.js" defer></script>
+     <button type="button" data-abrir="modal-criar-turma">…</button>
+     <edu-modal-criar-turma></edu-modal-criar-turma>
+
+   Campos: Nome da turma (obrigatório), Níveis e Matéria (opcionais).
+   Desktop: título + Cancelar / Criar. Celular (< 576 px): tela cheia com [×] título [Criar].
+   Atributo: action (destino do POST). Sem action, não há back-end: ao criar, abre o Mural. */
 (function () {
   'use strict';
-  class EduModalCriarTurma extends EduModal {
-    render() {
-      return `
-<div class="modal fade" id="modal-criar-turma" tabindex="-1" aria-labelledby="titulo-criar-turma" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
-    <form class="modal-content" id="form-criar-turma" ${this.formAttrs()} novalidate>
-      <header class="modal-header cab-criar">
-        <button type="button" class="btn btn-redondo d-sm-none" data-bs-dismiss="modal" aria-label="Fechar sem salvar">${this.icone('fechar')}</button>
-        <h2 class="modal-title" id="titulo-criar-turma">Criar turma</h2>
-        <button type="submit" class="btn btn-primary rounded-pill d-sm-none">Criar</button>
-      </header>
-      <section class="modal-body">
-        <div class="form-floating">
-          <input class="form-control" id="criar-turma-nome" name="nome" placeholder="Nome da turma" autocomplete="off" required aria-describedby="criar-turma-ajuda">
-          <label for="criar-turma-nome">Nome da turma *</label>
-          <div class="invalid-feedback" id="criar-turma-erro" role="alert">Informe o nome da turma.</div>
-        </div>
-        <p class="form-text mt-1 mb-3" id="criar-turma-ajuda">*Obrigatório</p>
-        <div class="form-floating mb-3">
-          <input class="form-control" id="criar-turma-niveis" name="niveis" placeholder="Níveis" autocomplete="off">
-          <label for="criar-turma-niveis">Níveis</label>
-        </div>
-        <div class="form-floating">
-          <input class="form-control" id="criar-turma-materia" name="materia" placeholder="Matéria" autocomplete="off">
-          <label for="criar-turma-materia">Matéria</label>
-        </div>
-      </section>
-      <footer class="modal-footer d-none d-sm-flex">
-        <button type="button" class="btn btn-link-edu" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-link-edu">Criar</button>
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <form class="modal-content" id="form-criar-turma" ${this.formAttrs()} novalidate>
-      <header class="modal-header">
-        <h2 class="modal-title" id="titulo-criar-turma">Criar turma</h2>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </header>
-      <section class="modal-body">
-        <label class="form-label" for="criar-turma-nome">Nome da turma (obrigatório)</label>
-        <input class="form-control mb-3" id="criar-turma-nome" name="nome" autocomplete="off" required>
-        <label class="form-label" for="criar-turma-secao">Seção</label>
-        <input class="form-control mb-3" id="criar-turma-secao" name="secao" autocomplete="off">
-        <div class="row g-3">
-          <div class="col-12 col-sm-6">
-            <label class="form-label" for="criar-turma-disciplina">Disciplina</label>
-            <input class="form-control" id="criar-turma-disciplina" name="disciplina" autocomplete="off">
-          </div>
-          <div class="col-12 col-sm-6">
-            <label class="form-label" for="criar-turma-sala">Sala</label>
-            <input class="form-control" id="criar-turma-sala" name="sala" autocomplete="off">
-          </div>
-        </div>
-        <p class="form-text mt-3 mb-0">O código da turma é gerado ao criar, e você vai direto para o Mural.</p>
-      </section>
-      <footer class="modal-footer">
-        <button type="button" class="btn btn-link-edu" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary" id="criar-turma-ok" disabled>Criar</button>
-      </footer>
-    </form>
-  </div>
-</div>`;
-    }
 
-    depoisDeRenderizar() {
-      var modal = this.querySelector('.modal');
-      var form = this.querySelector('form');
-      var nome = this.querySelector('#criar-turma-nome');
+  class EduModalCriarTurma extends HTMLElement {
+    connectedCallback() {
+      if (this.dialogo) return;
+      var action = this.getAttribute('action');
+      this.style.display = 'contents';
+      this.innerHTML = `
+<dialog class="dialogo criar-turma" id="modal-criar-turma" aria-labelledby="titulo-criar-turma">
+  <form method="post" novalidate>
+    <header class="criar-turma__cabecalho">
+      <button class="botao-icone criar-turma__so-celular" type="button" data-fechar aria-label="Fechar sem salvar">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+      <h2 class="dialogo__titulo" id="titulo-criar-turma">Criar turma</h2>
+      <button class="botao-texto criar-turma__so-celular" type="submit">Criar</button>
+    </header>
+    <label class="dialogo__rotulo" for="criar-turma-nome">Nome da turma *</label>
+    <input class="dialogo__campo" id="criar-turma-nome" name="nome" autocomplete="off" required aria-describedby="criar-turma-ajuda criar-turma-erro">
+    <p class="criar-turma__erro" id="criar-turma-erro" role="alert" hidden>Informe o nome da turma.</p>
+    <p class="criar-turma__ajuda" id="criar-turma-ajuda">*Obrigatório</p>
+    <label class="dialogo__rotulo" for="criar-turma-niveis">Níveis</label>
+    <input class="dialogo__campo" id="criar-turma-niveis" name="niveis" autocomplete="off">
+    <label class="dialogo__rotulo" for="criar-turma-materia">Matéria</label>
+    <input class="dialogo__campo" id="criar-turma-materia" name="materia" autocomplete="off">
+    <footer class="dialogo__acoes criar-turma__so-desktop">
+      <button class="botao-texto" type="button" data-fechar>Cancelar</button>
+      <button class="botao-texto" type="submit">Criar</button>
+    </footer>
+  </form>
+</dialog>`;
 
-      // nome é obrigatório: sem ele o formulário não segue
-      form.addEventListener('submit', function (e) {
+      var dialogo = this.dialogo = this.querySelector('dialog');
+      var form = dialogo.querySelector('form');
+      var nome = form.elements.nome;
+      var erro = form.querySelector('#criar-turma-erro');
+      if (action) form.action = action;
+
+      function limparErro() {
+        nome.removeAttribute('aria-invalid');
+        erro.hidden = true;
+      }
+
+      // Nome é obrigatório: sem ele o formulário não segue.
+      form.addEventListener('submit', function (evento) {
         if (!nome.value.trim()) {
-          e.preventDefault();
-          nome.classList.add('is-invalid');
+          evento.preventDefault();
+          nome.setAttribute('aria-invalid', 'true');
+          erro.hidden = false;
+          nome.focus();
+          return;
+        }
+        // ponytail: sem back-end, criar só abre o Mural; com action, o POST segue normalmente.
+        if (!action) {
+          evento.preventDefault();
+          location.href = 'mural.html';
+        }
+      });
+      nome.addEventListener('input', limparErro);
+
+      // × e Cancelar fecham sem salvar; ao fechar (inclusive Esc ou clique no fundo), limpa o que foi digitado.
+      form.querySelectorAll('[data-fechar]').forEach(function (botao) {
+        botao.addEventListener('click', function () { dialogo.close(); });
+      });
+      dialogo.addEventListener('close', function () {
+        form.reset();
+        limparErro();
+      });
+
+      document.addEventListener('click', function (evento) {
+        if (evento.target.closest('[data-abrir="modal-criar-turma"]')) {
+          dialogo.showModal();
           nome.focus();
         }
       });
-      nome.addEventListener('input', function () { nome.classList.remove('is-invalid'); });
-
-      // Cancelar / × fecha sem salvar: limpa o que foi digitado
-      modal.addEventListener('hidden.bs.modal', function () {
-        form.reset();
-        nome.classList.remove('is-invalid');
-      });
-      modal.addEventListener('shown.bs.modal', function () { nome.focus(); });
     }
   }
+
   customElements.define('edu-modal-criar-turma', EduModalCriarTurma);
 })();

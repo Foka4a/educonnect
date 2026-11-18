@@ -29,7 +29,7 @@
   pointer-events: none;
 }
 
-.card h2 {
+.card h3 {
   font-size: 24px;
   margin: 0;
   color: white;
@@ -38,12 +38,12 @@
   text-overflow: ellipsis;
 }
 
-.card h2 a {
+.card h3 a {
   color: inherit;
   text-decoration: none;
 }
 
-.card h2 a::after {
+.card h3 a::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -95,4 +95,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+.conteudo-principal h2 {
+  align-self: flex-start;
+  padding: 1em 15%;
 }

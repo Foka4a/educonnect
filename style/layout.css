@@ -454,6 +454,12 @@ button {
     box-shadow: 0 4px 16px rgb(32 33 36 / 14%);
 }
 
+/* Menu do "+" da barra superior: fica no canto direito da tela, então abre para a esquerda. */
+.barra-superior__criar .menu-suspenso__lista {
+    right: 0;
+    min-width: 220px;
+}
+
 .menu-suspenso__item {
     display: flex;
     align-items: center;
