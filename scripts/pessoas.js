@@ -1,4 +1,4 @@
-// Aba Pessoas: remover estudante da turma.
+// Aba Pessoas: remover estudante da turma e promover estudante a professor.
 // Menus ⋮, fundo dos diálogos e avisar() vêm do layout.js.
 const dialogoRemover = document.getElementById('dialogo-remover');
 const listaEstudantes = document.querySelector('[data-lista-estudantes]');
@@ -28,5 +28,15 @@ dialogoRemover.addEventListener('submit', (evento) => {
     estudanteParaRemover.remove();
     avisar(`${estudanteParaRemover.dataset.nome} foi removido da turma.`);
     estudanteParaRemover = null;
+    atualizarEstudantes();
+});
+
+// Promover a professor: o modal (modais/components/promover-professor.js) confirma e avisa por evento.
+// ponytail: só muda a tela; trocar por envio ao back-end quando ele existir.
+document.addEventListener('promover-professor', (evento) => {
+    const { pessoa, nome } = evento.detail;
+    pessoa.querySelector('.pessoa__menu').remove();
+    document.querySelector('[data-lista-professores]').append(pessoa);
+    avisar(`${nome} agora está entre os professores da turma.`);
     atualizarEstudantes();
 });

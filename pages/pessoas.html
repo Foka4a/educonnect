@@ -13,9 +13,11 @@
     <link rel="stylesheet" href="../style/pessoas.css">
     <link rel="stylesheet" href="../modais/css/criar-turma.css">
     <link rel="stylesheet" href="../modais/css/participar-turma.css">
+    <link rel="stylesheet" href="../modais/css/promover-professor.css">
     <script src="../scripts/layout.js" defer></script>
     <script src="../modais/components/criar-turma.js" defer></script>
     <script src="../modais/components/participar-turma.js" defer></script>
+    <script src="../modais/components/promover-professor.js" defer></script>
     <script src="../scripts/pessoas.js" defer></script>
 </head>
 
@@ -84,7 +86,6 @@
             <a class="aba" href="mural.html">Mural</a>
             <a class="aba" href="atividades.html">Atividades</a>
             <a class="aba aba--ativa" href="pessoas.html" aria-current="page">Pessoas</a>
-            <a class="aba" href="notas.html">Notas</a>
             <!-- Só professor -->
             <a class="botao-icone abas-mural__config" href="config-turma.html" aria-label="Configurações da turma" title="Configurações da turma">
                 <span class="material-symbols-outlined" aria-hidden="true">settings</span>
@@ -99,7 +100,7 @@
                     <header class="pessoas__cabecalho">
                         <h2 id="titulo-professores">Professores</h2>
                     </header>
-                    <ul class="lista-pessoas">
+                    <ul class="lista-pessoas" data-lista-professores>
                         <li class="pessoa">
                             <span class="pessoa__avatar" aria-hidden="true">G</span>
                             <span class="pessoa__nome">Gabriel Pereira</span>
@@ -126,6 +127,7 @@
                                     <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
                                 </summary>
                                 <ul class="menu-suspenso__lista">
+                                    <li><button class="menu-suspenso__item" type="button" data-promover>Promover a professor</button></li>
                                     <li><button class="menu-suspenso__item" type="button" data-remover>Remover da turma</button></li>
                                 </ul>
                             </details>
@@ -138,6 +140,7 @@
                                     <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
                                 </summary>
                                 <ul class="menu-suspenso__lista">
+                                    <li><button class="menu-suspenso__item" type="button" data-promover>Promover a professor</button></li>
                                     <li><button class="menu-suspenso__item" type="button" data-remover>Remover da turma</button></li>
                                 </ul>
                             </details>
@@ -150,6 +153,7 @@
                                     <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
                                 </summary>
                                 <ul class="menu-suspenso__lista">
+                                    <li><button class="menu-suspenso__item" type="button" data-promover>Promover a professor</button></li>
                                     <li><button class="menu-suspenso__item" type="button" data-remover>Remover da turma</button></li>
                                 </ul>
                             </details>
@@ -162,6 +166,7 @@
                                     <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
                                 </summary>
                                 <ul class="menu-suspenso__lista">
+                                    <li><button class="menu-suspenso__item" type="button" data-promover>Promover a professor</button></li>
                                     <li><button class="menu-suspenso__item" type="button" data-remover>Remover da turma</button></li>
                                 </ul>
                             </details>
@@ -174,6 +179,7 @@
                                     <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
                                 </summary>
                                 <ul class="menu-suspenso__lista">
+                                    <li><button class="menu-suspenso__item" type="button" data-promover>Promover a professor</button></li>
                                     <li><button class="menu-suspenso__item" type="button" data-remover>Remover da turma</button></li>
                                 </ul>
                             </details>
@@ -208,6 +214,7 @@
     <p class="aviso" role="status" data-aviso></p>
     <edu-modal-criar-turma></edu-modal-criar-turma>
     <edu-modal-participar-turma></edu-modal-participar-turma>
+    <edu-modal-promover-professor></edu-modal-promover-professor>
 </body>
 
 </html>
