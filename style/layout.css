@@ -15,9 +15,22 @@
 
 :root {
     scrollbar-gutter: auto;
-    /* O Bootstrap 6 usa "light dark": com o sistema em modo escuro, <dialog>, campos
-       e barras de rolagem ficavam escuros. O EduConnect ainda não tem tema escuro. */
+    /* O Bootstrap 6 usa "light dark": sem isto, com o sistema em modo escuro, <dialog>, campos
+       e barras de rolagem ficariam escuros mesmo no tema claro. O tema é escolhido em scripts/tema.js. */
     color-scheme: light;
+}
+
+/* Tema escuro: scripts/tema.js põe data-bs-theme="dark" no <html> (o Bootstrap usa o mesmo atributo). */
+[data-bs-theme="dark"] {
+    --cor-texto: #e8eaed;
+    --cor-texto-suave: #9aa0a6;
+    --cor-borda: #3c4043;
+    --cor-superficie: #202124;
+    --cor-fundo: #171717;
+    --cor-hover: #303134;
+    --cor-destaque: #283142;
+    --cor-destaque-texto: #8ab4f8;
+    color-scheme: dark;
 }
 
 * {
@@ -25,7 +38,7 @@
 }
 
 body {
-    min-width: 320px;
+    min-width: 300px;
     min-height: 100vh;
     margin: 0;
     color: var(--cor-texto);
@@ -274,8 +287,8 @@ button {
     min-height: 64px;
     align-items: stretch;
     padding: 0 12px;
-    background: #fff;
-    border-bottom: 1px solid #dadce0;
+    background: var(--cor-superficie);
+    border-bottom: 1px solid var(--cor-borda);
 }
 
 .aba {
@@ -284,7 +297,7 @@ button {
     align-items: center;
     justify-content: center;
     padding: 4px 16px 0;
-    color: #5f6368;
+    color: var(--cor-texto-suave);
     border-bottom: 3px solid transparent;
     font-size: 14px;
     font-weight: 600;
@@ -338,7 +351,16 @@ button {
     }
 
     .marca {
+        flex-shrink: 1;
+        min-width: 0;
         font-size: 18px;
+    }
+
+    /* Telas de ~300px: o nome encolhe com reticências em vez de empurrar o "+" e o perfil para fora. */
+    .marca span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .marca img {

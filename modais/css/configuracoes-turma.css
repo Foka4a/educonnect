@@ -48,8 +48,8 @@
 }
 
 .config-turma__salvar:disabled {
-    color: #80868b;
-    background: #e8eaed;
+    color: var(--cor-texto-suave);
+    background: var(--cor-hover);
 }
 
 .config-turma__cartao {

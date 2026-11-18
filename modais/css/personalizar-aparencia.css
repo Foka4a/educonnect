@@ -68,7 +68,7 @@
 }
 
 .aparencia__upload:hover {
-    background: #e8f0fe;
+    background: var(--cor-destaque);
 }
 
 .aparencia__upload:focus-within {

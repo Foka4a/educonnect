@@ -172,7 +172,7 @@
 }
 
 .novo-aviso__botao:hover {
-    background: #e8f0fe;
+    background: var(--cor-destaque);
 }
 
 /* Aberto: o botão some e o editor ocupa a linha toda. */

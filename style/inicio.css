@@ -1,38 +1,43 @@
-.card {
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  position: relative;
+/* Início (mapa de telas): "Turmas" e os cartões das turmas.
+   Desktop: até 3 colunas no máximo de 1000px. Celular (≤640px): uma coluna, cartão baixo (faixa + ⋮). */
+.inicio {
+  width: min(100%, 1000px);
+  margin: 0 auto;
 }
 
-.card .card-body {
+.inicio h1 {
+  margin: 0 0 16px;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.cards-grid {
+  display: grid;
+  /* min(100%, …) evita que a coluna mínima estoure em telas de 300px */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: 24px;
+}
+
+.card {
+  position: relative;
+  min-width: 0;
+  min-height: 260px;
   overflow: hidden;
 }
 
 .card-banner {
-  aspect-ratio: 1860 / 480;
   flex-shrink: 0;
+  min-height: 100px;
+  padding: 12px 16px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 0.5em 1em;
-  min-height: 0;
-}
-
-.perfil-card {
-  font-size: 1.5em;
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
-  align-self: flex-end;
-  margin: -24px 16px -24px 0;
-  position: relative;
-  pointer-events: none;
 }
 
 .card h3 {
-  font-size: 24px;
   margin: 0;
   color: white;
+  font-size: 22px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -43,6 +48,7 @@
   text-decoration: none;
 }
 
+/* o cartão inteiro leva ao Mural da turma */
 .card h3 a::after {
   content: "";
   position: absolute;
@@ -57,48 +63,59 @@
   text-overflow: ellipsis;
 }
 
+.perfil-card {
+  position: relative;
+  flex-shrink: 0;
+  align-self: flex-end;
+  width: 56px;
+  height: 56px;
+  margin: -28px 16px -28px 0;
+  font-size: 1.5em;
+  pointer-events: none;
+}
+
 .card-body {
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
   flex: 1;
+  align-items: flex-end;
+  justify-content: flex-end;
   min-height: 0;
+  padding: 8px;
 }
 
 .classroom-options {
   position: relative;
   z-index: 1;
-  justify-self: flex-end;
 }
 
-.cards-grid {
-  --gap-cards: 30px;
-  --min-card: 250px;
-  --max-card: 300px;
-  --max-colunas: 4;
+@media (max-width: 640px) {
+  .cards-grid {
+    gap: 16px;
+  }
 
-  /* largura de cada coluna quando há --max-colunas por linha */
-  --largura-com-max-colunas: calc(
-    (100% - (var(--max-colunas) - 1) * var(--gap-cards)) / var(--max-colunas)
-  );
+  .card {
+    min-height: 0;
+  }
 
-  /* nunca menor que --min-card nem que a largura com --max-colunas */
-  --coluna-min: max(var(--min-card), var(--largura-com-max-colunas));
+  .card-banner {
+    min-height: 88px;
+    /* espaço para o avatar à direita */
+    padding-right: 80px;
+  }
 
-  width: 70%;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--coluna-min), var(--max-card)));
-  gap: var(--gap-cards);
-}
+  .card h3 {
+    font-size: 18px;
+  }
 
-.conteudo-principal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
+  .perfil-card {
+    width: 48px;
+    height: 48px;
+    margin-top: -24px;
+    margin-bottom: -24px;
+  }
 
-.conteudo-principal h2 {
-  align-self: flex-start;
-  padding: 1em 15%;
+  /* metade do avatar (24px) + ⋮ (40px) + respiro: o ⋮ fica logo abaixo do avatar, como no mapa */
+  .card-body {
+    min-height: 76px;
+  }
 }
