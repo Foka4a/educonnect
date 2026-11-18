@@ -11,7 +11,7 @@
 A IA foi usada para:
 
 - definir e registrar as regras de código do projeto (HTML semântico e `alt` em todas as imagens), no `CLAUDE.md`;
-- organizar a documentação do trabalho (registro de prompts e esta declaração);
+- organizar a documentação do trabalho (registro de prompts, esta declaração e o `README.md` com o link do site, os integrantes e as instruções de uso);
 - ajustar o layout base (cabeçalho, menu lateral responsivo e rodapé) e o JavaScript do menu, reutilizados pelas páginas;
 - montar a aba Atividades conforme o mapa de telas (lista expansível, menu "+ Criar", menu ⋮ e confirmação de exclusão) e revisar os modais da pasta `modais/`;
 - montar a aba Pessoas conforme o mapa de telas (professores, estudantes, convite e remoção da turma), com o CSS e o JavaScript próprios;
