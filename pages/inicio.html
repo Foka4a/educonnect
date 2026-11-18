@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduConnect | Sala de aula</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../style/layout.css">
+    <link rel="stylesheet" href="../style/inicio.css">
+    <script src="../scripts/layout.js" defer></script>
+</head>
+<body>
+    <header class="barra-superior">
+        <div class="barra-superior__marca">
+            <button class="botao-icone" type="button" aria-label="Abrir menu de navegação" aria-controls="menu-lateral"
+                aria-expanded="true" data-menu-toggle>
+                <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+            </button>
+            <a class="marca" href="inicio.html" aria-label="EduConnect, página inicial">
+                <img src="../img/icon.svg" alt="Logo do EduConnect">
+                <span>EduConnect</span>
+            </a>
+            <!-- Trilha opcional (páginas de turma). No celular, substitui a marca.
+            <p class="trilha"><span class="trilha__separador" aria-hidden="true">›</span><span class="trilha__nome">Matemática</span></p>
+            -->
+        </div>
+
+        <div class="barra-superior__acoes">
+            <button class="botao-icone" type="button" aria-label="Criar novo item" title="Criar novo item">
+                <span class="material-symbols-outlined" aria-hidden="true">add</span>
+            </button>
+            <a class="perfil" href="cadastro.html" aria-label="Abrir perfil de Gabriel Pereira">GP</a>
+        </div>
+    </header>
+
+    <div class="estrutura-aplicacao">
+        <aside class="menu-lateral" id="menu-lateral" aria-label="Navegação principal">
+            <nav>
+                <a class="menu-link menu-link--ativo" href="inicio.html" aria-current="page">
+                    <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                    <span>Início</span>
+                </a>
+                <details class="menu-grupo" open>
+                    <summary class="menu-link menu-grupo__titulo">
+                        <span class="material-symbols-outlined" aria-hidden="true">school</span>
+                        <span>Turmas</span>
+                        <span class="material-symbols-outlined menu-grupo__seta" aria-hidden="true">expand_more</span>
+                    </summary>
+                    <div class="menu-grupo__itens">
+                        <a class="menu-link menu-link--subitem" href="mural.html">
+                            <span class="material-symbols-outlined" aria-hidden="true">class</span>
+                            <span>Matemática</span>
+                        </a>
+                    </div>
+                </details>
+            </nav>
+        </aside>
+
+        <main class="conteudo-principal">
+            <!-- Conteudo da página -->
+            
+            <div class="card" style="width: 18rem;">
+                <header class="card-banner" style="background-image: url('../img/placeholder.jpg');">
+                    <div class="perfil perfil-card">GP</div>
+                    <h2 class="card-text">Linguagens Formais e Autômatos</h2>
+                    <p class="card-text">Gustavo Peretti</p>
+                </header>
+                <div class="card-body">
+                    <button class="classroom-options botao-icone">
+                        <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

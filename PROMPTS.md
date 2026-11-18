@@ -8,6 +8,7 @@ Categorias: **Configuração/Regras**, **Estrutura (HTML)**, **Estilo (CSS)**, *
 | # | Data | Prompt | Impacto no resultado final |
 |---|------|--------|----------------------------|
 | 1 | 2026-11-13 | "Use tags semanticas, e adicione alt em todas as imagens, registre isso num claude.md. Registre todos os prompts do trabalho categorizados por categoria junto com o impacto no resultado final do trabalho." | Criou o `CLAUDE.md` com as regras de HTML semântico e `alt` obrigatório, que valem para todo o código do projeto. Também criou o registro de prompts. |
+| 2 | 2026-11-17 | "deixe o pedido do claude.md mais enfatizado pra vc lembrar de anotar o prompt" | O `CLAUDE.md` ganhou um aviso em destaque: todo prompt, inclusive dúvidas e explicações, tem de ser registrado no `PROMPTS.md` na mesma resposta, sem esperar o usuário pedir. |
 
 ## Estrutura (HTML)
 
@@ -41,6 +42,14 @@ Categorias: **Configuração/Regras**, **Estrutura (HTML)**, **Estilo (CSS)**, *
 | 11 | 2026-11-17 | "Estou terminando a estrutura do layout das paginas, a nav e a side bar, mas nao consegui adpartar algumas partes e deixar tao responsivo, veja o mapa de paginas aqui [...] Google_Classroom_redesenhado.drawio, e me ajude a ajustar, a ideia é esse layout principal ser reutilizado nas outas paginas, para demorar menos." | O layout ganhou menu lateral responsivo, trilha no cabeçalho e rodapé, e JavaScript compartilhado entre as páginas. |
 | 12 | 2026-11-17 | "estou corrigindo o posicionamento de uma barra no mural e no mobile o espaçamento fica desconfigurado, analisei e pode ser um problema no grid, faz essa conferencia e procure uma possivel solução, as alterações que fiz foi alterar a posição das abas, coloquei para cima, verifique se essas alterações também estão de acordo e nao desconfiguram nada importante." | Encontrou a causa: as abas viraram filhas diretas do grid `.estrutura-aplicacao`, cuja 1ª linha era `1fr`, e por isso esticavam e abriam um espaço vazio acima do conteúdo. As linhas passaram para `auto 1fr` e o `max-height` que tentava contornar isso saiu do `mural.css`. As abas no topo continuam de acordo com o mapa de telas, e o `layout.html` sem abas não foi afetado. |
 | 13 | 2026-11-17 | "outra pequena alteração que reparei, tanto a top bar, quanto a barra de abas nao vão até o final da tela" | Encontrou a causa no reboot do Bootstrap 6, que aplica `scrollbar-gutter: stable` no `:root` e reserva cerca de 15px para a barra de rolagem mesmo quando a página não rola. O `layout.css` passou a usar `scrollbar-gutter: auto`, e a barra superior e as abas agora vão até a borda da tela. |
+| 14 | 2026-11-17 | "931.989x240 reduza essa fração e sugira um tamanho pra imagem do card" | Calculou a proporção do banner do card (≈ 3,88:1, aproximada por 31:8) e sugeriu exportar as imagens em 1860×480 px (2x, para telas retina), com `object-fit: cover` para não distorcer. |
+| 15 | 2026-11-17 | "todo banner desses (independentemente da imagem) tem que ter essa proporção" | Em `style/inicio.css`, o `.card .card-img-top` saiu da altura fixa e passou a usar `aspect-ratio: 931.989 / 240` com `object-fit: cover`. Qualquer imagem de banner agora fica na mesma proporção, cortada pelo centro, sem esticar. O seletor deixou de pegar todas as `img` do card. |
+| 16 | 2026-11-17 | "e o card é quadrado" | O `.card` ganhou `aspect-ratio: 1 / 1` e `overflow: hidden`, e o `.card-body` ganhou `flex: 1 1 auto`. O card ficou quadrado, com o banner no topo e o corpo ocupando o resto do espaço. |
+| 17 | 2026-11-17 | "o que isso faz?" (sobre `flex: 1 1 auto;`) | Explicou o atalho `flex` (`flex-grow`, `flex-shrink`, `flex-basis`) e como ele faz o `.card-body` preencher o espaço que sobra no card quadrado. Apontou que a linha repete o padrão do Bootstrap. |
+| 18 | 2026-11-17 | "como faz pro perfil ficar em cima da linha que divide o texto do card do banner?" | Orientou envolver o banner e o perfil num `<header>` com `position: relative` e posicionar o perfil com `bottom: 0` e `translate: 0 50%`, para que o centro dele fique sobre a divisa entre banner e texto em qualquer largura de card. Também sugeriu reservar espaço no topo do `.card-body` para o texto não ficar embaixo do perfil. |
+| 19 | 2026-11-17 | "mude o minimo: adicione o card banner e coloque o elemento dentro junto com a imagem. já deixe os positions certos e o bottom right 0" | No `pages/inicio.html`, o banner e o perfil foram para dentro de um `<header class="card-banner">`. No `style/inicio.css`, o `position: relative` saiu do `<img>` e foi para o `.card-banner`. O `.perfil-card` ficou com `bottom: 0; right: 0` e ganhou `translate: 0 50%`, e agora fica centrado sobre a linha entre o banner e o texto, no canto direito. |
+| 20 | 2026-11-17 | "mude pra background image" (banner do card) | O `<img>` do banner saiu do `pages/inicio.html`. A imagem passou a ser `background-image` no `<header class="card-banner">`, definida em `style` inline, porque cada turma tem o seu banner. No `style/inicio.css`, a regra `.card-img-top` saiu, e o `.card-banner` ficou com `aspect-ratio: 931.989 / 240`, `background-size: cover` e `background-position: center`. O banner manteve a proporção e o corte pelo centro, sem precisar de `alt`, porque a imagem é decorativa. |
+| 21 | 2026-11-17 | "o padding ta aumentando a imagem. ja testei border-box mas nao funcionou" | Encontrou a causa: o `aspect-ratio` deixa o elemento crescer quando o conteúdo não cabe (o `min-height: auto` vira o tamanho mínimo do conteúdo). Num card de 288 px, o banner tem cerca de 74 px de altura, mas o padding, o `h2`, o `p` e as margens do Bootstrap somavam cerca de 110 px. Por isso o `box-sizing` não resolvia. O `.card-banner` ganhou `min-height: 0` e padding `0.5em 1em`, e o `h2` e o `p` ficaram com `margin: 0`. Assim o banner mantém a proporção e o conteúdo cabe nele. |
 
 ## Interatividade (JS)
 
@@ -58,11 +67,20 @@ Categorias: **Configuração/Regras**, **Estrutura (HTML)**, **Estilo (CSS)**, *
 | 1 | 2026-11-13 | (mesmo prompt de Configuração/Regras #1: tags semânticas e `alt`) | Leitores de tela e SEO passam a funcionar desde o início, porque as páginas já nascem com landmarks e textos alternativos. |
 | 2 | 2026-11-13 | "leia o claude.md e siga as instruções dos arquivos .md" | Os modais foram revisados com as regras do `CLAUDE.md`, títulos em ordem e nenhuma `<img>` sem `alt`. |
 
+## Conteúdo
+
+| # | Data | Prompt | Impacto no resultado final |
+|---|------|--------|----------------------------|
+| 1 | 2026-11-17 | "cria um jpg cinza 300x300 no img" | Criou `img/placeholder.jpg`, uma imagem cinza (`#808080`) de 300x300, que fica no lugar das imagens reais enquanto elas não estão prontas. |
+| 2 | 2026-11-17 | "deixe ele na proporção já" | O `img/placeholder.jpg` foi redimensionado e cortado pelo centro de 300×300 para 1860×480 px, a proporção do banner do card. |
+
 ## Correção de bugs
 
 | # | Data | Prompt | Impacto no resultado final |
 |---|------|--------|----------------------------|
 | 1 | 2026-11-13 | "o que faço" (captura de tela do erro "you need to resolve your current index first") + "faça para mim, só não faça o commit" | Conflito de merge resolvido e o registro de prompts consolidado, mantendo as entradas dos colegas. |
+| 2 | 2026-11-17 | "pq nao funcionou?" (perfil sobre a divisa entre banner e texto do card) | Encontrou duas causas. O `position: relative` estava no `<img>`, que não pode ter filhos, e o perfil é irmão dele, não filho. Além disso, o `.card` perdeu o `position: relative`, e o perfil passou a se posicionar em relação a um ancestral fora do card. Também faltava o `translate: 0 50%` para centralizá-lo na linha. A orientação foi envolver o banner e o perfil num `<header class="card-banner">` com `position: relative`. |
+| 3 | 2026-11-17 | "pq ele nao ta ellipsando o texto" (título `h2` do card) | Encontrou três causas. O `max-lines` não é uma propriedade CSS válida. Faltava `white-space: nowrap`, sem o qual o texto quebra linha em vez de cortar. E o `h2` tem `position: absolute` só com `left`, então a largura dele cresce com o texto e nunca transborda. O `style/inicio.css` trocou `max-lines` por `white-space: nowrap` e ganhou `right: 8px`, e o título agora termina em "…". No `pages/inicio.html`, o `<h2>` era fechado com `</p>` e foi corrigido. |
 
 ## Documentação
 
