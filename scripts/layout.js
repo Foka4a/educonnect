@@ -37,8 +37,10 @@ atualizarAria();
 // Menus suspensos (<details class="menu-suspenso">): só um aberto por vez;
 // clicar fora ou apertar Esc fecha.
 document.addEventListener('click', (evento) => {
+    // Escolher um item do menu também fecha o menu.
+    const escolheuItem = evento.target.closest('.menu-suspenso__item');
     document.querySelectorAll('.menu-suspenso[open]').forEach((menu) => {
-        if (!menu.contains(evento.target)) menu.open = false;
+        if (!menu.contains(evento.target) || escolheuItem) menu.open = false;
     });
     // Clicar no fundo escuro de um <dialog> fecha, como "Cancelar".
     if (evento.target instanceof HTMLDialogElement) evento.target.close();

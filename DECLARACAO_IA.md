@@ -21,6 +21,8 @@ A IA foi usada para:
 - refazer o modal "Personalizar aparência" (foto ou cor do cabeçalho do Mural) e ligá-lo ao lápis do Mural;
 - fazer o botão de informações do Mural mostrar os dados da turma, reaproveitando o componente de Configurações da turma;
 - ajustar a aba Mural ao mapa de telas (código da turma, próximas atividades, novo aviso e publicações com menu ⋮) e fazer suas ações funcionarem;
+- gerar uma imagem provisória (`img/placeholder.jpg`, já na proporção do banner) para ocupar o lugar das imagens reais;
+- definir a proporção do banner e do card da página inicial (`style/inicio.css`), com o banner fixo em 931,989:240 e o card quadrado;
 - resolver um conflito de merge do Git e consolidar o registro de prompts;
 - criar os modelos de modal em HTML com Bootstrap 5.3, seguindo o guia de estilos do grupo (pasta `modais/`).
 

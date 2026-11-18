@@ -266,7 +266,7 @@ button {
     margin: 0;
 }
 
-/* ---------- Abas da turma (Mural, Atividades, Pessoas, Notas) ---------- */
+/* ---------- Abas da turma (Mural, Atividades, Pessoas) ---------- */
 
 .abas-mural {
     display: flex;
@@ -452,6 +452,12 @@ button {
     border: 1px solid var(--cor-borda);
     border-radius: 8px;
     box-shadow: 0 4px 16px rgb(32 33 36 / 14%);
+}
+
+/* Menu do "+" da barra superior: fica no canto direito da tela, então abre para a esquerda. */
+.barra-superior__criar .menu-suspenso__lista {
+    right: 0;
+    min-width: 220px;
 }
 
 .menu-suspenso__item {

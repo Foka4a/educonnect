@@ -1,0 +1,17 @@
+/* Modal "Participar da turma" (modais/components/participar-turma.js). Base: .dialogo do style/layout.css. */
+
+.participar-turma .participar-turma__erro {
+    margin: 4px 0 0;
+    color: #c5221f;
+    font-size: 13px;
+}
+
+.participar-turma .dialogo__campo[aria-invalid="true"] {
+    border-color: #c5221f;
+}
+
+.participar-turma .botao-texto:disabled {
+    color: var(--cor-texto-suave);
+    background: none;
+    cursor: default;
+}

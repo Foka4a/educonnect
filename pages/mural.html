@@ -13,7 +13,11 @@
     <link rel="stylesheet" href="../modais/css/configuracoes-turma.css">
     <link rel="stylesheet" href="../modais/css/personalizar-aparencia.css">
     <link rel="stylesheet" href="../style/mural.css">
+    <link rel="stylesheet" href="../modais/css/criar-turma.css">
+    <link rel="stylesheet" href="../modais/css/participar-turma.css">
     <script src="../scripts/layout.js" defer></script>
+    <script src="../modais/components/criar-turma.js" defer></script>
+    <script src="../modais/components/participar-turma.js" defer></script>
     <script src="../modais/components/configuracoes-turma.js" defer></script>
     <script src="../modais/components/personalizar-aparencia.js" defer></script>
     <script src="../scripts/mural.js" defer></script>
@@ -33,9 +37,25 @@
         </div>
 
         <div class="barra-superior__acoes">
-            <button class="botao-icone" type="button" aria-label="Criar novo item" title="Criar novo item">
-                <span class="material-symbols-outlined" aria-hidden="true">add</span>
-            </button>
+            <details class="menu-suspenso barra-superior__criar">
+                <summary class="botao-icone" aria-label="Criar ou participar de turma" title="Criar ou participar de turma">
+                    <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                </summary>
+                <ul class="menu-suspenso__lista">
+                    <li>
+                        <button class="menu-suspenso__item" type="button" data-abrir="modal-participar-turma">
+                            <span class="material-symbols-outlined" aria-hidden="true">group_add</span>
+                            <span>Participar da turma</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="menu-suspenso__item" type="button" data-abrir="modal-criar-turma">
+                            <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                            <span>Criar turma</span>
+                        </button>
+                    </li>
+                </ul>
+            </details>
             <a class="perfil" href="cadastro.html" aria-label="Abrir perfil de Gabriel Pereira">GP</a>
         </div>
     </header>
@@ -67,7 +87,6 @@
             <a class="aba aba--ativa" href="mural.html" aria-current="page">Mural</a>
             <a class="aba" href="atividades.html">Atividades</a>
             <a class="aba" href="pessoas.html">Pessoas</a>
-            <a class="aba" href="notas.html">Notas</a>
             <button class="botao-icone abas-mural__config" type="button" data-abrir="modal-configuracoes-turma" aria-label="Configurações da turma" title="Configurações da turma">
                 <span class="material-symbols-outlined" aria-hidden="true">settings</span>
             </button>
@@ -196,6 +215,8 @@
             </div>
         </main>
     </div>
+    <edu-modal-criar-turma></edu-modal-criar-turma>
+    <edu-modal-participar-turma></edu-modal-participar-turma>
 
     <!-- Código da turma em tela cheia (botão do cartão "Código da turma") -->
     <dialog class="dialogo dialogo-codigo" id="dialogo-codigo" aria-labelledby="titulo-dialogo-codigo">

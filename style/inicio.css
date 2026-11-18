@@ -1,0 +1,104 @@
+.card {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.card .card-body {
+  overflow: hidden;
+}
+
+.card-banner {
+  aspect-ratio: 1860 / 480;
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0.5em 1em;
+  min-height: 0;
+}
+
+.perfil-card {
+  font-size: 1.5em;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  align-self: flex-end;
+  margin: -24px 16px -24px 0;
+  position: relative;
+  pointer-events: none;
+}
+
+.card h3 {
+  font-size: 24px;
+  margin: 0;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.card-banner p {
+  margin: 0;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-body {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex: 1;
+  min-height: 0;
+}
+
+.classroom-options {
+  position: relative;
+  z-index: 1;
+  justify-self: flex-end;
+}
+
+.cards-grid {
+  --gap-cards: 30px;
+  --min-card: 250px;
+  --max-card: 300px;
+  --max-colunas: 4;
+
+  /* largura de cada coluna quando há --max-colunas por linha */
+  --largura-com-max-colunas: calc(
+    (100% - (var(--max-colunas) - 1) * var(--gap-cards)) / var(--max-colunas)
+  );
+
+  /* nunca menor que --min-card nem que a largura com --max-colunas */
+  --coluna-min: max(var(--min-card), var(--largura-com-max-colunas));
+
+  width: 70%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--coluna-min), var(--max-card)));
+  gap: var(--gap-cards);
+}
+
+.conteudo-principal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.conteudo-principal h2 {
+  align-self: flex-start;
+  padding: 1em 15%;
+}

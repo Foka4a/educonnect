@@ -12,7 +12,13 @@
     <link rel="stylesheet" href="../style/layout.css">
     <link rel="stylesheet" href="../modais/css/configuracoes-turma.css">
     <link rel="stylesheet" href="../style/pessoas.css">
+    <link rel="stylesheet" href="../modais/css/criar-turma.css">
+    <link rel="stylesheet" href="../modais/css/participar-turma.css">
+    <link rel="stylesheet" href="../modais/css/promover-professor.css">
     <script src="../scripts/layout.js" defer></script>
+    <script src="../modais/components/criar-turma.js" defer></script>
+    <script src="../modais/components/participar-turma.js" defer></script>
+    <script src="../modais/components/promover-professor.js" defer></script>
     <script src="../modais/components/configuracoes-turma.js" defer></script>
     <script src="../scripts/pessoas.js" defer></script>
 </head>
@@ -32,9 +38,25 @@
         </div>
 
         <div class="barra-superior__acoes">
-            <button class="botao-icone" type="button" aria-label="Criar novo item" title="Criar novo item">
-                <span class="material-symbols-outlined" aria-hidden="true">add</span>
-            </button>
+            <details class="menu-suspenso barra-superior__criar">
+                <summary class="botao-icone" aria-label="Criar ou participar de turma" title="Criar ou participar de turma">
+                    <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                </summary>
+                <ul class="menu-suspenso__lista">
+                    <li>
+                        <button class="menu-suspenso__item" type="button" data-abrir="modal-participar-turma">
+                            <span class="material-symbols-outlined" aria-hidden="true">group_add</span>
+                            <span>Participar da turma</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="menu-suspenso__item" type="button" data-abrir="modal-criar-turma">
+                            <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                            <span>Criar turma</span>
+                        </button>
+                    </li>
+                </ul>
+            </details>
             <a class="perfil" href="cadastro.html" aria-label="Abrir perfil de Gabriel Pereira">GP</a>
         </div>
     </header>
@@ -66,7 +88,6 @@
             <a class="aba" href="mural.html">Mural</a>
             <a class="aba" href="atividades.html">Atividades</a>
             <a class="aba aba--ativa" href="pessoas.html" aria-current="page">Pessoas</a>
-            <a class="aba" href="notas.html">Notas</a>
             <!-- Só professor -->
             <button class="botao-icone abas-mural__config" type="button" data-abrir="modal-configuracoes-turma" aria-label="Configurações da turma" title="Configurações da turma">
                 <span class="material-symbols-outlined" aria-hidden="true">settings</span>
@@ -80,13 +101,8 @@
                 <section class="pessoas__secao" aria-labelledby="titulo-professores">
                     <header class="pessoas__cabecalho">
                         <h2 id="titulo-professores">Professores</h2>
-                        <!-- Só professor -->
-                        <button class="botao-icone pessoas__convidar" type="button" data-convidar="professor"
-                            aria-label="Convidar professor" title="Convidar professor">
-                            <span class="material-symbols-outlined" aria-hidden="true">person_add</span>
-                        </button>
                     </header>
-                    <ul class="lista-pessoas">
+                    <ul class="lista-pessoas" data-lista-professores>
                         <li class="pessoa">
                             <span class="pessoa__avatar" aria-hidden="true">G</span>
                             <span class="pessoa__nome">Gabriel Pereira</span>
@@ -102,11 +118,6 @@
                     <header class="pessoas__cabecalho">
                         <h2 id="titulo-estudantes">Estudantes</h2>
                         <p class="pessoas__contador" data-contador-estudantes>5 estudantes</p>
-                        <!-- Só professor -->
-                        <button class="botao-icone pessoas__convidar" type="button" data-convidar="estudantes"
-                            aria-label="Convidar estudantes" title="Convidar estudantes">
-                            <span class="material-symbols-outlined" aria-hidden="true">person_add</span>
-                        </button>
                     </header>
 
                     <ul class="lista-pessoas" data-lista-estudantes>
@@ -118,6 +129,7 @@
                                     <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
                                 </summary>
                                 <ul class="menu-suspenso__lista">
+                                    <li><button class="menu-suspenso__item" type="button" data-promover>Promover a professor</button></li>
                                     <li><button class="menu-suspenso__item" type="button" data-remover>Remover da turma</button></li>
                                 </ul>
                             </details>
@@ -130,6 +142,7 @@
                                     <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
                                 </summary>
                                 <ul class="menu-suspenso__lista">
+                                    <li><button class="menu-suspenso__item" type="button" data-promover>Promover a professor</button></li>
                                     <li><button class="menu-suspenso__item" type="button" data-remover>Remover da turma</button></li>
                                 </ul>
                             </details>
@@ -142,6 +155,7 @@
                                     <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
                                 </summary>
                                 <ul class="menu-suspenso__lista">
+                                    <li><button class="menu-suspenso__item" type="button" data-promover>Promover a professor</button></li>
                                     <li><button class="menu-suspenso__item" type="button" data-remover>Remover da turma</button></li>
                                 </ul>
                             </details>
@@ -154,6 +168,7 @@
                                     <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
                                 </summary>
                                 <ul class="menu-suspenso__lista">
+                                    <li><button class="menu-suspenso__item" type="button" data-promover>Promover a professor</button></li>
                                     <li><button class="menu-suspenso__item" type="button" data-remover>Remover da turma</button></li>
                                 </ul>
                             </details>
@@ -166,6 +181,7 @@
                                     <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
                                 </summary>
                                 <ul class="menu-suspenso__lista">
+                                    <li><button class="menu-suspenso__item" type="button" data-promover>Promover a professor</button></li>
                                     <li><button class="menu-suspenso__item" type="button" data-remover>Remover da turma</button></li>
                                 </ul>
                             </details>
@@ -176,26 +192,11 @@
                     <div class="pessoas__vazio" data-vazio-estudantes hidden>
                         <span class="material-symbols-outlined" aria-hidden="true">group_add</span>
                         <p>Adicione estudantes a essa turma</p>
-                        <button class="botao-texto" type="button" data-convidar="estudantes">Convidar estudantes</button>
                     </div>
                 </section>
             </div>
         </main>
     </div>
-
-    <!-- Convidar professor / estudantes: campo de e-mail (+ código da turma para estudantes) -->
-    <dialog class="dialogo" id="dialogo-convidar" aria-labelledby="titulo-convidar">
-        <form method="dialog">
-            <h2 class="dialogo__titulo" id="titulo-convidar">Convidar <span data-convidar-tipo>estudantes</span></h2>
-            <label class="dialogo__rotulo" for="convite-email">E-mail</label>
-            <input class="dialogo__campo" id="convite-email" name="email" type="email" placeholder="nome@escola.com" required>
-            <p class="dialogo__codigo" data-codigo-turma>Ou compartilhe o código da turma: <strong>t7hz2z4m</strong></p>
-            <div class="dialogo__acoes">
-                <button class="botao-texto" type="submit" value="cancelar" formnovalidate>Cancelar</button>
-                <button class="botao-texto" type="submit" value="convidar">Convidar</button>
-            </div>
-        </form>
-    </dialog>
 
     <!-- Confirmação do "Remover da turma" do menu ⋮ -->
     <dialog class="dialogo" id="dialogo-remover" aria-labelledby="titulo-remover" aria-describedby="descricao-remover">
@@ -213,6 +214,9 @@
     </dialog>
 
     <p class="aviso" role="status" data-aviso></p>
+    <edu-modal-criar-turma></edu-modal-criar-turma>
+    <edu-modal-participar-turma></edu-modal-participar-turma>
+    <edu-modal-promover-professor></edu-modal-promover-professor>
 
     <!-- Configurações da turma (engrenagem das abas) -->
     <edu-modal-configuracoes-turma nome="Matemática" materia="Matemática"></edu-modal-configuracoes-turma>
