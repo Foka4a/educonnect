@@ -1,191 +1,381 @@
+/* Aba Mural (mapa de telas): banner da turma, coluna com código e próximas atividades, e o feed de publicações. */
 .mural {
-    width: min(100%, 1120px);
+    width: min(100%, 1000px);
     margin: 0 auto;
 }
 
+/* ---------- Banner ---------- */
+
 .mural-cabecalho {
     display: flex;
-    min-height: 252px;
+    min-height: 240px;
     align-items: flex-end;
     justify-content: space-between;
     gap: 24px;
-    padding: 32px 36px;
-    color: #fff;
+    padding: 28px 32px;
+    color: #ffffff;
     background: linear-gradient(135deg, #155b93 0%, #1769aa 100%);
     border-radius: 12px;
-    box-shadow: 0 3px 8px rgb(60 64 67 / 15%);
 }
 
-.mural-cabecalho__eyebrow {
-    margin: 0 0 14px;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+.mural-cabecalho__conteudo {
+    min-width: 0;
 }
 
 .mural-cabecalho h1 {
     margin: 0;
-    font-family: 'Google Sans', 'Segoe UI', sans-serif;
-    font-size: clamp(32px, 5vw, 52px);
+    font-size: clamp(28px, 4.5vw, 40px);
     font-weight: 500;
-    line-height: 1.08;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
 }
 
 .mural-cabecalho__professor {
-    margin: 12px 0 0;
-    color: #fff;
+    margin: 8px 0 0;
     font-size: 15px;
 }
 
 .mural-cabecalho__acoes {
     display: flex;
-    align-items: center;
+    flex-shrink: 0;
     gap: 8px;
 }
 
 .mural-cabecalho .botao-icone {
-    display: grid;
-    width: 42px;
-    height: 42px;
-    place-items: center;
-    padding: 0;
-    color: #fff;
-    background: rgb(255 255 255 / 14%);
-    border: 1px solid rgb(255 255 255 / 28%);
-    border-radius: 50%;
-    transition: background-color 160ms ease, transform 160ms ease;
+    color: #ffffff;
+    background: rgb(255 255 255 / 16%);
+    border: 1px solid rgb(255 255 255 / 32%);
 }
 
 .mural-cabecalho .botao-icone:hover {
-    background: rgb(255 255 255 / 26%);
-    transform: translateY(-1px);
+    background: rgb(255 255 255 / 28%);
 }
 
-.mural-cabecalho .botao-icone svg,
-.mural-aviso__icone svg {
-    width: 21px;
-    height: 21px;
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 1.8;
-}
+/* ---------- Corpo: coluna lateral + feed ---------- */
 
-.mural-conteudo {
-    padding: 32px 8px 0;
-}
-
-.mural-coluna {
-    width: min(100%, 760px);
-    margin: 0 auto;
-}
-
-.mural-aviso,
-.publicacao-compositor {
-    display: flex;
-    gap: 18px;
-    padding: 24px;
-    background: #fff;
-    border: 1px solid #dadce0;
-    border-radius: 10px;
-    box-shadow: 0 1px 2px rgb(60 64 67 / 8%);
-}
-
-.mural-aviso__icone {
+.mural-corpo {
     display: grid;
-    flex: 0 0 42px;
-    width: 42px;
-    height: 42px;
-    place-items: center;
-    color: #1967d2;
-    background: #e8f0fe;
-    border-radius: 50%;
+    grid-template-columns: 200px minmax(0, 1fr);
+    align-items: start;
+    gap: 24px;
+    margin-top: 24px;
 }
 
-.mural-aviso h2,
-.publicacao-compositor h2 {
+.mural-lateral {
+    display: grid;
+    gap: 16px;
+}
+
+.cartao-mural {
+    padding: 16px;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+}
+
+.cartao-mural h2 {
     margin: 0;
-    color: #3c4043;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.4;
-}
-
-.mural-aviso p,
-.publicacao-compositor p {
-    margin: 6px 0 0;
-    color: #5f6368;
     font-size: 14px;
-    line-height: 1.5;
+    font-weight: 600;
 }
 
-.publicacao-compositor {
-    align-items: flex-start;
-    margin-top: 16px;
+.cartao-mural__cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
 }
 
-.avatar {
-    display: grid;
-    flex: 0 0 42px;
-    width: 42px;
-    height: 42px;
-    place-items: center;
-    border-radius: 50%;
+.cartao-codigo__menu .menu-suspenso__lista {
+    right: 0;
+}
+
+.cartao-codigo__linha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.cartao-codigo__valor {
+    margin: 0;
+    color: #1967d2;
+    font-size: 22px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.cartao-proximas__lista {
+    margin: 12px 0;
+    padding: 0;
+    list-style: none;
+    font-size: 13px;
+}
+
+.cartao-proximas__lista a {
+    display: block;
+    color: var(--cor-texto);
+    text-decoration: none;
+}
+
+.cartao-proximas__lista a:hover {
+    text-decoration: underline;
+}
+
+.cartao-proximas__lista span {
+    color: var(--cor-texto-suave);
+    font-size: 12px;
+}
+
+.cartao-proximas__ver-tudo {
+    display: block;
+    width: fit-content;
+    margin-left: auto;
+    color: #1967d2;
     font-size: 13px;
     font-weight: 600;
 }
 
-.avatar--professor {
-    color: #fff;
-    background: #a9520d;
+/* ---------- Feed ---------- */
+
+.mural-feed__acoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
 }
 
-.botao-secundario {
-    margin-top: 18px;
-    padding: 10px 16px;
+.novo-aviso {
+    flex: 1;
+    min-width: 0;
+}
+
+.novo-aviso__botao {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 22px;
     color: #1967d2;
-    background: #fff;
-    border: 1px solid #dadce0;
-    border-radius: 4px;
-    font-size: 14px;
+    background: var(--cor-superficie);
+    border: 1px solid #1a73e8;
+    border-radius: 22px;
+    font-weight: 600;
+    list-style: none;
+    cursor: pointer;
+}
+
+.novo-aviso__botao::-webkit-details-marker {
+    display: none;
+}
+
+.novo-aviso__botao:hover {
+    background: #e8f0fe;
+}
+
+/* Aberto: o botão some e o editor ocupa a linha toda. */
+.novo-aviso[open] {
+    flex-basis: 100%;
+}
+
+.novo-aviso[open] .novo-aviso__botao {
+    display: none;
+}
+
+.novo-aviso__form {
+    padding: 16px;
+    background: var(--cor-superficie);
+    border: 1px solid #8ab4f8;
+    border-radius: 8px;
+}
+
+.novo-aviso__campo {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 6px;
+    font: inherit;
+    resize: vertical;
+}
+
+.novo-aviso__campo:focus {
+    border-color: #1a73e8;
+    outline: 3px solid rgb(26 115 232 / 18%);
+}
+
+.mural-feed__config {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 44px;
+    padding: 0 4px;
+    color: #1967d2;
+    background: none;
+    border: 0;
+    font-size: 13px;
     font-weight: 600;
 }
 
-.botao-secundario:hover {
-    background: #f1f3f4;
-    border-color: #c4c7c5;
+.mural-feed__config:hover {
+    text-decoration: underline;
+}
+
+.mural-feed__config .material-symbols-outlined {
+    font-size: 18px;
+}
+
+.lista-mural {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item-mural {
+    position: relative;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+}
+
+.item-mural__link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 72px;
+    /* espaço à direita para o botão ⋮, que fica fora do link */
+    padding: 12px 64px 12px 16px;
+    color: var(--cor-texto);
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+a.item-mural__link:hover {
+    background: var(--cor-hover);
+}
+
+.item-mural__icone {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    color: #ffffff;
+    background: #1a73e8;
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.item-mural--aviso .item-mural__icone {
+    background: #e8710a;
+}
+
+.item-mural__texto {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+    font-size: 14px;
+}
+
+.item-mural__texto time {
+    color: var(--cor-texto-suave);
+    font-size: 12px;
+}
+
+.item-mural__corpo {
+    margin-top: 6px;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.item-mural--aviso .item-mural__link {
+    align-items: flex-start;
+}
+
+.item-mural__menu {
+    position: absolute;
+    top: 16px;
+    right: 12px;
+}
+
+.item-mural__menu .menu-suspenso__lista {
+    right: 0;
+}
+
+/* ---------- Código em tela cheia ---------- */
+
+.dialogo-codigo {
+    width: min(640px, calc(100% - 32px));
+}
+
+.dialogo .dialogo-codigo__valor {
+    margin: 16px 0;
+    color: #1967d2;
+    font-size: clamp(40px, 12vw, 88px);
+    font-weight: 500;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- Celular (mapa mobile): uma coluna; código numa linha; sem "Próximas atividades". ---------- */
+
+@media (max-width: 800px) {
+    .mural-corpo {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        margin-top: 16px;
+    }
+
+    .cartao-codigo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 8px 8px 16px;
+    }
+
+    .cartao-codigo .cartao-mural__cabecalho {
+        display: contents;
+    }
+
+    .cartao-codigo h2 {
+        flex-shrink: 0;
+    }
+
+    .cartao-codigo__linha {
+        flex: 1;
+        order: 1;
+        min-width: 0;
+    }
+
+    .cartao-codigo__menu {
+        order: 2;
+    }
+
+    .cartao-codigo__valor {
+        font-size: 18px;
+        white-space: nowrap;
+    }
+
+    .cartao-proximas {
+        display: none;
+    }
 }
 
 @media (max-width: 640px) {
     .mural-cabecalho {
-        min-height: 220px;
-        padding: 24px;
+        min-height: 160px;
+        padding: 20px;
     }
 
-    .mural-conteudo {
-        padding: 24px 0 0;
-    }
-}
-
-@media (max-width: 440px) {
-    .mural-cabecalho {
-        min-height: 250px;
-        align-items: flex-start;
-        flex-direction: column;
-        justify-content: space-between;
+    .novo-aviso__botao {
+        justify-content: center;
+        width: 100%;
     }
 
-    .mural-cabecalho__acoes {
-        align-self: flex-end;
-    }
-
-    .mural-aviso,
-    .publicacao-compositor {
-        gap: 12px;
-        padding: 18px;
+    .mural-feed__config {
+        display: none;
     }
 }
-

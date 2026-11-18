@@ -20,6 +20,7 @@ A IA foi usada para:
 - criar o modal "Configurações da turma" como componente (`modais/components/configuracoes-turma.js`) e ligá-lo à engrenagem das abas das páginas da turma, com os dados salvos no navegador e aplicados em todas as páginas;
 - refazer o modal "Personalizar aparência" (foto ou cor do cabeçalho do Mural) e ligá-lo ao lápis do Mural;
 - fazer o botão de informações do Mural mostrar os dados da turma, reaproveitando o componente de Configurações da turma;
+- ajustar a aba Mural ao mapa de telas (código da turma, próximas atividades, novo aviso e publicações com menu ⋮) e fazer suas ações funcionarem;
 - resolver um conflito de merge do Git e consolidar o registro de prompts;
 - criar os modelos de modal em HTML com Bootstrap 5.3, seguindo o guia de estilos do grupo (pasta `modais/`).
 
