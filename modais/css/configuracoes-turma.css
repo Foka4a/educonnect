@@ -1,0 +1,119 @@
+/* <edu-modal-configuracoes-turma>: tela cheia como no mapa (barra com × título Salvar + cartão "Detalhes da turma"). */
+.config-turma {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    border-radius: 0;
+    background: var(--cor-fundo);
+}
+
+/* O formulário ocupa o diálogo todo: clique no "branco" não cai no <dialog>
+   (o layout.js fecharia sem perguntar sobre alterações não salvas). */
+.config-turma > .config-turma__form {
+    display: flow-root;
+    min-height: 100%;
+    padding: 0;
+}
+
+.config-turma__cabecalho {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: var(--altura-barra);
+    padding: 0 16px;
+    background: var(--cor-superficie);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.config-turma__cabecalho h2 {
+    flex: 1;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.config-turma__salvar {
+    min-height: 36px;
+    padding: 0 24px;
+    color: #ffffff;
+    background: #1a73e8;
+    border: 0;
+    border-radius: 18px;
+    font-weight: 600;
+}
+
+.config-turma__salvar:disabled {
+    color: #80868b;
+    background: #e8eaed;
+}
+
+.config-turma__cartao {
+    width: min(100% - 32px, 560px);
+    margin: 24px auto;
+    padding: 24px;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+}
+
+.config-turma__cartao h3 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.config-turma__cartao .dialogo__rotulo {
+    margin-top: 16px;
+}
+
+.config-turma__cartao textarea {
+    resize: vertical;
+}
+
+@media (max-width: 640px) {
+    .config-turma__longo {
+        display: none;
+    }
+
+    .config-turma__cabecalho {
+        padding: 0 8px;
+    }
+
+    .config-turma__cartao {
+        width: 100%;
+        margin: 0;
+        padding: 16px;
+        border: 0;
+        border-radius: 0;
+    }
+}
+
+/* "Informações da turma" (botão ⓘ do Mural): lista só de leitura. */
+.info-turma__lista {
+    display: grid;
+    gap: 12px;
+    margin: 8px 0 0;
+}
+
+.info-turma__lista dt {
+    color: var(--cor-texto-suave);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.info-turma__lista dd {
+    margin: 2px 0 0;
+    font-size: 15px;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.info-turma__lista .info-turma__vazio {
+    color: var(--cor-texto-suave);
+    font-style: italic;
+}

@@ -10,13 +10,17 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../style/layout.css">
+    <link rel="stylesheet" href="../modais/css/configuracoes-turma.css">
     <link rel="stylesheet" href="../style/atividades.css">
     <link rel="stylesheet" href="../modais/css/criar-turma.css">
     <link rel="stylesheet" href="../modais/css/participar-turma.css">
     <script src="../scripts/layout.js" defer></script>
     <script src="../modais/components/criar-turma.js" defer></script>
     <script src="../modais/components/participar-turma.js" defer></script>
+    <link rel="stylesheet" href="../style/subpagina-criar.css">
+    <script src="../modais/components/configuracoes-turma.js" defer></script>
     <script src="../scripts/atividades.js" defer></script>
+    <script src="../scripts/subpagina-criar.js" defer></script>
 </head>
 
 <body>
@@ -85,16 +89,16 @@
             <a class="aba aba--ativa" href="atividades.html" aria-current="page">Atividades</a>
             <a class="aba" href="pessoas.html">Pessoas</a>
             <!-- Só professor -->
-            <a class="botao-icone abas-mural__config" href="config-turma.html" aria-label="Configurações da turma" title="Configurações da turma">
+            <button class="botao-icone abas-mural__config" type="button" data-abrir="modal-configuracoes-turma" aria-label="Configurações da turma" title="Configurações da turma">
                 <span class="material-symbols-outlined" aria-hidden="true">settings</span>
-            </a>
+            </button>
         </nav>
 
         <main class="conteudo-principal">
             <div class="atividades">
                 <h1 class="visualmente-oculto">Atividades e materiais</h1>
 
-                <!-- Só professor: "+ Criar" abre Atividade (tela 10) ou Material (tela 11) -->
+                <!-- Só professor: "+ Criar" abre a subpágina de Atividade (tela 10) ou de Material (tela 11) -->
                 <details class="menu-suspenso atividades__criar">
                     <summary class="botao-criar">
                         <span class="material-symbols-outlined" aria-hidden="true">add</span>
@@ -102,16 +106,16 @@
                     </summary>
                     <ul class="menu-suspenso__lista">
                         <li>
-                            <a class="menu-suspenso__item" href="criar-atividade.html">
+                            <button class="menu-suspenso__item" type="button" data-abrir-subpagina="atividade">
                                 <span class="material-symbols-outlined" aria-hidden="true">assignment</span>
                                 <span>Atividade</span>
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a class="menu-suspenso__item" href="criar-material.html">
+                            <button class="menu-suspenso__item" type="button" data-abrir-subpagina="material">
                                 <span class="material-symbols-outlined" aria-hidden="true">book</span>
                                 <span>Material</span>
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </details>
@@ -166,7 +170,7 @@
                                         <dd>2</dd>
                                     </div>
                                 </dl>
-                                <a class="item-atividade__link" href="trabalho-estudantes.html">Ver instruções</a>
+                                <a class="item-atividade__link" href="instrucoes.html">Ver instruções</a>
                             </div>
                         </details>
                         <details class="menu-suspenso item-atividade__menu">
@@ -203,7 +207,7 @@
                                         <dd>3</dd>
                                     </div>
                                 </dl>
-                                <a class="item-atividade__link" href="trabalho-estudantes.html">Ver instruções</a>
+                                <a class="item-atividade__link" href="instrucoes.html">Ver instruções</a>
                             </div>
                         </details>
                         <details class="menu-suspenso item-atividade__menu">
@@ -221,6 +225,200 @@
             </div>
         </main>
     </div>
+
+    <!-- Só professor. Tela 10 do mapa: subpágina sobre Atividades. [×] cancela, [Atribuir] publica para a turma. -->
+    <dialog class="subpagina" id="subpagina-atividade" aria-labelledby="titulo-subpagina-atividade" data-tipo="atividade">
+        <header class="barra-superior">
+            <div class="barra-superior__marca">
+                <button class="botao-icone botao-fechar" type="button" aria-label="Cancelar e voltar para Atividades" title="Cancelar" data-cancelar>
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                </button>
+                <span class="formulario__icone material-symbols-outlined" aria-hidden="true">assignment</span>
+                <h2 class="formulario__titulo" id="titulo-subpagina-atividade">Atividade</h2>
+            </div>
+            <div class="barra-superior__acoes">
+                <button class="botao-postar" type="submit" form="form-atividade">Atribuir</button>
+            </div>
+        </header>
+
+        <div class="subpagina__corpo">
+            <div class="formulario formulario--atividade">
+                <!-- ponytail: trocar action/method pelo endpoint do back-end quando ele existir. -->
+                <form id="form-atividade" action="atividades.html" method="post" enctype="multipart/form-data" novalidate data-form>
+                    <section class="cartao cartao--dados" aria-label="Dados da atividade">
+                        <div class="campo">
+                            <label class="campo__rotulo" for="atividade-titulo">Título <span aria-hidden="true">*</span><span class="visualmente-oculto">(obrigatório)</span></label>
+                            <input class="campo__entrada" id="atividade-titulo" name="titulo" type="text" maxlength="120" required autocomplete="off" aria-describedby="atividade-erro-titulo">
+                            <p class="campo__erro" id="atividade-erro-titulo" role="alert" hidden>
+                                <span class="material-symbols-outlined" aria-hidden="true">error</span>
+                                <span>Informe o título da atividade.</span>
+                            </p>
+                        </div>
+                    <div class="campo">
+                        <span class="campo__rotulo" id="atividade-rotulo-descricao">Instruções (opcional)</span>
+                        <div class="editor">
+                            <div class="editor__texto" id="atividade-descricao" contenteditable="true" role="textbox" aria-multiline="true" aria-labelledby="atividade-rotulo-descricao" data-editor></div>
+                            <div class="editor__barra" role="toolbar" aria-label="Formatação do texto" aria-controls="atividade-descricao">
+                            <button class="editor__botao" type="button" data-comando="bold" aria-pressed="false" aria-label="Negrito" title="Negrito">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_bold</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="italic" aria-pressed="false" aria-label="Itálico" title="Itálico">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_italic</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="underline" aria-pressed="false" aria-label="Sublinhado" title="Sublinhado">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_underlined</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="insertUnorderedList" aria-pressed="false" aria-label="Lista com marcadores" title="Lista com marcadores">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_list_bulleted</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="removeFormat" aria-label="Limpar formatação" title="Limpar formatação">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_clear</span>
+                            </button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="descricao" data-descricao-html>
+                    </div>
+                    </section>
+                    <aside class="lateral" aria-labelledby="atividade-titulo-prazo">
+                        <h3 class="lateral__titulo" id="atividade-titulo-prazo">Data de entrega</h3>
+                        <select class="campo__selecao" name="prazo_tipo" aria-label="Data de entrega" data-prazo-tipo>
+                            <option value="sem" selected>Sem data de entrega</option>
+                            <option value="definir">Definir data e hora</option>
+                        </select>
+                        <div class="prazo" data-prazo hidden>
+                            <div class="campo">
+                                <label class="campo__rotulo" for="atividade-prazo-data">Data</label>
+                                <input class="campo__entrada" id="atividade-prazo-data" name="prazo_data" type="date" aria-describedby="atividade-erro-prazo">
+                                <p class="campo__erro" id="atividade-erro-prazo" role="alert" hidden>
+                                    <span class="material-symbols-outlined" aria-hidden="true">error</span>
+                                    <span>Informe a data de entrega.</span>
+                                </p>
+                            </div>
+                            <div class="campo">
+                                <label class="campo__rotulo" for="atividade-prazo-hora">Hora</label>
+                                <input class="campo__entrada" id="atividade-prazo-hora" name="prazo_hora" type="time" value="23:59">
+                            </div>
+                            <p class="prazo__ajuda">Entregas depois desse horário ficam como atrasadas.</p>
+                        </div>
+                    </aside>
+                    <section class="cartao cartao--anexar" aria-labelledby="atividade-titulo-anexar">
+                        <h3 class="cartao__titulo" id="atividade-titulo-anexar">Anexar</h3>
+                        <div class="upload">
+                            <button class="upload__botao" type="button" data-escolher-arquivo aria-describedby="atividade-ajuda-upload atividade-erro-upload">
+                                <span class="material-symbols-outlined" aria-hidden="true">upload</span>
+                                <span class="visualmente-oculto">Fazer upload de arquivo</span>
+                            </button>
+                            <p class="upload__legenda" aria-hidden="true">Fazer upload</p>
+                            <p class="upload__ajuda" id="atividade-ajuda-upload">Arquivos do computador, até 10 arquivos de 20 MB.</p>
+                            <input type="file" name="anexos[]" multiple hidden data-arquivos>
+                        </div>
+                        <p class="campo__erro" id="atividade-erro-upload" role="alert" hidden>
+                            <span class="material-symbols-outlined" aria-hidden="true">error</span>
+                            <span data-erro-upload></span>
+                        </p>
+                        <ul class="anexos" aria-label="Arquivos anexados" data-anexos></ul>
+                    </section>
+                </form>
+            </div>
+        </div>
+
+        <footer class="rodape">
+            <p>Clone educacional para fins educacionais - sem vínculo com o Google. Dados fictícios.</p>
+        </footer>
+    </dialog>
+
+    <!-- Só professor. Tela 11 do mapa: subpágina sobre Atividades. [×] cancela, [Postar] publica para a turma. -->
+    <dialog class="subpagina" id="subpagina-material" aria-labelledby="titulo-subpagina-material" data-tipo="material">
+        <header class="barra-superior">
+            <div class="barra-superior__marca">
+                <button class="botao-icone botao-fechar" type="button" aria-label="Cancelar e voltar para Atividades" title="Cancelar" data-cancelar>
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                </button>
+                <span class="formulario__icone material-symbols-outlined" aria-hidden="true">book</span>
+                <h2 class="formulario__titulo" id="titulo-subpagina-material">Material</h2>
+            </div>
+            <div class="barra-superior__acoes">
+                <button class="botao-postar" type="submit" form="form-material">Postar</button>
+            </div>
+        </header>
+
+        <div class="subpagina__corpo">
+            <div class="formulario">
+                <!-- ponytail: trocar action/method pelo endpoint do back-end quando ele existir. -->
+                <form id="form-material" action="atividades.html" method="post" enctype="multipart/form-data" novalidate data-form>
+                    <section class="cartao cartao--dados" aria-label="Dados do material">
+                        <div class="campo">
+                            <label class="campo__rotulo" for="material-titulo">Título <span aria-hidden="true">*</span><span class="visualmente-oculto">(obrigatório)</span></label>
+                            <input class="campo__entrada" id="material-titulo" name="titulo" type="text" maxlength="120" required autocomplete="off" aria-describedby="material-erro-titulo">
+                            <p class="campo__erro" id="material-erro-titulo" role="alert" hidden>
+                                <span class="material-symbols-outlined" aria-hidden="true">error</span>
+                                <span>Informe o título do material.</span>
+                            </p>
+                        </div>
+                    <div class="campo">
+                        <span class="campo__rotulo" id="material-rotulo-descricao">Descrição (opcional)</span>
+                        <div class="editor">
+                            <div class="editor__texto" id="material-descricao" contenteditable="true" role="textbox" aria-multiline="true" aria-labelledby="material-rotulo-descricao" data-editor></div>
+                            <div class="editor__barra" role="toolbar" aria-label="Formatação do texto" aria-controls="material-descricao">
+                            <button class="editor__botao" type="button" data-comando="bold" aria-pressed="false" aria-label="Negrito" title="Negrito">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_bold</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="italic" aria-pressed="false" aria-label="Itálico" title="Itálico">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_italic</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="underline" aria-pressed="false" aria-label="Sublinhado" title="Sublinhado">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_underlined</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="insertUnorderedList" aria-pressed="false" aria-label="Lista com marcadores" title="Lista com marcadores">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_list_bulleted</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="removeFormat" aria-label="Limpar formatação" title="Limpar formatação">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_clear</span>
+                            </button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="descricao" data-descricao-html>
+                    </div>
+                    </section>
+
+                    <section class="cartao cartao--anexar" aria-labelledby="material-titulo-anexar">
+                        <h3 class="cartao__titulo" id="material-titulo-anexar">Anexar</h3>
+                        <div class="upload">
+                            <button class="upload__botao" type="button" data-escolher-arquivo aria-describedby="material-ajuda-upload material-erro-upload">
+                                <span class="material-symbols-outlined" aria-hidden="true">upload</span>
+                                <span class="visualmente-oculto">Fazer upload de arquivo</span>
+                            </button>
+                            <p class="upload__legenda" aria-hidden="true">Fazer upload</p>
+                            <p class="upload__ajuda" id="material-ajuda-upload">Arquivos do computador, até 10 arquivos de 20 MB.</p>
+                            <input type="file" name="anexos[]" multiple hidden data-arquivos>
+                        </div>
+                        <p class="campo__erro" id="material-erro-upload" role="alert" hidden>
+                            <span class="material-symbols-outlined" aria-hidden="true">error</span>
+                            <span data-erro-upload></span>
+                        </p>
+                        <ul class="anexos" aria-label="Arquivos anexados" data-anexos></ul>
+                    </section>
+                </form>
+            </div>
+        </div>
+
+        <footer class="rodape">
+            <p>Clone educacional para fins educacionais - sem vínculo com o Google. Dados fictícios.</p>
+        </footer>
+    </dialog>
+
+    <!-- Cancelar uma subpágina com conteúdo digitado -->
+    <dialog class="dialogo" id="dialogo-descartar" aria-labelledby="titulo-descartar">
+        <form method="dialog">
+            <h2 class="dialogo__titulo" id="titulo-descartar">Descartar <span data-descartar-tipo>atividade</span>?</h2>
+            <p>O que você escreveu e os arquivos anexados serão perdidos.</p>
+            <div class="dialogo__acoes">
+                <button class="botao-texto" type="submit" value="continuar">Continuar editando</button>
+                <button class="botao-texto botao-texto--perigo" type="submit" value="descartar">Descartar</button>
+            </div>
+        </form>
+    </dialog>
+
     <!-- confirmação para excluir -->
     <dialog class="dialogo" id="dialogo-excluir" aria-labelledby="titulo-excluir" aria-describedby="descricao-excluir">
         <form method="dialog">
@@ -239,6 +437,9 @@
     <p class="aviso" role="status" data-aviso></p>
     <edu-modal-criar-turma></edu-modal-criar-turma>
     <edu-modal-participar-turma></edu-modal-participar-turma>
+
+    <!-- Configurações da turma (engrenagem das abas) -->
+    <edu-modal-configuracoes-turma nome="Matemática" materia="Matemática"></edu-modal-configuracoes-turma>
 </body>
 
 </html>

@@ -15,7 +15,12 @@ A IA foi usada para:
 - ajustar o layout base (cabeçalho, menu lateral responsivo e rodapé) e o JavaScript do menu, reutilizados pelas páginas;
 - montar a aba Atividades conforme o mapa de telas (lista expansível, menu "+ Criar", menu ⋮ e confirmação de exclusão) e revisar os modais da pasta `modais/`;
 - montar a aba Pessoas conforme o mapa de telas (professores, estudantes, convite e remoção da turma), com o CSS e o JavaScript próprios;
-- criar os modais como componentes (Web Components com Bootstrap 5.3), seguindo o guia de estilos e os wireframes do mapa de telas do grupo, em versão desktop e mobile, mais três modais extras derivados das funcionalidades do projeto (pasta `modais/`);
+- criar os modais como componentes (Web Components com Bootstrap 5.3), seguindo o guia de estilos e os wireframes do mapa de telas do grupo, em versão desktop e mobile, mais 15 modais derivados das funcionalidades do projeto (criar, editar, excluir, enviar trabalho), na pasta `modais/`;
+- criar as subpáginas "Criar atividade" e "Criar material" (telas 10 e 11 do mapa), em tela cheia dentro da página Atividades, com CSS e JS próprios (`style/subpagina-criar.css`, `scripts/subpagina-criar.js`), seguindo o padrão do front-end;
+- criar o modal "Configurações da turma" como componente (`modais/components/configuracoes-turma.js`) e ligá-lo à engrenagem das abas das páginas da turma, com os dados salvos no navegador e aplicados em todas as páginas;
+- refazer o modal "Personalizar aparência" (foto ou cor do cabeçalho do Mural) e ligá-lo ao lápis do Mural;
+- fazer o botão de informações do Mural mostrar os dados da turma, reaproveitando o componente de Configurações da turma;
+- ajustar a aba Mural ao mapa de telas (código da turma, próximas atividades, novo aviso e publicações com menu ⋮) e fazer suas ações funcionarem;
 - gerar uma imagem provisória (`img/placeholder.jpg`, já na proporção do banner) para ocupar o lugar das imagens reais;
 - definir a proporção do banner e do card da página inicial (`style/inicio.css`), com o banner fixo em 931,989:240 e o card quadrado;
 - resolver um conflito de merge do Git e consolidar o registro de prompts;

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduConnect | Trabalhos dos estudantes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../style/layout.css">
+    <link rel="stylesheet" href="../modais/css/configuracoes-turma.css">
+    <link rel="stylesheet" href="../style/trabalho-estudantes.css">
+    <script src="../scripts/layout.js" defer></script>
+    <script src="../modais/components/configuracoes-turma.js" defer></script>
+    <script src="../scripts/trabalho-estudantes.js" defer></script>
+</head>
+
+<body>
+    <header class="barra-superior">
+        <div class="barra-superior__marca">
+            <button class="botao-icone" type="button" aria-label="Abrir menu de navegação" aria-controls="menu-lateral"
+                aria-expanded="true" data-menu-toggle>
+                <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+            </button>
+            <a class="marca" href="inicio.html" aria-label="EduConnect, página inicial">
+                <img src="../img/icon.svg" alt="Logo do EduConnect">
+                <span>EduConnect</span>
+            </a>
+            <p class="trilha"><span class="trilha__separador" aria-hidden="true">›</span><span class="trilha__nome">Matemática</span></p>
+        </div>
+
+        <div class="barra-superior__acoes">
+            <button class="botao-icone" type="button" aria-label="Criar novo item" title="Criar novo item">
+                <span class="material-symbols-outlined" aria-hidden="true">add</span>
+            </button>
+            <a class="perfil" href="cadastro.html" aria-label="Abrir perfil de Gabriel Pereira">GP</a>
+        </div>
+    </header>
+
+    <div class="estrutura-aplicacao">
+        <aside class="menu-lateral" id="menu-lateral" aria-label="Navegação principal">
+            <nav>
+                <a class="menu-link" href="inicio.html">
+                    <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                    <span>Início</span>
+                </a>
+                <details class="menu-grupo" open>
+                    <summary class="menu-link menu-grupo__titulo">
+                        <span class="material-symbols-outlined" aria-hidden="true">school</span>
+                        <span>Turmas</span>
+                        <span class="material-symbols-outlined menu-grupo__seta" aria-hidden="true">expand_more</span>
+                    </summary>
+                    <div class="menu-grupo__itens">
+                        <a class="menu-link menu-link--subitem menu-link--ativo" href="mural.html" aria-current="true">
+                            <span class="material-symbols-outlined" aria-hidden="true">class</span>
+                            <span>Matemática</span>
+                        </a>
+                    </div>
+                </details>
+            </nav>
+        </aside>
+
+        <!-- Abas da atividade (mapa, tela "Trabalhos dos estudantes") -->
+        <nav class="abas-mural" aria-label="Seções da atividade">
+            <a class="aba" href="instrucoes.html">Instruções</a>
+            <a class="aba aba--ativa" href="trabalho-estudantes.html" aria-current="page">Trabalhos dos estudantes</a>
+            <button class="botao-icone abas-mural__config" type="button" data-abrir="modal-configuracoes-turma" aria-label="Configurações da turma" title="Configurações da turma">
+                <span class="material-symbols-outlined" aria-hidden="true">settings</span>
+            </button>
+        </nav>
+
+        <main class="conteudo-principal notas">
+            <section class="notas__resumo" aria-labelledby="titulo-atividade">
+                <h1 id="titulo-atividade">Lista de exercícios 1</h1>
+                <div class="notas__contadores">
+                    <button class="contador" type="button" data-filtrar="entregues">
+                        <span class="contador__numero">1</span>
+                        <span class="contador__rotulo">Entregue</span>
+                    </button>
+                    <button class="contador" type="button" data-filtrar="pendentes">
+                        <span class="contador__numero">2</span>
+                        <span class="contador__rotulo">Pendentes</span>
+                    </button>
+                </div>
+                <label class="aceita-envios">
+                    <input type="checkbox" role="switch" checked>
+                    <span>Aceita envios</span>
+                    <span class="material-symbols-outlined" aria-hidden="true" title="Liga/desliga novas entregas dos estudantes">info</span>
+                </label>
+                <p class="notas__dica">Clique em um estudante da lista para ver o trabalho entregue, dar nota e comentar.</p>
+            </section>
+
+            <section class="notas__lista" aria-label="Estudantes">
+                <label class="visualmente-oculto" for="filtro-entrega">Filtrar estudantes</label>
+                <select class="notas__filtro" id="filtro-entrega">
+                    <option value="todos">Filtrar: Todos</option>
+                    <option value="entregues">Filtrar: Entregues</option>
+                    <option value="pendentes">Filtrar: Pendentes</option>
+                </select>
+
+                <section class="grupo-estudantes" data-grupo="entregues" aria-labelledby="titulo-entregues">
+                    <h2 id="titulo-entregues">Entregues (1)</h2>
+                    <ul class="lista-estudantes">
+                        <li class="estudante" data-nome="João Silva" data-arquivo="resposta.pdf" data-entregue-em="17/11, 22:06">
+                            <input class="estudante__selecao" type="checkbox" aria-label="Selecionar João Silva">
+                            <button class="estudante__abrir" type="button" data-abrir-entrega>
+                                <span class="estudante__avatar" aria-hidden="true">J</span>
+                                <span class="estudante__texto">
+                                    <span class="estudante__nome">João Silva</span>
+                                    <span class="estudante__previa" data-previa>"segue a lista"</span>
+                                </span>
+                            </button>
+                            <span class="estudante__nota">
+                                <input class="campo-nota" type="number" min="0" max="100" inputmode="numeric" placeholder="__" aria-label="Nota de João Silva, de 0 a 100" data-nota>
+                                <span aria-hidden="true">/100</span>
+                            </span>
+                            <ul hidden data-comentarios>
+                                <li><strong>João Silva</strong> • 22:06<p>segue a lista</p></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="grupo-estudantes" data-grupo="pendentes" aria-labelledby="titulo-pendentes">
+                    <h2 id="titulo-pendentes">Pendentes (2)</h2>
+                    <ul class="lista-estudantes">
+                        <li class="estudante">
+                            <input class="estudante__selecao" type="checkbox" aria-label="Selecionar Maria Costa">
+                            <span class="estudante__abrir">
+                                <span class="estudante__avatar" aria-hidden="true">M</span>
+                                <span class="estudante__nome">Maria Costa</span>
+                            </span>
+                            <span class="estudante__status">Pendente</span>
+                        </li>
+                        <li class="estudante">
+                            <input class="estudante__selecao" type="checkbox" aria-label="Selecionar Pedro Lima">
+                            <span class="estudante__abrir">
+                                <span class="estudante__avatar" aria-hidden="true">P</span>
+                                <span class="estudante__nome">Pedro Lima</span>
+                            </span>
+                            <span class="estudante__status">Pendente</span>
+                        </li>
+                    </ul>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal "Entrega do aluno": abre ao clicar num estudante que entregou -->
+    <dialog class="dialogo dialogo--entrega" id="dialogo-entrega" aria-labelledby="entrega-nome">
+        <div class="entrega">
+            <header class="entrega__cabecalho">
+                <div>
+                    <h2 class="dialogo__titulo" id="entrega-nome"></h2>
+                    <details class="entrega__historico">
+                        <summary>Entregue <span>(Ver histórico)</span></summary>
+                        <p>Entregue em <span data-entregue-em></span></p>
+                    </details>
+                </div>
+                <label class="entrega__nota">
+                    Nota:
+                    <input class="campo-nota" type="number" min="0" max="100" inputmode="numeric" placeholder="__" data-nota-modal>
+                    /100
+                </label>
+                <form method="dialog">
+                    <button class="botao-icone" type="submit" aria-label="Fechar e voltar para a lista">
+                        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                    </button>
+                </form>
+            </header>
+
+            <!-- ponytail: sem back-end, o link do arquivo ainda não aponta para um arquivo real -->
+            <a class="arquivo-entregue" href="#" data-arquivo>
+                <span>
+                    <strong data-arquivo-nome></strong>
+                    <span>PDF</span>
+                </span>
+                <span class="arquivo-entregue__miniatura" aria-hidden="true">
+                    <span class="material-symbols-outlined">description</span>
+                </span>
+            </a>
+
+            <section class="comentarios" aria-labelledby="comentarios-titulo">
+                <h3 id="comentarios-titulo">
+                    <span class="material-symbols-outlined" aria-hidden="true">person</span>
+                    <span data-comentarios-total></span>
+                </h3>
+                <ul class="comentarios__lista" data-comentarios-modal></ul>
+                <form class="comentarios__form" data-form-comentario>
+                    <label class="visualmente-oculto" for="novo-comentario">Adicionar comentário particular</label>
+                    <input class="comentarios__campo" id="novo-comentario" name="comentario" placeholder="Adicionar comentário particular..." required autocomplete="off">
+                    <button class="botao-icone" type="submit" aria-label="Enviar comentário">
+                        <span class="material-symbols-outlined" aria-hidden="true">send</span>
+                    </button>
+                </form>
+            </section>
+        </div>
+    </dialog>
+
+    <!-- Configurações da turma (engrenagem das abas) -->
+    <edu-modal-configuracoes-turma nome="Matemática" materia="Matemática"></edu-modal-configuracoes-turma>
+</body>
+
+</html>

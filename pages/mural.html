@@ -10,12 +10,17 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../style/layout.css">
+    <link rel="stylesheet" href="../modais/css/configuracoes-turma.css">
+    <link rel="stylesheet" href="../modais/css/personalizar-aparencia.css">
     <link rel="stylesheet" href="../style/mural.css">
     <link rel="stylesheet" href="../modais/css/criar-turma.css">
     <link rel="stylesheet" href="../modais/css/participar-turma.css">
     <script src="../scripts/layout.js" defer></script>
     <script src="../modais/components/criar-turma.js" defer></script>
     <script src="../modais/components/participar-turma.js" defer></script>
+    <script src="../modais/components/configuracoes-turma.js" defer></script>
+    <script src="../modais/components/personalizar-aparencia.js" defer></script>
+    <script src="../scripts/mural.js" defer></script>
 </head>
 <body>
     <header class="barra-superior">
@@ -78,67 +83,172 @@
             </nav>
         </aside>
 
-        <nav class="abas-mural abas-mural--mobile" aria-label="Seções da turma">
+        <nav class="abas-mural" aria-label="Seções da turma">
             <a class="aba aba--ativa" href="mural.html" aria-current="page">Mural</a>
             <a class="aba" href="atividades.html">Atividades</a>
             <a class="aba" href="pessoas.html">Pessoas</a>
-            <a class="botao-icone abas-mural__config" href="config-turma.html" aria-label="Configurações da turma" title="Configurações da turma">
+            <button class="botao-icone abas-mural__config" type="button" data-abrir="modal-configuracoes-turma" aria-label="Configurações da turma" title="Configurações da turma">
                 <span class="material-symbols-outlined" aria-hidden="true">settings</span>
-            </a>
+            </button>
         </nav>
-        
+
         <main class="conteudo-principal">
             <div class="mural">
                 <section class="mural-cabecalho" aria-labelledby="titulo-disciplina">
                     <div class="mural-cabecalho__conteudo">
-                        <p class="mural-cabecalho__eyebrow">Turma ativa</p>
                         <h1 id="titulo-disciplina">Matemática</h1>
                         <p class="mural-cabecalho__professor">Prof. Gabriel Somariva</p>
                     </div>
 
                     <div class="mural-cabecalho__acoes" aria-label="Ações da turma">
-                        <button class="botao-icone" type="button" aria-label="Editar informações da turma" title="Editar turma">
-                            <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
-                                <path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17v3Zm10.5-12.5 2 2" />
-                            </svg>
+                        <!-- Só professor -->
+                        <button class="botao-icone" type="button" data-abrir="modal-personalizar-aparencia" aria-label="Personalizar aparência" title="Personalizar aparência">
+                            <span class="material-symbols-outlined" aria-hidden="true">edit</span>
                         </button>
-                        <button class="botao-icone" type="button" aria-label="Ver informações da turma" title="Informações da turma">
-                            <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
-                                <circle cx="12" cy="12" r="9" />
-                                <path d="M12 10.5v5M12 7.5h.01" />
-                            </svg>
+                        <button class="botao-icone" type="button" data-abrir="modal-informacoes-turma" aria-label="Ver informações da turma" title="Informações da turma">
+                            <span class="material-symbols-outlined" aria-hidden="true">info</span>
                         </button>
                     </div>
                 </section>
-                <section class="mural-conteudo" aria-labelledby="titulo-mural">
-                    <div class="mural-coluna">
-                        <div class="mural-aviso" role="status">
-                            <div class="mural-aviso__icone" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" focusable="false">
-                                    <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4h0A2.5 2.5 0 0 1 4 13.5v-8Z" />
-                                    <path d="M8 8h8M8 11h5" />
-                                </svg>
+
+                <div class="mural-corpo">
+                    <aside class="mural-lateral" aria-label="Resumo da turma">
+                        <section class="cartao-mural cartao-codigo" aria-labelledby="titulo-codigo">
+                            <header class="cartao-mural__cabecalho">
+                                <h2 id="titulo-codigo">Código da turma</h2>
+                                <!-- Só professor -->
+                                <details class="menu-suspenso cartao-codigo__menu">
+                                    <summary class="botao-icone" aria-label="Opções do código da turma" title="Mais opções">
+                                        <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+                                    </summary>
+                                    <ul class="menu-suspenso__lista">
+                                        <li><button class="menu-suspenso__item" type="button" data-copiar-codigo>Copiar código</button></li>
+                                        <li><button class="menu-suspenso__item" type="button" data-redefinir-codigo>Redefinir código</button></li>
+                                    </ul>
+                                </details>
+                            </header>
+                            <div class="cartao-codigo__linha">
+                                <p class="cartao-codigo__valor" data-codigo>t7hz2z4m</p>
+                                <button class="botao-icone" type="button" data-codigo-tela-cheia aria-label="Mostrar código em tela cheia" title="Mostrar em tela cheia">
+                                    <span class="material-symbols-outlined" aria-hidden="true">fullscreen</span>
+                                </button>
                             </div>
-                            <div>
-                                <h2 id="titulo-mural">Mural da turma</h2>
-                                <p>As novidades, avisos e materiais da turma aparecerão aqui.</p>
-                            </div>
+                        </section>
+
+                        <section class="cartao-mural cartao-proximas" aria-labelledby="titulo-proximas">
+                            <h2 id="titulo-proximas">Próximas atividades</h2>
+                            <ul class="cartao-proximas__lista">
+                                <li>
+                                    <a href="instrucoes.html">Lista de exercícios 1</a>
+                                    <span>Entrega: 20/11</span>
+                                </li>
+                            </ul>
+                            <a class="cartao-proximas__ver-tudo" href="atividades.html">Ver tudo</a>
+                        </section>
+                    </aside>
+
+                    <section class="mural-feed" aria-labelledby="titulo-feed">
+                        <h2 class="visualmente-oculto" id="titulo-feed">Publicações da turma</h2>
+
+                        <div class="mural-feed__acoes">
+                            <!-- Só professor -->
+                            <details class="novo-aviso">
+                                <summary class="novo-aviso__botao">
+                                    <span class="material-symbols-outlined" aria-hidden="true">edit</span>
+                                    Novo aviso
+                                </summary>
+                                <form class="novo-aviso__form" data-form-aviso>
+                                    <label class="visualmente-oculto" for="texto-aviso">Texto do aviso</label>
+                                    <textarea class="novo-aviso__campo" id="texto-aviso" name="texto" rows="4" placeholder="Escreva um aviso para a turma" required></textarea>
+                                    <div class="dialogo__acoes">
+                                        <button class="botao-texto" type="button" data-cancelar-aviso>Cancelar</button>
+                                        <button class="botao-texto" type="submit">Postar</button>
+                                    </div>
+                                </form>
+                            </details>
+                            <button class="mural-feed__config" type="button" data-abrir="modal-configuracoes-turma">
+                                <span class="material-symbols-outlined" aria-hidden="true">settings</span>
+                                Configurações do mural
+                            </button>
                         </div>
 
-                        <article class="publicacao-compositor" aria-labelledby="titulo-publicacao">
-                            <div class="avatar avatar--professor" aria-hidden="true">GS</div>
-                            <div>
-                                <h2 id="titulo-publicacao">Compartilhe algo com a turma</h2>
-                                <p>Crie um aviso ou publique um material para seus alunos.</p>
-                                <button class="botao-secundario" type="button">Criar publicação</button>
-                            </div>
-                        </article>
-                    </div>
-                </section>
+                        <ul class="lista-mural" data-feed>
+                            <li class="item-mural" data-titulo="Aviso de prova">
+                                <a class="item-mural__link" href="atividades.html#material-aviso-prova">
+                                    <span class="item-mural__icone material-symbols-outlined" aria-hidden="true">book</span>
+                                    <span class="item-mural__texto">
+                                        <span>Prof. Gabriel Somariva postou um novo material: Aviso de prova</span>
+                                        <time datetime="2026-11-03">03/11</time>
+                                    </span>
+                                </a>
+                                <details class="menu-suspenso item-mural__menu">
+                                    <summary class="botao-icone" aria-label="Mais opções para Aviso de prova" title="Mais opções">
+                                        <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+                                    </summary>
+                                    <ul class="menu-suspenso__lista">
+                                        <li><a class="menu-suspenso__item" href="criar-material.html">Editar</a></li>
+                                        <li><button class="menu-suspenso__item" type="button" data-excluir-item>Excluir</button></li>
+                                    </ul>
+                                </details>
+                            </li>
+                            <li class="item-mural" data-titulo="Lista de exercícios 1">
+                                <a class="item-mural__link" href="instrucoes.html">
+                                    <span class="item-mural__icone material-symbols-outlined" aria-hidden="true">assignment</span>
+                                    <span class="item-mural__texto">
+                                        <span>Prof. Gabriel Somariva postou uma nova atividade: Lista de exercícios 1</span>
+                                        <time datetime="2026-11-01">01/11</time>
+                                    </span>
+                                </a>
+                                <details class="menu-suspenso item-mural__menu">
+                                    <summary class="botao-icone" aria-label="Mais opções para Lista de exercícios 1" title="Mais opções">
+                                        <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+                                    </summary>
+                                    <ul class="menu-suspenso__lista">
+                                        <li><a class="menu-suspenso__item" href="criar-atividade.html">Editar</a></li>
+                                        <li><button class="menu-suspenso__item" type="button" data-excluir-item>Excluir</button></li>
+                                    </ul>
+                                </details>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
             </div>
         </main>
     </div>
     <edu-modal-criar-turma></edu-modal-criar-turma>
     <edu-modal-participar-turma></edu-modal-participar-turma>
+
+    <!-- Código da turma em tela cheia (botão do cartão "Código da turma") -->
+    <dialog class="dialogo dialogo-codigo" id="dialogo-codigo" aria-labelledby="titulo-dialogo-codigo">
+        <form method="dialog">
+            <h2 class="dialogo__titulo" id="titulo-dialogo-codigo">Código da turma</h2>
+            <p class="dialogo-codigo__valor" data-codigo>t7hz2z4m</p>
+            <div class="dialogo__acoes">
+                <button class="botao-texto" type="button" data-copiar-codigo>Copiar</button>
+                <button class="botao-texto" type="submit">Fechar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- Confirmação do "Excluir" do menu ⋮ das publicações -->
+    <dialog class="dialogo" id="dialogo-excluir-publicacao" aria-labelledby="titulo-excluir-publicacao">
+        <form method="dialog">
+            <h2 class="dialogo__titulo" id="titulo-excluir-publicacao">Excluir publicação?</h2>
+            <p><strong data-excluir-titulo></strong></p>
+            <p>A publicação sai do mural da turma.</p>
+            <div class="dialogo__acoes">
+                <button class="botao-texto" type="submit" value="cancelar">Cancelar</button>
+                <button class="botao-texto botao-texto--perigo" type="submit" value="excluir">Excluir</button>
+            </div>
+        </form>
+    </dialog>
+
+    <p class="aviso" role="status" data-aviso></p>
+
+    <!-- Configurações da turma (engrenagem das abas) -->
+    <edu-modal-configuracoes-turma nome="Matemática" materia="Matemática" codigo="t7hz2z4m"></edu-modal-configuracoes-turma>
+
+    <!-- Personalizar aparência (lápis do cabeçalho do Mural) -->
+    <edu-modal-personalizar-aparencia></edu-modal-personalizar-aparencia>
 </body>
 </html>
