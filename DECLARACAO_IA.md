@@ -25,9 +25,10 @@ A IA foi usada para:
 - definir a proporção do banner e do card da página inicial (`style/inicio.css`), com o banner fixo em 931,989:240 e o card quadrado;
 - ajustar a responsividade e o posicionamento dos cards da página inicial pelo mapa de telas (3 colunas no desktop, 1 no celular, compatível com telas de 300 px);
 - criar a opção de tema claro/escuro (`scripts/tema.js`), salva no navegador e aplicada a todas as páginas internas;
-- resolver um conflito de merge do Git e consolidar o registro de prompts;
+- resolver conflitos de merge do Git (inclusive o da `main` com a branch do back-end, adaptando os caminhos para `frontend/` e `backend/`) e consolidar o registro de prompts;
 - criar os modelos de modal em HTML com Bootstrap 5.3, seguindo o guia de estilos do grupo (pasta `modais/`);
-- reorganizar o projeto em `frontend/` e `backend/`, corrigindo o redirecionamento raiz e preparando a estrutura inicial da API PHP.
+- reorganizar o projeto em `frontend/` e `backend/`, corrigindo o redirecionamento raiz e preparando a estrutura inicial da API PHP;
+- desenvolver o back-end em PHP (`backend/`): banco de dados, conta de usuário, regras de permissão e uma rota para cada modal, com testes automatizados feitos pela IA.
 
 <!-- Atualize esta lista conforme a IA for usada em outras partes (HTML, CSS, JS, conteúdo, correção de bugs). -->
 

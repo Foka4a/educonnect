@@ -7,7 +7,7 @@
     config() {
       var trecho = this.attr('trecho', '');
       return {
-        id: 'modal-excluir-comentario', titulo: 'Excluir comentário?', campo: 'comentario_id', valor: this.attr('comentario-id', ''),
+        rota: '/excluir-comentario', id: 'modal-excluir-comentario', titulo: 'Excluir comentário?', campo: 'comentario_id', valor: this.attr('comentario-id', ''),
         ok: 'Excluir', perigo: true,
         corpo: (trecho ? '<blockquote class="trecho-comentario">' + this.esc(trecho) + '</blockquote>' : '') +
                '<p class="mb-0">Esta ação não pode ser desfeita.</p>'

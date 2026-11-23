@@ -7,7 +7,7 @@
    Anexos: só upload de arquivos (até 10 arquivos de 20 MB). Ao editar, os anexos atuais aparecem
    com uma caixa "Remover" (campo remover_anexos[]). Valide tamanho e tipo também no servidor.
 
-   Atributos dos componentes: action, titulo, descricao, anexos-atuais (nomes separados por |),
+   Atributos dos componentes: action (padrão: rota do back-end), turma-id (só criar), titulo, descricao, anexos-atuais (nomes separados por |),
      entrega (só atividade; formato 2026-11-20T23:59), atividade-id / material-id (só editar).
    Mobile (< 576 px): tela cheia com [×] título [Publicar/Salvar]. */
 (function () {
@@ -38,8 +38,8 @@
       return `
 <div class="modal fade" id="${id}" tabindex="-1" aria-labelledby="titulo-${id}" aria-hidden="true">
   <div class="modal-dialog dialogo-largo modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
-    <form class="modal-content" ${this.formAttrs()} enctype="multipart/form-data" novalidate>
-      ${edit ? `<input type="hidden" name="${nomeTipo}_id" value="${this.esc(this.attr(nomeTipo + '-id', ''))}">` : ''}
+    <form class="modal-content" ${this.formAttrs('/' + modo + '-' + nomeTipo)} enctype="multipart/form-data" novalidate>
+      ${edit ? `<input type="hidden" name="${nomeTipo}_id" value="${this.esc(this.attr(nomeTipo + '-id', ''))}">` : this.campoTurma()}
       <header class="modal-header cab-criar">
         <button type="button" class="btn btn-redondo d-sm-none" data-bs-dismiss="modal" aria-label="Fechar sem salvar">${this.icone('fechar')}</button>
         <h2 class="modal-title" id="titulo-${id}">${titulo}</h2>

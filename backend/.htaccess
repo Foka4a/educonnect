@@ -1,0 +1,5 @@
+# Apache/XAMPP: só index.php pode ser chamado direto. config, lib, acoes e storage (banco e uploads) ficam bloqueados.
+Require all denied
+<Files "index.php">
+    Require all granted
+</Files>

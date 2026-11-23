@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="../style/acesso.css">
+    <script src="../scripts/backend.js" defer></script>
 </head>
 <body>
     <main>
@@ -17,7 +18,7 @@
                 <h1 id="titulo-acesso">Criar conta</h1>
             </header>
 
-            <form method="post" novalidate>
+            <form method="post" action="../../backend/index.php/cadastro" novalidate>
                 <label for="nome">Nome completo</label>
                 <input type="text" id="nome" name="nome" autocomplete="name" required>
 

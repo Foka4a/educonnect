@@ -21,10 +21,6 @@
     alerta: '<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.5"/>'
   };
 
-   Atributos aceitos por todos:  action="url"  (destino do formulário, método POST) */
-(function () {
-  'use strict';
-
   class EduModal extends HTMLElement {
     connectedCallback() {
       if (this._pronto) return;
@@ -44,10 +40,17 @@
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
       });
     }
-    /* atributos do <form>: method="post" e, se houver, o action */
-    formAttrs() {
+    /* atributos do <form>: method="post" e o action.
+       Sem o atributo action no componente, vale a rota do back-end (backend/index.php/<rota>).
+       Para outro caminho: window.EDUCONNECT_BACKEND = '/meu/caminho/backend/index.php' antes de carregar os componentes. */
+    formAttrs(rota) {
       var a = this.getAttribute('action');
+      if (!a && rota) a = (window.EDUCONNECT_BACKEND || '../../backend/index.php') + rota;
       return 'method="post"' + (a ? ' action="' + this.esc(a) + '"' : '');
+    }
+    /* <input hidden> com a turma da página (atributo turma-id do componente) */
+    campoTurma() {
+      return '<input type="hidden" name="turma_id" value="' + this.esc(this.attr('turma-id', '')) + '">';
     }
     /* <svg> decorativo */
     icone(nome) {
@@ -60,7 +63,6 @@
     render() { return ''; }
     /* gancho para ligar eventos do próprio componente depois de montar o HTML */
     depoisDeRenderizar() {}
-    render() { return ''; }
   }
 
   window.EduModal = EduModal;
