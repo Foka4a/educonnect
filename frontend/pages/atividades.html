@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduConnect | Atividades</title>
+    <script src="../scripts/tema.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../style/layout.css">
+    <link rel="stylesheet" href="../modais/css/configuracoes-turma.css">
+    <link rel="stylesheet" href="../style/atividades.css">
+    <link rel="stylesheet" href="../modais/css/criar-turma.css">
+    <link rel="stylesheet" href="../modais/css/participar-turma.css">
+    <script src="../scripts/layout.js" defer></script>
+    <script src="../modais/components/criar-turma.js" defer></script>
+    <script src="../modais/components/participar-turma.js" defer></script>
+    <link rel="stylesheet" href="../style/subpagina-criar.css">
+    <script src="../modais/components/configuracoes-turma.js" defer></script>
+    <script src="../scripts/atividades.js" defer></script>
+    <script src="../scripts/subpagina-criar.js" defer></script>
+</head>
+
+<body>
+    <header class="barra-superior">
+        <div class="barra-superior__marca">
+            <button class="botao-icone" type="button" aria-label="Abrir menu de navegação" aria-controls="menu-lateral"
+                aria-expanded="true" data-menu-toggle>
+                <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+            </button>
+            <a class="marca" href="index.html" aria-label="EduConnect, página inicial">
+                <img src="../img/icon.svg" alt="Logo do EduConnect">
+                <span>EduConnect</span>
+            </a>
+            <p class="trilha"><span class="trilha__separador" aria-hidden="true">›</span><span class="trilha__nome">Matemática</span></p>
+        </div>
+
+        <div class="barra-superior__acoes">
+            <details class="menu-suspenso barra-superior__criar">
+                <summary class="botao-icone" aria-label="Criar ou participar de turma" title="Criar ou participar de turma">
+                    <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                </summary>
+                <ul class="menu-suspenso__lista">
+                    <li>
+                        <button class="menu-suspenso__item" type="button" data-abrir="modal-participar-turma">
+                            <span class="material-symbols-outlined" aria-hidden="true">group_add</span>
+                            <span>Participar da turma</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="menu-suspenso__item" type="button" data-abrir="modal-criar-turma">
+                            <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                            <span>Criar turma</span>
+                        </button>
+                    </li>
+                </ul>
+            </details>
+            <a class="perfil" href="cadastro.html" aria-label="Abrir perfil de Gabriel Pereira">GP</a>
+        </div>
+    </header>
+
+    <div class="estrutura-aplicacao">
+        <aside class="menu-lateral" id="menu-lateral" aria-label="Navegação principal">
+            <nav>
+                <a class="menu-link" href="index.html">
+                    <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                    <span>Início</span>
+                </a>
+                <details class="menu-grupo" open>
+                    <summary class="menu-link menu-grupo__titulo">
+                        <span class="material-symbols-outlined" aria-hidden="true">school</span>
+                        <span>Turmas</span>
+                        <span class="material-symbols-outlined menu-grupo__seta" aria-hidden="true">expand_more</span>
+                    </summary>
+                    <div class="menu-grupo__itens">
+                        <a class="menu-link menu-link--subitem menu-link--ativo" href="mural.html" aria-current="true">
+                            <span class="material-symbols-outlined" aria-hidden="true">class</span>
+                            <span>Matemática</span>
+                        </a>
+                    </div>
+                </details>
+            </nav>
+        </aside>
+
+        <nav class="abas-mural" aria-label="Seções da turma">
+            <a class="aba" href="mural.html">Mural</a>
+            <a class="aba aba--ativa" href="atividades.html" aria-current="page">Atividades</a>
+            <a class="aba" href="pessoas.html">Pessoas</a>
+            <!-- Só professor -->
+            <button class="botao-icone abas-mural__config" type="button" data-abrir="modal-configuracoes-turma" aria-label="Configurações da turma" title="Configurações da turma">
+                <span class="material-symbols-outlined" aria-hidden="true">settings</span>
+            </button>
+        </nav>
+
+        <main class="conteudo-principal">
+            <div class="atividades">
+                <h1 class="visualmente-oculto">Atividades e materiais</h1>
+
+                <!-- Só professor: "+ Criar" abre a subpágina de Atividade (tela 10) ou de Material (tela 11) -->
+                <details class="menu-suspenso atividades__criar">
+                    <summary class="botao-criar">
+                        <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                        <span>Criar</span>
+                    </summary>
+                    <ul class="menu-suspenso__lista">
+                        <li>
+                            <button class="menu-suspenso__item" type="button" data-abrir-subpagina="atividade">
+                                <span class="material-symbols-outlined" aria-hidden="true">assignment</span>
+                                <span>Atividade</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="menu-suspenso__item" type="button" data-abrir-subpagina="material">
+                                <span class="material-symbols-outlined" aria-hidden="true">book</span>
+                                <span>Material</span>
+                            </button>
+                        </li>
+                    </ul>
+                </details>
+
+                <ul class="lista-atividades">
+                    <li class="item-atividade" id="material-aviso-prova" data-tipo="material" data-titulo="Aviso de prova">
+                        <details class="item-atividade__detalhes" name="item-atividade">
+                            <summary class="item-atividade__resumo">
+                                <span class="item-atividade__icone material-symbols-outlined" aria-hidden="true">book</span>
+                                <span class="item-atividade__titulo">Aviso de prova</span>
+                            </summary>
+                            <div class="item-atividade__conteudo">
+                                <div class="item-atividade__texto">
+                                    <p class="item-atividade__data">Publicado em 03/11/2026</p>
+                                    <p>A prova do 1º bimestre será no dia 27/11. Conteúdo: capítulos 1 a 3.</p>
+                                </div>
+                                <!-- Tela 12 (detalhe do material) ainda não tem página -->
+                                <a class="item-atividade__link" href="#">Ver material</a>
+                            </div>
+                        </details>
+                        <details class="menu-suspenso item-atividade__menu">
+                            <summary class="botao-icone" aria-label="Mais opções para Aviso de prova" title="Mais opções">
+                                <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+                            </summary>
+                            <ul class="menu-suspenso__lista">
+                                <li><a class="menu-suspenso__item" href="criar-material.html">Editar</a></li>
+                                <li><button class="menu-suspenso__item" type="button" data-acao="excluir">Excluir</button></li>
+                                <li><button class="menu-suspenso__item" type="button" data-acao="copiar-link">Copiar link</button></li>
+                            </ul>
+                        </details>
+                    </li>
+
+                    <li class="item-atividade" id="atividade-lista-1" data-tipo="atividade" data-titulo="Lista de exercícios 1">
+                        <details class="item-atividade__detalhes" name="item-atividade" open>
+                            <summary class="item-atividade__resumo">
+                                <span class="item-atividade__icone material-symbols-outlined" aria-hidden="true">assignment</span>
+                                <span class="item-atividade__titulo">Lista de exercícios 1</span>
+                                <span class="item-atividade__prazo">Entrega: 20/11</span>
+                            </summary>
+                            <div class="item-atividade__conteudo">
+                                <div class="item-atividade__texto">
+                                    <p class="item-atividade__data">Data de entrega: 20/11/2026</p>
+                                    <p>Resolver os exercícios do capítulo 3.</p>
+                                </div>
+                                <dl class="item-atividade__contadores">
+                                    <div>
+                                        <dt>Entregues</dt>
+                                        <dd>1</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Pendentes</dt>
+                                        <dd>2</dd>
+                                    </div>
+                                </dl>
+                                <a class="item-atividade__link" href="instrucoes.html">Ver instruções</a>
+                            </div>
+                        </details>
+                        <details class="menu-suspenso item-atividade__menu">
+                            <summary class="botao-icone" aria-label="Mais opções para Lista de exercícios 1" title="Mais opções">
+                                <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+                            </summary>
+                            <ul class="menu-suspenso__lista">
+                                <li><a class="menu-suspenso__item" href="criar-atividade.html">Editar</a></li>
+                                <li><button class="menu-suspenso__item" type="button" data-acao="excluir">Excluir</button></li>
+                                <li><button class="menu-suspenso__item" type="button" data-acao="copiar-link">Copiar link</button></li>
+                            </ul>
+                        </details>
+                    </li>
+
+                    <li class="item-atividade" id="atividade-trabalho-grupo-1" data-tipo="atividade" data-titulo="Trabalho em grupo – Parte 1">
+                        <details class="item-atividade__detalhes" name="item-atividade">
+                            <summary class="item-atividade__resumo">
+                                <span class="item-atividade__icone material-symbols-outlined" aria-hidden="true">assignment</span>
+                                <span class="item-atividade__titulo">Trabalho em grupo – Parte 1</span>
+                                <span class="item-atividade__prazo">Sem data de entrega</span>
+                            </summary>
+                            <div class="item-atividade__conteudo">
+                                <div class="item-atividade__texto">
+                                    <p class="item-atividade__data">Sem data de entrega</p>
+                                    <p>Em grupos de até 4 pessoas, montem o resumo do capítulo 4.</p>
+                                </div>
+                                <dl class="item-atividade__contadores">
+                                    <div>
+                                        <dt>Entregues</dt>
+                                        <dd>0</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Pendentes</dt>
+                                        <dd>3</dd>
+                                    </div>
+                                </dl>
+                                <a class="item-atividade__link" href="instrucoes.html">Ver instruções</a>
+                            </div>
+                        </details>
+                        <details class="menu-suspenso item-atividade__menu">
+                            <summary class="botao-icone" aria-label="Mais opções para Trabalho em grupo – Parte 1" title="Mais opções">
+                                <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
+                            </summary>
+                            <ul class="menu-suspenso__lista">
+                                <li><a class="menu-suspenso__item" href="criar-atividade.html">Editar</a></li>
+                                <li><button class="menu-suspenso__item" type="button" data-acao="excluir">Excluir</button></li>
+                                <li><button class="menu-suspenso__item" type="button" data-acao="copiar-link">Copiar link</button></li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <!-- Só professor. Tela 10 do mapa: subpágina sobre Atividades. [×] cancela, [Atribuir] publica para a turma. -->
+    <dialog class="subpagina" id="subpagina-atividade" aria-labelledby="titulo-subpagina-atividade" data-tipo="atividade">
+        <header class="barra-superior">
+            <div class="barra-superior__marca">
+                <button class="botao-icone botao-fechar" type="button" aria-label="Cancelar e voltar para Atividades" title="Cancelar" data-cancelar>
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                </button>
+                <span class="formulario__icone material-symbols-outlined" aria-hidden="true">assignment</span>
+                <h2 class="formulario__titulo" id="titulo-subpagina-atividade">Atividade</h2>
+            </div>
+            <div class="barra-superior__acoes">
+                <button class="botao-postar" type="submit" form="form-atividade">Atribuir</button>
+            </div>
+        </header>
+
+        <div class="subpagina__corpo">
+            <div class="formulario formulario--atividade">
+                <!-- ponytail: trocar action/method pelo endpoint do back-end quando ele existir. -->
+                <form id="form-atividade" action="atividades.html" method="post" enctype="multipart/form-data" novalidate data-form>
+                    <section class="cartao cartao--dados" aria-label="Dados da atividade">
+                        <div class="campo">
+                            <label class="campo__rotulo" for="atividade-titulo">Título <span aria-hidden="true">*</span><span class="visualmente-oculto">(obrigatório)</span></label>
+                            <input class="campo__entrada" id="atividade-titulo" name="titulo" type="text" maxlength="120" required autocomplete="off" aria-describedby="atividade-erro-titulo">
+                            <p class="campo__erro" id="atividade-erro-titulo" role="alert" hidden>
+                                <span class="material-symbols-outlined" aria-hidden="true">error</span>
+                                <span>Informe o título da atividade.</span>
+                            </p>
+                        </div>
+                    <div class="campo">
+                        <span class="campo__rotulo" id="atividade-rotulo-descricao">Instruções (opcional)</span>
+                        <div class="editor">
+                            <div class="editor__texto" id="atividade-descricao" contenteditable="true" role="textbox" aria-multiline="true" aria-labelledby="atividade-rotulo-descricao" data-editor></div>
+                            <div class="editor__barra" role="toolbar" aria-label="Formatação do texto" aria-controls="atividade-descricao">
+                            <button class="editor__botao" type="button" data-comando="bold" aria-pressed="false" aria-label="Negrito" title="Negrito">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_bold</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="italic" aria-pressed="false" aria-label="Itálico" title="Itálico">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_italic</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="underline" aria-pressed="false" aria-label="Sublinhado" title="Sublinhado">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_underlined</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="insertUnorderedList" aria-pressed="false" aria-label="Lista com marcadores" title="Lista com marcadores">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_list_bulleted</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="removeFormat" aria-label="Limpar formatação" title="Limpar formatação">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_clear</span>
+                            </button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="descricao" data-descricao-html>
+                    </div>
+                    </section>
+                    <aside class="lateral" aria-labelledby="atividade-titulo-prazo">
+                        <h3 class="lateral__titulo" id="atividade-titulo-prazo">Data de entrega</h3>
+                        <select class="campo__selecao" name="prazo_tipo" aria-label="Data de entrega" data-prazo-tipo>
+                            <option value="sem" selected>Sem data de entrega</option>
+                            <option value="definir">Definir data e hora</option>
+                        </select>
+                        <div class="prazo" data-prazo hidden>
+                            <div class="campo">
+                                <label class="campo__rotulo" for="atividade-prazo-data">Data</label>
+                                <input class="campo__entrada" id="atividade-prazo-data" name="prazo_data" type="date" aria-describedby="atividade-erro-prazo">
+                                <p class="campo__erro" id="atividade-erro-prazo" role="alert" hidden>
+                                    <span class="material-symbols-outlined" aria-hidden="true">error</span>
+                                    <span>Informe a data de entrega.</span>
+                                </p>
+                            </div>
+                            <div class="campo">
+                                <label class="campo__rotulo" for="atividade-prazo-hora">Hora</label>
+                                <input class="campo__entrada" id="atividade-prazo-hora" name="prazo_hora" type="time" value="23:59">
+                            </div>
+                            <p class="prazo__ajuda">Entregas depois desse horário ficam como atrasadas.</p>
+                        </div>
+                    </aside>
+                    <section class="cartao cartao--anexar" aria-labelledby="atividade-titulo-anexar">
+                        <h3 class="cartao__titulo" id="atividade-titulo-anexar">Anexar</h3>
+                        <div class="upload">
+                            <button class="upload__botao" type="button" data-escolher-arquivo aria-describedby="atividade-ajuda-upload atividade-erro-upload">
+                                <span class="material-symbols-outlined" aria-hidden="true">upload</span>
+                                <span class="visualmente-oculto">Fazer upload de arquivo</span>
+                            </button>
+                            <p class="upload__legenda" aria-hidden="true">Fazer upload</p>
+                            <p class="upload__ajuda" id="atividade-ajuda-upload">Arquivos do computador, até 10 arquivos de 20 MB.</p>
+                            <input type="file" name="anexos[]" multiple hidden data-arquivos>
+                        </div>
+                        <p class="campo__erro" id="atividade-erro-upload" role="alert" hidden>
+                            <span class="material-symbols-outlined" aria-hidden="true">error</span>
+                            <span data-erro-upload></span>
+                        </p>
+                        <ul class="anexos" aria-label="Arquivos anexados" data-anexos></ul>
+                    </section>
+                </form>
+            </div>
+        </div>
+
+        <footer class="rodape">
+            <p>Clone educacional para fins educacionais - sem vínculo com o Google. Dados fictícios.</p>
+        </footer>
+    </dialog>
+
+    <!-- Só professor. Tela 11 do mapa: subpágina sobre Atividades. [×] cancela, [Postar] publica para a turma. -->
+    <dialog class="subpagina" id="subpagina-material" aria-labelledby="titulo-subpagina-material" data-tipo="material">
+        <header class="barra-superior">
+            <div class="barra-superior__marca">
+                <button class="botao-icone botao-fechar" type="button" aria-label="Cancelar e voltar para Atividades" title="Cancelar" data-cancelar>
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                </button>
+                <span class="formulario__icone material-symbols-outlined" aria-hidden="true">book</span>
+                <h2 class="formulario__titulo" id="titulo-subpagina-material">Material</h2>
+            </div>
+            <div class="barra-superior__acoes">
+                <button class="botao-postar" type="submit" form="form-material">Postar</button>
+            </div>
+        </header>
+
+        <div class="subpagina__corpo">
+            <div class="formulario">
+                <!-- ponytail: trocar action/method pelo endpoint do back-end quando ele existir. -->
+                <form id="form-material" action="atividades.html" method="post" enctype="multipart/form-data" novalidate data-form>
+                    <section class="cartao cartao--dados" aria-label="Dados do material">
+                        <div class="campo">
+                            <label class="campo__rotulo" for="material-titulo">Título <span aria-hidden="true">*</span><span class="visualmente-oculto">(obrigatório)</span></label>
+                            <input class="campo__entrada" id="material-titulo" name="titulo" type="text" maxlength="120" required autocomplete="off" aria-describedby="material-erro-titulo">
+                            <p class="campo__erro" id="material-erro-titulo" role="alert" hidden>
+                                <span class="material-symbols-outlined" aria-hidden="true">error</span>
+                                <span>Informe o título do material.</span>
+                            </p>
+                        </div>
+                    <div class="campo">
+                        <span class="campo__rotulo" id="material-rotulo-descricao">Descrição (opcional)</span>
+                        <div class="editor">
+                            <div class="editor__texto" id="material-descricao" contenteditable="true" role="textbox" aria-multiline="true" aria-labelledby="material-rotulo-descricao" data-editor></div>
+                            <div class="editor__barra" role="toolbar" aria-label="Formatação do texto" aria-controls="material-descricao">
+                            <button class="editor__botao" type="button" data-comando="bold" aria-pressed="false" aria-label="Negrito" title="Negrito">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_bold</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="italic" aria-pressed="false" aria-label="Itálico" title="Itálico">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_italic</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="underline" aria-pressed="false" aria-label="Sublinhado" title="Sublinhado">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_underlined</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="insertUnorderedList" aria-pressed="false" aria-label="Lista com marcadores" title="Lista com marcadores">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_list_bulleted</span>
+                            </button>
+                            <button class="editor__botao" type="button" data-comando="removeFormat" aria-label="Limpar formatação" title="Limpar formatação">
+                                <span class="material-symbols-outlined" aria-hidden="true">format_clear</span>
+                            </button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="descricao" data-descricao-html>
+                    </div>
+                    </section>
+
+                    <section class="cartao cartao--anexar" aria-labelledby="material-titulo-anexar">
+                        <h3 class="cartao__titulo" id="material-titulo-anexar">Anexar</h3>
+                        <div class="upload">
+                            <button class="upload__botao" type="button" data-escolher-arquivo aria-describedby="material-ajuda-upload material-erro-upload">
+                                <span class="material-symbols-outlined" aria-hidden="true">upload</span>
+                                <span class="visualmente-oculto">Fazer upload de arquivo</span>
+                            </button>
+                            <p class="upload__legenda" aria-hidden="true">Fazer upload</p>
+                            <p class="upload__ajuda" id="material-ajuda-upload">Arquivos do computador, até 10 arquivos de 20 MB.</p>
+                            <input type="file" name="anexos[]" multiple hidden data-arquivos>
+                        </div>
+                        <p class="campo__erro" id="material-erro-upload" role="alert" hidden>
+                            <span class="material-symbols-outlined" aria-hidden="true">error</span>
+                            <span data-erro-upload></span>
+                        </p>
+                        <ul class="anexos" aria-label="Arquivos anexados" data-anexos></ul>
+                    </section>
+                </form>
+            </div>
+        </div>
+
+        <footer class="rodape">
+            <p>Clone educacional para fins educacionais - sem vínculo com o Google. Dados fictícios.</p>
+        </footer>
+    </dialog>
+
+    <!-- Cancelar uma subpágina com conteúdo digitado -->
+    <dialog class="dialogo" id="dialogo-descartar" aria-labelledby="titulo-descartar">
+        <form method="dialog">
+            <h2 class="dialogo__titulo" id="titulo-descartar">Descartar <span data-descartar-tipo>atividade</span>?</h2>
+            <p>O que você escreveu e os arquivos anexados serão perdidos.</p>
+            <div class="dialogo__acoes">
+                <button class="botao-texto" type="submit" value="continuar">Continuar editando</button>
+                <button class="botao-texto botao-texto--perigo" type="submit" value="descartar">Descartar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- confirmação para excluir -->
+    <dialog class="dialogo" id="dialogo-excluir" aria-labelledby="titulo-excluir" aria-describedby="descricao-excluir">
+        <form method="dialog">
+            <h2 class="dialogo__titulo" id="titulo-excluir">Excluir <span data-excluir-tipo>atividade</span>?</h2>
+            <div id="descricao-excluir">
+                <p><strong data-excluir-titulo></strong></p>
+                <p>As entregas, as notas e os comentários também serão excluídos. Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="dialogo__acoes">
+                <button class="botao-texto" type="submit" value="cancelar">Cancelar</button>
+                <button class="botao-texto botao-texto--perigo" type="submit" value="excluir">Excluir</button>
+            </div>
+        </form>
+    </dialog>
+
+    <p class="aviso" role="status" data-aviso></p>
+    <edu-modal-criar-turma></edu-modal-criar-turma>
+    <edu-modal-participar-turma></edu-modal-participar-turma>
+
+    <!-- Configurações da turma (engrenagem das abas) -->
+    <edu-modal-configuracoes-turma nome="Matemática" materia="Matemática"></edu-modal-configuracoes-turma>
+</body>
+
+</html>

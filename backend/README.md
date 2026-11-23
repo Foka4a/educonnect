@@ -6,11 +6,21 @@ Chamadas por `fetch()` (cabeçalho `X-Requested-With: fetch`) recebem JSON: `{"o
 
 ## Como rodar
 
-1. **Servidor do PHP** (na pasta do projeto): `php -S localhost:8000 backend/servidor-dev.php` e abra `http://localhost:8000/pages/login.html`.
+1. **Servidor do PHP** (na raiz do projeto): `php -S localhost:8000 backend/servidor-dev.php` e abra `http://localhost:8000/frontend/pages/login.html`.
    O `servidor-dev.php` bloqueia o acesso direto a `config`, `lib`, `acoes` e `storage` (o servidor embutido não lê `.htaccess`).
-2. **XAMPP/Apache**: coloque o projeto em `htdocs`. O `backend/.htaccess` já bloqueia tudo, menos o `index.php`.
+2. **XAMPP/Apache**: coloque o projeto em `htdocs` (ex.: `http://localhost/educonnect/frontend/pages/login.html`). O `backend/.htaccess` já bloqueia tudo, menos o `index.php`.
 3. **Banco**: por padrão é SQLite (arquivo em `backend/storage/`, criado sozinho, nada para instalar). Para MySQL, edite `backend/config.php`
    (`dsn`, `usuario`, `senha`) e crie o banco vazio `educonnect`; as tabelas são criadas na primeira chamada.
+
+## Onde fica cada coisa
+
+O projeto está dividido em `frontend/` (páginas, modais, estilos) e `backend/`. Os formulários do front-end enviam para
+`../../backend/index.php/<rota>` (a partir de `frontend/pages/` e `frontend/modais/`). Para mudar o caminho, defina
+`window.EDUCONNECT_BACKEND = '/caminho/backend/index.php'` antes de carregar os componentes.
+
+`backend/public/`, `backend/src/` e `backend/config/` são o esqueleto de API do grupo (JSON + MySQL, ainda vazio) e **não são usados**
+por estas rotas. As rotas daqui ficam em `backend/index.php`, `lib/` e `acoes/`. Antes de seguir, o grupo precisa escolher um caminho
+(ver "Ainda não existe").
 
 ## Rotas
 
@@ -45,5 +55,7 @@ Chamadas por `fetch()` (cabeçalho `X-Requested-With: fetch`) recebem JSON: `{"o
 
 ## Ainda não existe
 
+- **Decisão do grupo:** a `main` tem o esqueleto de uma API JSON (`backend/public`, `src`, `config`, `.env.example` com `JWT_SECRET`). Este back-end usa formulários e sessão. É preciso escolher um dos dois (ou migrar as regras de `acoes/` para a API).
+- Os modais Criar turma, Participar, Personalizar aparência e Promover a professor foram reescritos pelo grupo (sem Bootstrap) e hoje só postam para o `action` que a página passar; os campos deles (`foto`, `cor`, `pessoa_nome`) ainda não batem com as rotas daqui (`imagem`, `pessoa_id` + `turma_id`).
 - As páginas continuam estáticas (`.html`): para listar turmas, atividades e pessoas vindas do banco falta uma leitura (páginas em PHP ou rotas GET em JSON).
 - Envio de e-mail dos convites (o convite é só registrado) e limite de tentativas de login.

@@ -1,0 +1,621 @@
+/* Layout base: barra superior + menu lateral + rodapé. Reutilizado por todas as páginas internas. */
+:root {
+    --cor-texto: #202124;
+    --cor-texto-suave: #5f6368;
+    --cor-borda: #dadce0;
+    --cor-superficie: #ffffff;
+    --cor-fundo: #f8fafd;
+    --cor-hover: #f1f3f4;
+    --cor-destaque: #e8f0fe;
+    --cor-destaque-texto: #174ea6;
+    --altura-barra: 64px;
+    --largura-menu: 256px;
+    --largura-menu-recolhido: 72px;
+}
+
+:root {
+    scrollbar-gutter: auto;
+    /* O Bootstrap 6 usa "light dark": sem isto, com o sistema em modo escuro, <dialog>, campos
+       e barras de rolagem ficariam escuros mesmo no tema claro. O tema é escolhido em scripts/tema.js. */
+    color-scheme: light;
+}
+
+/* Tema escuro: scripts/tema.js põe data-bs-theme="dark" no <html> (o Bootstrap usa o mesmo atributo). */
+[data-bs-theme="dark"] {
+    --cor-texto: #e8eaed;
+    --cor-texto-suave: #9aa0a6;
+    --cor-borda: #3c4043;
+    --cor-superficie: #202124;
+    --cor-fundo: #171717;
+    --cor-hover: #303134;
+    --cor-destaque: #283142;
+    --cor-destaque-texto: #8ab4f8;
+    color-scheme: dark;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 300px;
+    min-height: 100vh;
+    margin: 0;
+    color: var(--cor-texto);
+    background: var(--cor-fundo);
+    font-family: "Google Sans", sans-serif;
+}
+
+button,
+a {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+:focus-visible {
+    outline: 3px solid rgb(26 115 232 / 35%);
+    outline-offset: 2px;
+}
+
+.material-symbols-outlined {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 24px;
+    overflow: hidden;
+    font-family: "Material Symbols Outlined", sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* ---------- Barra superior ---------- */
+
+.barra-superior {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    height: var(--altura-barra);
+    padding: 0 16px;
+    background: var(--cor-superficie);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.barra-superior__marca,
+.barra-superior__acoes,
+.marca {
+    display: flex;
+    align-items: center;
+}
+
+.barra-superior__marca {
+    gap: 8px;
+    min-width: 0;
+}
+
+.barra-superior__acoes {
+    flex-shrink: 0;
+    gap: 12px;
+}
+
+.marca {
+    flex-shrink: 0;
+    gap: 10px;
+    color: var(--cor-texto);
+    font-size: 22px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.marca img {
+    width: 34px;
+    height: 34px;
+}
+
+/* Trilha opcional: "EduConnect › Nome da turma" */
+.trilha {
+    display: flex;
+    gap: 8px;
+    min-width: 0;
+    margin: 0;
+    color: var(--cor-texto);
+    font-size: 20px;
+}
+
+.trilha__nome,
+.menu-link span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.trilha__separador {
+    color: var(--cor-texto-suave);
+}
+
+.botao-icone {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    color: var(--cor-texto-suave);
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+}
+
+.botao-icone:hover {
+    background: var(--cor-hover);
+}
+
+.perfil {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: #ffffff;
+    background: #3c4043;
+    border-radius: 50%;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.estrutura-aplicacao {
+    display: grid;
+    grid-template-columns: var(--largura-menu) minmax(0, 1fr);
+    /* 1ª linha: barra opcional da página (ex.: abas do mural), só a altura dela.
+       2ª linha: o <main>, que ocupa o resto da tela. */
+    grid-template-rows: auto 1fr;
+    min-height: calc(100vh - var(--altura-barra));
+    transition: grid-template-columns 180ms ease;
+}
+
+.menu-lateral {
+    grid-row: 1 / -1;
+    position: sticky;
+    top: var(--altura-barra);
+    height: calc(100vh - var(--altura-barra));
+    padding: 16px 12px 16px 0;
+    overflow: hidden auto;
+    background: var(--cor-superficie);
+    border-right: 1px solid var(--cor-borda);
+}
+
+.menu-lateral nav,
+.menu-grupo,
+.menu-grupo__itens {
+    display: grid;
+    gap: 4px;
+}
+
+.menu-grupo__titulo {
+    list-style: none;
+}
+
+.menu-grupo__titulo::-webkit-details-marker {
+    display: none;
+}
+
+.menu-grupo__seta {
+    width: 20px;
+    margin-left: auto;
+    font-size: 20px;
+    transition: transform 140ms ease;
+}
+
+.menu-grupo:not([open]) .menu-grupo__seta {
+    transform: rotate(-90deg);
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 48px;
+    padding: 0 20px 0 24px;
+    color: var(--cor-texto-suave);
+    border-radius: 0 0px 0px 0;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 140ms ease, color 140ms ease;
+}
+
+.menu-link:hover {
+    color: var(--cor-texto);
+    background: var(--cor-hover);
+}
+
+.menu-link--subitem {
+    min-height: 44px;
+    padding-left: 40px;
+}
+
+.menu-link--ativo {
+    color: var(--cor-destaque-texto);
+    background: var(--cor-destaque);
+    font-weight: 600;
+}
+
+.conteudo-principal {
+    min-width: 0;
+    padding: 28px clamp(16px, 4vw, 48px);
+}
+
+.conteudo-principal__placeholder {
+    display: grid;
+    place-items: center;
+    min-height: 260px;
+    color: var(--cor-texto-suave);
+    text-align: center;
+}
+
+.conteudo-principal__placeholder .material-symbols-outlined {
+    width: 48px;
+    color: #8ab4f8;
+    font-size: 48px;
+}
+
+.rodape {
+    padding: 12px 16px;
+    color: var(--cor-texto-suave);
+    border-top: 1px solid var(--cor-borda);
+    font-size: 12px;
+    text-align: center;
+}
+
+.rodape p {
+    margin: 0;
+}
+
+/* ---------- Abas da turma (Mural, Atividades, Pessoas) ---------- */
+
+.abas-mural {
+    display: flex;
+    gap: 8px;
+    min-height: 64px;
+    align-items: stretch;
+    padding: 0 12px;
+    background: var(--cor-superficie);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.aba {
+    display: inline-flex;
+    min-width: 92px;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 16px 0;
+    color: var(--cor-texto-suave);
+    border-bottom: 3px solid transparent;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 160ms ease, border-color 160ms ease;
+}
+
+.aba:hover,
+.aba--ativa {
+    color: #1967d2;
+    border-bottom-color: #1a73e8;
+}
+
+.abas-mural__config {
+    align-self: center;
+    margin-left: auto;
+}
+
+@media (min-width: 641px) {
+    .menu-recolhido .estrutura-aplicacao {
+        grid-template-columns: var(--largura-menu-recolhido) minmax(0, 1fr);
+    }
+
+    .menu-recolhido .menu-link {
+        justify-content: center;
+        padding: 0;
+        margin-left: 12px;
+        border-radius: 24px;
+    }
+
+    .menu-recolhido .menu-link span:not(.material-symbols-outlined) {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+    }
+
+    .menu-recolhido .menu-grupo__seta {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    :root {
+        --altura-barra: 56px;
+    }
+
+    .barra-superior {
+        padding: 0 8px;
+    }
+
+    .marca {
+        flex-shrink: 1;
+        min-width: 0;
+        font-size: 18px;
+    }
+
+    /* Telas de ~300px: o nome encolhe com reticências em vez de empurrar o "+" e o perfil para fora. */
+    .marca span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .marca img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .barra-superior__marca:has(.trilha) .marca,
+    .trilha__separador {
+        display: none;
+    }
+
+    .trilha {
+        font-size: 18px;
+    }
+
+    .estrutura-aplicacao {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .menu-lateral {
+        position: fixed;
+        top: var(--altura-barra);
+        bottom: 0;
+        left: 0;
+        z-index: 30;
+        width: min(var(--largura-menu), 86vw);
+        height: auto;
+        visibility: hidden;
+        transform: translateX(-100%);
+        box-shadow: 8px 0 24px rgb(32 33 36 / 16%);
+        transition: transform 180ms ease, visibility 180ms;
+    }
+
+    .menu-aberto {
+        overflow: hidden;
+    }
+
+    .menu-aberto .menu-lateral {
+        visibility: visible;
+        transform: none;
+    }
+
+    .menu-aberto::after {
+        content: "";
+        position: fixed;
+        inset: var(--altura-barra) 0 0;
+        z-index: 25;
+        background: rgb(32 33 36 / 40%);
+    }
+
+    .conteudo-principal {
+        padding: 16px;
+    }
+
+    .abas-mural {
+        gap: 0;
+        overflow-x: auto;
+        padding: 0;
+    }
+
+    .aba {
+        flex: 1 1 auto;
+        min-width: 0;
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Texto só para leitores de tela (ex.: o h1 de páginas sem título visível). */
+.visualmente-oculto {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ---------- Menu suspenso (<details class="menu-suspenso">): "+ Criar", ⋮ ---------- */
+
+.menu-suspenso {
+    position: relative;
+}
+
+.menu-suspenso > summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+.menu-suspenso > summary::-webkit-details-marker {
+    display: none;
+}
+
+.menu-suspenso__lista {
+    position: absolute;
+    z-index: 15;
+    min-width: 180px;
+    margin: 4px 0 0;
+    padding: 6px 0;
+    list-style: none;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgb(32 33 36 / 14%);
+}
+
+/* Menu do "+" da barra superior: fica no canto direito da tela, então abre para a esquerda. */
+.barra-superior__criar .menu-suspenso__lista {
+    right: 0;
+    min-width: 220px;
+}
+
+.menu-suspenso__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 16px;
+    color: var(--cor-texto);
+    background: none;
+    border: 0;
+    font-size: 14px;
+    text-align: left;
+    text-decoration: none;
+}
+
+.menu-suspenso__item:hover {
+    background: var(--cor-hover);
+}
+
+.menu-suspenso__item .material-symbols-outlined {
+    width: 20px;
+    color: var(--cor-texto-suave);
+    font-size: 20px;
+}
+
+/* ---------- Diálogo (<dialog>), botão de texto e aviso ---------- */
+
+.dialogo {
+    width: min(400px, calc(100% - 32px));
+    padding: 0;
+    color: var(--cor-texto);
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 18px 48px rgb(32 33 36 / 24%);
+}
+
+.dialogo > form {
+    padding: 24px;
+}
+
+.dialogo::backdrop {
+    background: rgb(32 33 36 / 44%);
+}
+
+.dialogo__titulo {
+    margin: 0 0 12px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.dialogo p {
+    margin: 0 0 8px;
+    color: var(--cor-texto-suave);
+    font-size: 14px;
+}
+
+.dialogo strong {
+    color: var(--cor-texto);
+}
+
+.dialogo__rotulo {
+    display: block;
+    margin: 8px 0 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.dialogo__campo {
+    width: 100%;
+    padding: 10px 12px;
+    color: var(--cor-texto);
+    background: var(--cor-fundo);
+    border: 1px solid var(--cor-borda);
+    border-radius: 6px;
+    font: inherit;
+}
+
+.dialogo__campo:focus {
+    border-color: #1a73e8;
+    outline: 3px solid rgb(26 115 232 / 18%);
+}
+
+.dialogo__acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.botao-texto {
+    min-height: 40px;
+    padding: 0 16px;
+    color: #1967d2;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.botao-texto:hover {
+    background: var(--cor-destaque);
+}
+
+.botao-texto--perigo {
+    color: #c5221f;
+}
+
+.botao-texto--perigo:hover {
+    background: #fce8e6;
+}
+
+.aviso {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 40;
+    margin: 0;
+    padding: 12px 16px;
+    color: #ffffff;
+    background: #323232;
+    border-radius: 6px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 160ms ease;
+}
+
+.aviso--visivel {
+    opacity: 1;
+}
+
+@media (max-width: 640px) {
+    .aviso {
+        right: 16px;
+        left: 16px;
+        bottom: 16px;
+    }
+}

@@ -1,0 +1,152 @@
+/* <edu-modal-personalizar-aparencia> e o cabeçalho do Mural personalizado. */
+
+/* Foto ou cor escolhida + sombra escura embaixo, onde fica o texto branco. */
+.mural-cabecalho.cabecalho-personalizado,
+.aparencia__previa.cabecalho-personalizado {
+    background: linear-gradient(to top, rgb(0 0 0 / 60%), rgb(0 0 0 / 0%) 75%), var(--cabecalho-fundo);
+}
+
+.aparencia {
+    width: min(520px, calc(100% - 32px));
+}
+
+.aparencia__previa {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    aspect-ratio: 32 / 9;
+    padding: 12px 16px;
+    overflow: hidden;
+    color: #ffffff;
+    background: linear-gradient(135deg, #155b93 0%, #1769aa 100%);
+    border-radius: 8px;
+}
+
+.aparencia__previa strong {
+    overflow: hidden;
+    font-size: 20px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.aparencia__previa span {
+    font-size: 12px;
+    opacity: 0.85;
+}
+
+.aparencia .aparencia__rotulo {
+    margin: 16px 0 8px;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.aparencia__fotos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.aparencia__fotos [hidden] {
+    display: none;
+}
+
+.aparencia__upload {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 40px;
+    padding: 0 18px;
+    color: #1967d2;
+    border: 1px solid #1a73e8;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.aparencia__upload:hover {
+    background: var(--cor-destaque);
+}
+
+.aparencia__upload:focus-within {
+    outline: 3px solid rgb(26 115 232 / 35%);
+    outline-offset: 2px;
+}
+
+.aparencia .aparencia__ajuda {
+    margin: 6px 0 0;
+    color: var(--cor-texto-suave);
+    font-size: 12px;
+}
+
+.aparencia .aparencia__erro {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 6px 0 0;
+    color: #d93025;
+    font-size: 12px;
+}
+
+.aparencia__erro[hidden] {
+    display: none;
+}
+
+.aparencia__erro .material-symbols-outlined {
+    font-size: 16px;
+}
+
+.aparencia__cores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.aparencia__cores legend {
+    float: left;
+    width: 100%;
+}
+
+.aparencia__cor {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    background: var(--cor);
+    border: 1px solid rgb(0 0 0 / 12%);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.aparencia__cor:has(:checked) {
+    outline: 3px solid #1a73e8;
+    outline-offset: 2px;
+}
+
+.aparencia__cor:has(:checked)::after {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    font-family: 'Material Symbols Outlined';
+    font-size: 20px;
+    content: "check";
+    text-shadow: 0 0 2px rgb(0 0 0 / 60%);
+}
+
+.aparencia__cor:has(:focus-visible) {
+    outline: 3px solid rgb(26 115 232 / 60%);
+    outline-offset: 4px;
+}
+
+.botao-texto:disabled {
+    color: #9aa0a6;
+    background: none;
+    cursor: default;
+}

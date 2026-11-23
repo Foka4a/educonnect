@@ -39,7 +39,7 @@ function acao_excluir_turma(): never {
     exigir_criador($turma, $u);
     apagar_anexos_da_turma((int) $turma['id']);
     executar('DELETE FROM turmas WHERE id = ?', [$turma['id']]);
-    sucesso('Turma excluída.', pagina('inicio.html'));
+    sucesso('Turma excluída.', pagina('index.html'));
 }
 
 function acao_sair_da_turma(): never {
@@ -48,7 +48,7 @@ function acao_sair_da_turma(): never {
     exigir_membro((int) $turma['id'], $u);
     if ((int) $turma['criador_id'] === (int) $u['id']) throw new Falha('O administrador não pode sair da turma. Exclua a turma, se for o caso.', 409);
     executar('DELETE FROM participacoes WHERE turma_id = ? AND usuario_id = ?', [$turma['id'], $u['id']]);
-    sucesso('Você saiu da turma.', pagina('inicio.html'));
+    sucesso('Você saiu da turma.', pagina('index.html'));
 }
 
 function acao_participar_turma(): never {

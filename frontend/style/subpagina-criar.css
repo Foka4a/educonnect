@@ -1,0 +1,385 @@
+/* Subpáginas de criação sobre a aba Atividades (telas 10 e 11 do mapa): <dialog> em tela cheia com
+   barra [×] Título [Postar], cartões de dados e "Anexar". Usadas por "Criar > Atividade" e "Criar > Material". */
+.subpagina {
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    color: var(--cor-texto);
+    background: var(--cor-fundo);
+    border: 0;
+}
+
+.subpagina[open] {
+    display: flex;
+    flex-direction: column;
+}
+
+/* O corpo ocupa toda a área: o clique em "branco" nunca cai no próprio <dialog> (o layout.js fecharia). */
+.subpagina__corpo {
+    flex: 1;
+    overflow: auto;
+}
+
+/* ---------- Barra superior ---------- */
+
+.formulario__icone {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    color: #1967d2;
+    background: var(--cor-destaque);
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.formulario__titulo {
+    margin: 0 0 0 4px;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.botao-fechar {
+    color: #1967d2;
+    border: 1px solid #1a73e8;
+}
+
+.botao-fechar:hover {
+    background: var(--cor-destaque);
+}
+
+.botao-postar {
+    min-height: 40px;
+    padding: 0 28px;
+    color: #ffffff;
+    background: #1a73e8;
+    border: 0;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.botao-postar:hover {
+    background: #1765cc;
+}
+
+/* ---------- Corpo ---------- */
+
+.formulario {
+    width: min(100%, 1000px);
+    margin: 0 auto;
+    padding: 28px clamp(16px, 4vw, 48px);
+}
+
+.formulario form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+}
+
+.cartao {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    padding: 20px;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+}
+
+.cartao__titulo {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* ---------- Campos ---------- */
+
+.campo {
+    display: grid;
+    gap: 6px;
+}
+
+.campo__rotulo {
+    color: var(--cor-texto-suave);
+    font-size: 13px;
+}
+
+.campo__entrada {
+    min-height: 48px;
+    padding: 0 16px;
+    color: var(--cor-texto);
+    background: var(--cor-hover);
+    border: 1px solid #8ab4f8;
+    border-radius: 6px;
+    font: inherit;
+    font-size: 14px;
+}
+
+.campo__entrada:focus,
+.editor:focus-within {
+    border-color: #1a73e8;
+    outline: 3px solid rgb(26 115 232 / 18%);
+}
+
+.campo__entrada[aria-invalid="true"] {
+    border-color: #c5221f;
+}
+
+.campo__erro {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    color: #c5221f;
+    font-size: 13px;
+}
+
+.campo__erro[hidden] {
+    display: none;
+}
+
+.campo__erro .material-symbols-outlined {
+    width: 16px;
+    font-size: 16px;
+}
+
+/* ---------- Editor da descrição (negrito, itálico, sublinhado, lista) ---------- */
+
+.editor {
+    display: flex;
+    flex-direction: column;
+    min-height: 180px;
+    background: var(--cor-hover);
+    border: 1px solid #8ab4f8;
+    border-radius: 6px;
+}
+
+.editor__texto {
+    flex: 1;
+    min-height: 120px;
+    padding: 12px 16px;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+    outline: 0;
+}
+
+.editor__texto:empty::before {
+    content: "Descrição (opcional)";
+    color: var(--cor-texto-suave);
+}
+
+.editor__texto ul {
+    margin: 0;
+    padding-left: 24px;
+}
+
+.editor__barra {
+    display: flex;
+    gap: 2px;
+    padding: 4px 8px 8px;
+}
+
+.editor__botao {
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    color: var(--cor-texto);
+    background: none;
+    border: 0;
+    border-radius: 4px;
+}
+
+.editor__botao .material-symbols-outlined {
+    width: 20px;
+    font-size: 20px;
+}
+
+.editor__botao:hover {
+    background: rgb(32 33 36 / 8%);
+}
+
+.editor__botao[aria-pressed="true"] {
+    color: #1967d2;
+    background: var(--cor-destaque);
+}
+
+/* ---------- Anexar ---------- */
+
+.upload {
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+}
+
+.upload__botao {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    color: #1967d2;
+    background: transparent;
+    border: 1px solid #1a73e8;
+    border-radius: 50%;
+}
+
+.upload__botao:hover {
+    background: var(--cor-destaque);
+}
+
+.upload__legenda,
+.upload__ajuda {
+    margin: 0;
+    font-size: 13px;
+    text-align: center;
+}
+
+.upload__ajuda {
+    color: var(--cor-texto-suave);
+    font-size: 12px;
+}
+
+.anexos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.anexos:empty {
+    display: none;
+}
+
+.anexos li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    padding: 4px 4px 4px 12px;
+    background: var(--cor-hover);
+    border: 1px solid var(--cor-borda);
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.anexos .material-symbols-outlined {
+    width: 18px;
+    color: var(--cor-texto-suave);
+    font-size: 18px;
+}
+
+.anexos__nome {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.anexos .botao-icone {
+    width: 28px;
+    height: 28px;
+}
+
+.anexos .botao-icone .material-symbols-outlined {
+    width: 16px;
+    font-size: 16px;
+}
+
+/* ---------- Atividade: coluna lateral "Data de entrega" ---------- */
+
+.formulario--atividade {
+    width: min(100%, 1100px);
+}
+
+.formulario--atividade form {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    grid-template-areas:
+        "dados lateral"
+        "anexar lateral";
+    align-items: start;
+}
+
+.formulario--atividade .cartao--dados { grid-area: dados; }
+.formulario--atividade .cartao--anexar { grid-area: anexar; }
+.formulario--atividade .lateral { grid-area: lateral; }
+
+.lateral {
+    display: grid;
+    gap: 12px;
+}
+
+.lateral__titulo {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.campo__selecao {
+    min-height: 44px;
+    padding: 0 12px;
+    color: var(--cor-texto);
+    background: var(--cor-hover);
+    border: 1px solid #1a73e8;
+    border-radius: 6px;
+    font: inherit;
+    font-size: 14px;
+}
+
+.prazo {
+    display: grid;
+    gap: 12px;
+    padding: 12px;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+}
+
+.prazo[hidden] {
+    display: none;
+}
+
+.prazo .campo__entrada {
+    min-height: 44px;
+}
+
+.prazo__ajuda {
+    margin: 0;
+    color: var(--cor-texto-suave);
+    font-size: 12px;
+}
+
+/* ---------- Celular (360 px) ---------- */
+
+@media (max-width: 640px) {
+    .formulario__titulo {
+        font-size: 18px;
+    }
+
+    .botao-postar {
+        padding: 0 20px;
+    }
+
+    .formulario {
+        padding: 16px;
+    }
+
+    .cartao {
+        padding: 16px;
+    }
+
+    /* No celular: dados, data de entrega, anexar (como no mapa). */
+    .formulario--atividade form {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "dados"
+            "lateral"
+            "anexar";
+    }
+}

@@ -13,7 +13,7 @@ function acao_cadastro(): never {
     $id = executar('INSERT INTO usuarios (nome, email, senha_hash, criado_em) VALUES (?,?,?,?)',
         [$nome, $email, password_hash($senha, PASSWORD_DEFAULT), agora()]);
     entrar_na_sessao($id);
-    sucesso('Conta criada.', pagina('inicio.html'), ['usuario' => ['id' => $id, 'nome' => $nome]]);
+    sucesso('Conta criada.', pagina('index.html'), ['usuario' => ['id' => $id, 'nome' => $nome]]);
 }
 
 function acao_login(): never {
@@ -22,7 +22,7 @@ function acao_login(): never {
     // mesma resposta para e-mail inexistente e senha errada (não revela quais e-mails têm conta)
     if (!$u || !password_verify((string) ($_POST['senha'] ?? ''), $u['senha_hash'])) throw new Falha('E-mail ou senha incorretos', 401);
     entrar_na_sessao((int) $u['id']);
-    sucesso('Bem-vindo(a), ' . $u['nome'] . '.', pagina('inicio.html'), ['usuario' => ['id' => (int) $u['id'], 'nome' => $u['nome']]]);
+    sucesso('Bem-vindo(a), ' . $u['nome'] . '.', pagina('index.html'), ['usuario' => ['id' => (int) $u['id'], 'nome' => $u['nome']]]);
 }
 
 function acao_sair(): never {

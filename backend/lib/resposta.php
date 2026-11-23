@@ -14,12 +14,12 @@ function eh_fetch(): bool {
 }
 
 function url_base_site(): string {
-    // /backend/index.php/x  →  /  (pasta que contém "backend" e "pages")
+    // /backend/index.php/x  →  /  (raiz do projeto: contém "backend" e "frontend")
     return rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'] ?? '/backend/index.php')), '/') . '/';
 }
 
 function pagina(string $nome, string $consulta = ''): string {
-    return url_base_site() . 'pages/' . $nome . ($consulta !== '' ? '?' . $consulta : '');
+    return url_base_site() . 'frontend/pages/' . $nome . ($consulta !== '' ? '?' . $consulta : '');
 }
 
 /** Página de onde o formulário veio (só do mesmo site), sem os avisos antigos. */
@@ -31,7 +31,7 @@ function pagina_de_origem(): string {
         unset($q['msg'], $q['erro']);
         return ($p['path'] ?? '/') . ($q ? '?' . http_build_query($q) : '');
     }
-    return pagina('inicio.html');
+    return pagina('index.html');
 }
 
 function com_aviso(string $url, string $chave, string $texto): string {
