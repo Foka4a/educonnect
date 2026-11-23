@@ -4,9 +4,13 @@ return [
     // Padrão: SQLite (um arquivo, sem instalar nada). Para MySQL/XAMPP use, por exemplo:
     //   'dsn' => 'mysql:host=localhost;dbname=educonnect;charset=utf8mb4', 'usuario' => 'root', 'senha' => ''
     // (crie o banco vazio `educonnect`; as tabelas são criadas sozinhas).
-    'dsn'     => 'sqlite:' . __DIR__ . '/storage/educonnect.sqlite',
-    'usuario' => null,
-    'senha'   => null,
+    // No Docker (docker compose up) as variáveis DB_* apontam para o MySQL do compose.
+    'dsn'     => getenv('DB_HOST')
+        ? sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
+            getenv('DB_HOST'), getenv('DB_PORT') ?: '3306', getenv('DB_DATABASE') ?: 'educonnect')
+        : 'sqlite:' . __DIR__ . '/storage/educonnect.sqlite',
+    'usuario' => getenv('DB_USERNAME') ?: null,
+    'senha'   => getenv('DB_PASSWORD') ?: null,
 
     'uploads' => __DIR__ . '/storage/uploads',          // fora do que o site serve: só baixa via /arquivo
     'max_bytes_arquivo'  => 20 * 1024 * 1024,           // 20 MB por arquivo (mesmo limite dos modais)

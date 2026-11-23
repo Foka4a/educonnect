@@ -9,7 +9,10 @@ Chamadas por `fetch()` (cabeçalho `X-Requested-With: fetch`) recebem JSON: `{"o
 1. **Servidor do PHP** (na raiz do projeto): `php -S localhost:8000 backend/servidor-dev.php` e abra `http://localhost:8000/frontend/pages/login.html`.
    O `servidor-dev.php` bloqueia o acesso direto a `config`, `lib`, `acoes` e `storage` (o servidor embutido não lê `.htaccess`).
 2. **XAMPP/Apache**: coloque o projeto em `htdocs` (ex.: `http://localhost/educonnect/frontend/pages/login.html`). O `backend/.htaccess` já bloqueia tudo, menos o `index.php`.
-3. **Banco**: por padrão é SQLite (arquivo em `backend/storage/`, criado sozinho, nada para instalar). Para MySQL, edite `backend/config.php`
+3. **Docker Compose** (na raiz do projeto): `docker compose up -d --build` e abra `http://localhost:8080/frontend/pages/login.html`.
+   Sobe PHP 8.3 + Apache (lê os `.htaccess`) e MySQL 8.4; o `config.php` usa o MySQL sozinho quando a variável `DB_HOST` existe.
+   Uploads ficam no volume `uploads` e o banco no volume `mysql`.
+4. **Banco**: por padrão é SQLite (arquivo em `backend/storage/`, criado sozinho, nada para instalar). Para MySQL, edite `backend/config.php`
    (`dsn`, `usuario`, `senha`) e crie o banco vazio `educonnect`; as tabelas são criadas na primeira chamada.
 
 ## Onde fica cada coisa
