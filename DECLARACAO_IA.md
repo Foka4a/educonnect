@@ -26,7 +26,8 @@ A IA foi usada para:
 - ajustar a responsividade e o posicionamento dos cards da página inicial pelo mapa de telas (3 colunas no desktop, 1 no celular, compatível com telas de 300 px);
 - criar a opção de tema claro/escuro (`scripts/tema.js`), salva no navegador e aplicada a todas as páginas internas;
 - resolver um conflito de merge do Git e consolidar o registro de prompts;
-- criar os modelos de modal em HTML com Bootstrap 5.3, seguindo o guia de estilos do grupo (pasta `modais/`).
+- criar os modelos de modal em HTML com Bootstrap 5.3, seguindo o guia de estilos do grupo (pasta `modais/`);
+- reorganizar o projeto em `frontend/` e `backend/`, corrigindo o redirecionamento raiz e preparando a estrutura inicial da API PHP.
 
 <!-- Atualize esta lista conforme a IA for usada em outras partes (HTML, CSS, JS, conteúdo, correção de bugs). -->
 
