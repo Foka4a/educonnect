@@ -10,7 +10,7 @@
       return `
 <div class="modal fade" id="modal-editar-turma" tabindex="-1" aria-labelledby="titulo-editar-turma" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
-    <form class="modal-content" ${this.formAttrs()} novalidate>
+    <form class="modal-content" ${this.formAttrs('/editar-turma')} novalidate>
       <input type="hidden" name="turma_id" value="${this.esc(this.attr('turma-id', ''))}">
       <header class="modal-header cab-criar">
         <button type="button" class="btn btn-redondo d-sm-none" data-bs-dismiss="modal" aria-label="Fechar sem salvar">${this.icone('fechar')}</button>

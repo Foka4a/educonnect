@@ -10,7 +10,7 @@
       return `
 <div class="modal fade" id="modal-editar-comentario" tabindex="-1" aria-labelledby="titulo-editar-comentario" aria-hidden="true">
   <div class="modal-dialog dialogo-medio modal-dialog-centered">
-    <form class="modal-content" ${this.formAttrs()} novalidate>
+    <form class="modal-content" ${this.formAttrs('/editar-comentario')} novalidate>
       <input type="hidden" name="comentario_id" value="${this.esc(this.attr('comentario-id', ''))}">
       <header class="modal-header">
         <h2 class="modal-title" id="titulo-editar-comentario">Editar comentário</h2>

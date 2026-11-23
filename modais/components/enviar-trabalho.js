@@ -19,7 +19,7 @@
       return `
 <div class="modal fade" id="modal-enviar-trabalho" tabindex="-1" aria-labelledby="titulo-enviar-trabalho" aria-hidden="true">
   <div class="modal-dialog dialogo-medio modal-dialog-centered modal-dialog-scrollable">
-    <form class="modal-content" ${this.formAttrs()} enctype="multipart/form-data" novalidate>
+    <form class="modal-content" ${this.formAttrs('/enviar-trabalho')} enctype="multipart/form-data" novalidate>
       <input type="hidden" name="atividade_id" value="${this.esc(this.attr('atividade-id', ''))}">
       <header class="modal-header">
         <h2 class="modal-title" id="titulo-enviar-trabalho">${entregue ? 'Seu trabalho' : 'Enviar trabalho'}</h2>

@@ -18,7 +18,8 @@ A IA foi usada para:
 - criar os modais como componentes (Web Components com Bootstrap 5.3), seguindo o guia de estilos e os wireframes do mapa de telas do grupo, em versão desktop e mobile, mais 15 modais derivados das funcionalidades do projeto (criar, editar, excluir, enviar trabalho), na pasta `modais/`;
 - criar as subpáginas "Criar atividade" e "Criar material" (telas 10 e 11 do mapa), em tela cheia dentro da página Atividades, com CSS e JS próprios (`style/subpagina-criar.css`, `scripts/subpagina-criar.js`), seguindo o padrão do front-end;
 - resolver um conflito de merge do Git e consolidar o registro de prompts;
-- criar os modelos de modal em HTML com Bootstrap 5.3, seguindo o guia de estilos do grupo (pasta `modais/`).
+- criar os modelos de modal em HTML com Bootstrap 5.3, seguindo o guia de estilos do grupo (pasta `modais/`);
+- desenvolver o back-end em PHP (`backend/`): banco de dados, conta de usuário, regras de permissão e uma rota para cada modal, com testes automatizados feitos pela IA.
 
 <!-- Atualize esta lista conforme a IA for usada em outras partes (HTML, CSS, JS, conteúdo, correção de bugs). -->
 

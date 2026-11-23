@@ -6,7 +6,7 @@
   class EduModalExcluirTurma extends EduModalConfirmar {
     config() {
       return {
-        id: 'modal-excluir-turma', titulo: 'Excluir turma?', campo: 'turma_id', valor: this.attr('turma-id', ''),
+        rota: '/excluir-turma', id: 'modal-excluir-turma', titulo: 'Excluir turma?', campo: 'turma_id', valor: this.attr('turma-id', ''),
         ok: 'Excluir turma', perigo: true,
         corpo: '<p class="mb-2"><strong style="color:var(--bs-body-color)">' + this.esc(this.attr('turma-nome', 'Matemática')) + '</strong></p>' +
                '<p class="mb-0">Mural, atividades, materiais, entregas, notas e comentários serão excluídos para todos. Esta ação não pode ser desfeita.</p>'

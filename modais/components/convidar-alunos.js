@@ -13,7 +13,7 @@
       return `
 <div class="modal fade" id="modal-convidar-alunos" tabindex="-1" aria-labelledby="titulo-convidar-alunos" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <form class="modal-content" id="form-convidar-alunos" ${this.formAttrs()} novalidate>
+    <form class="modal-content" id="form-convidar-alunos" ${this.formAttrs('/convidar-alunos')} novalidate>
       <input type="hidden" name="turma_id" value="${this.esc(this.attr('turma-id', ''))}">
       <input type="hidden" name="emails" id="convidar-emails-valor">
       <header class="modal-header">
