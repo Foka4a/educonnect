@@ -1,6 +1,11 @@
 <?php
 declare(strict_types=1);
 
+use EduConnect\DAO\AnexoDAO;
+use EduConnect\DAO\EntregaDAO;
+use EduConnect\Models\Anexo;
+use EduConnect\Models\Turma;
+
 const EXTENSOES_PROIBIDAS = ['php', 'php3', 'php4', 'php5', 'php7', 'php8', 'phtml', 'phar', 'phps', 'pht', 'exe', 'bat', 'cmd', 'com', 'msi', 'sh', 'js', 'html', 'htm', 'svg'];
 
 /** Normaliza $_FILES['campo'] (um ou vários) numa lista simples, ignorando campos vazios. */
@@ -30,18 +35,23 @@ function validar_arquivos(array $lista, int $maxArquivos): void {
     }
 }
 
-/** Grava os arquivos em storage/uploads com nome aleatório e registra em `anexos`. */
+/** Grava os arquivos em storage/uploads com nome aleatório e registra cada um em `anexos`. */
 function guardar_anexos(array $lista, ?int $publicacaoId, ?int $entregaId): void {
     $pasta = config('uploads');
     if (!is_dir($pasta)) mkdir($pasta, 0755, true);
     $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $dao = new AnexoDAO();
     foreach ($lista as $a) {
         $nomeInterno = bin2hex(random_bytes(16));
         if (!move_uploaded_file($a['tmp_name'], "$pasta/$nomeInterno")) throw new Falha('Falha ao gravar o arquivo.', 500);
-        $mime = $finfo->file("$pasta/$nomeInterno") ?: 'application/octet-stream';
-        $nome = mb_substr(preg_replace('/[\x00-\x1F\/\\\\]/', '_', basename($a['name'])), 0, 255);
-        executar('INSERT INTO anexos (publicacao_id, entrega_id, nome, caminho, tipo, tamanho, criado_em) VALUES (?,?,?,?,?,?,?)',
-            [$publicacaoId, $entregaId, $nome, $nomeInterno, $mime, (int) $a['size'], agora()]);
+        $dao->inserir(new Anexo(
+            publicacaoId: $publicacaoId,
+            entregaId: $entregaId,
+            nome: mb_substr(preg_replace('/[\x00-\x1F\/\\\\]/', '_', basename($a['name'])), 0, 255),
+            caminho: $nomeInterno,
+            tipo: $finfo->file("$pasta/$nomeInterno") ?: 'application/octet-stream',
+            tamanho: (int) $a['size'],
+        ));
     }
 }
 
@@ -50,25 +60,24 @@ function apagar_arquivo_fisico(string $caminho): void {
     if (is_file($arq)) unlink($arq);
 }
 
-/** Apaga do disco os anexos que o banco vai remover em cascata (chame ANTES do DELETE). */
-function apagar_anexos_de(string $coluna, int $id): void {
-    if (!in_array($coluna, ['publicacao_id', 'entrega_id'], true)) return;
-    foreach (consultar("SELECT caminho FROM anexos WHERE $coluna = ?", [$id]) as $a) apagar_arquivo_fisico($a['caminho']);
+/** Remove os anexos de uma entrega: arquivos do disco e registros do banco. */
+function remover_anexos_da_entrega(int $entregaId): void {
+    $dao = new AnexoDAO();
+    foreach ($dao->listarDaEntrega($entregaId) as $a) apagar_arquivo_fisico($a->caminho);
+    $dao->excluirDaEntrega($entregaId);
 }
 
-/** Para excluir turma/atividade: apaga do disco tudo que depende dela. */
-function apagar_anexos_da_turma(int $turmaId): void {
-    $sql = 'SELECT a.caminho FROM anexos a
-            LEFT JOIN publicacoes p ON p.id = a.publicacao_id
-            LEFT JOIN entregas e ON e.id = a.entrega_id
-            LEFT JOIN publicacoes pe ON pe.id = e.atividade_id
-            WHERE p.turma_id = ? OR pe.turma_id = ?';
-    foreach (consultar($sql, [$turmaId, $turmaId]) as $a) apagar_arquivo_fisico($a['caminho']);
-    $t = um('SELECT imagem FROM turmas WHERE id = ?', [$turmaId]);
-    if ($t && $t['imagem']) apagar_arquivo_fisico($t['imagem']);
+/** Para excluir turma: apaga do disco tudo que depende dela (as linhas saem em cascata). Chame ANTES do DELETE. */
+function apagar_arquivos_da_turma(Turma $turma): void {
+    foreach ((new AnexoDAO())->caminhosDaTurma($turma->id) as $caminho) apagar_arquivo_fisico($caminho);
+    if ($turma->imagem) apagar_arquivo_fisico($turma->imagem);
 }
 
-function apagar_anexos_da_atividade(int $atividadeId): void {
-    apagar_anexos_de('publicacao_id', $atividadeId);
-    foreach (consultar('SELECT id FROM entregas WHERE atividade_id = ?', [$atividadeId]) as $e) apagar_anexos_de('entrega_id', (int) $e['id']);
+/** Para excluir atividade/material: apaga do disco os anexos dela e das entregas. Chame ANTES do DELETE. */
+function apagar_arquivos_da_publicacao(int $publicacaoId): void {
+    $dao = new AnexoDAO();
+    foreach ($dao->listarDaPublicacao($publicacaoId) as $a) apagar_arquivo_fisico($a->caminho);
+    foreach ((new EntregaDAO())->idsDaAtividade($publicacaoId) as $entregaId) {
+        foreach ($dao->listarDaEntrega($entregaId) as $a) apagar_arquivo_fisico($a->caminho);
+    }
 }
