@@ -42,6 +42,16 @@ git clone https://github.com/Foka4a/educonnect.git
 
 Depois abra `pages/index.html` no navegador. Não precisa instalar nada. Se algum modal não abrir direto do arquivo, sirva a pasta com um servidor simples, por exemplo a extensão Live Server do VS Code ou `python -m http.server`, e acesse `http://localhost:8000/pages/index.html`.
 
+### Com Docker (front-end + back-end + MySQL)
+
+Com o Docker Desktop aberto, na pasta do projeto:
+
+```bash
+docker compose up -d --build
+```
+
+Acesse `http://localhost:8080/frontend/pages/login.html`. O compose sobe o PHP 8.3 com Apache (serve `frontend/` e `backend/`) e um MySQL 8.4 (porta `3307` no computador, usuário e senha `educonnect`). As tabelas são criadas sozinhas na primeira chamada. Os arquivos ficam ligados à pasta do projeto, então basta salvar e recarregar a página. Para parar: `docker compose down` (acrescente `-v` para apagar o banco e os uploads).
+
 ## Estrutura
 
 ```
