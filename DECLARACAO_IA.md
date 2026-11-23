@@ -29,6 +29,7 @@ A IA foi usada para:
 - criar os modelos de modal em HTML com Bootstrap 5.3, seguindo o guia de estilos do grupo (pasta `modais/`);
 - reorganizar o projeto em `frontend/` e `backend/`, corrigindo o redirecionamento raiz e preparando a estrutura inicial da API PHP;
 - desenvolver o back-end em PHP (`backend/`): banco de dados, conta de usuário, regras de permissão e uma rota para cada modal, com testes automatizados feitos pela IA;
+- reorganizar o acesso ao banco do back-end em camadas PDO, DAO e Model (`backend/src/`);
 - deixar o projeto pronto para Docker Compose (PHP com Apache e MySQL), com o `Dockerfile`, o `docker-compose.yml` e as instruções de uso.
 
 <!-- Atualize esta lista conforme a IA for usada em outras partes (HTML, CSS, JS, conteúdo, correção de bugs). -->

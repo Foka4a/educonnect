@@ -1,6 +1,9 @@
 <?php
 declare(strict_types=1);
 
+use EduConnect\DAO\UsuarioDAO;
+use EduConnect\Models\Usuario;
+
 function iniciar_sessao(): void {
     if (session_status() === PHP_SESSION_ACTIVE) return;
     session_set_cookie_params(['httponly' => true, 'samesite' => 'Lax', 'secure' => !empty($_SERVER['HTTPS'])]);
@@ -20,14 +23,14 @@ function conferir_origem(): void {
     }
 }
 
-function usuario(): ?array {
+function usuario(): ?Usuario {
     static $cache = false;
     if ($cache !== false) return $cache;
     $id = $_SESSION['usuario_id'] ?? null;
-    return $cache = $id ? um('SELECT id, nome, email FROM usuarios WHERE id = ?', [$id]) : null;
+    return $cache = $id ? (new UsuarioDAO())->buscarPorId((int) $id) : null;
 }
 
-function exigir_login(): array {
+function exigir_login(): Usuario {
     return usuario() ?? throw new Falha('Entre na sua conta para continuar.', 401);
 }
 

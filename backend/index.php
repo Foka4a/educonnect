@@ -6,12 +6,15 @@ declare(strict_types=1);
  * com ?msg=… (deu certo) ou ?erro=… (falhou). Chamadas feitas por fetch() (cabeçalho X-Requested-With: fetch)
  * recebem JSON no lugar do redirecionamento. Veja backend/README.md.
  */
-require __DIR__ . '/lib/db.php';
+require __DIR__ . '/src/autoload.php';   // Conexao (PDO), Models e DAOs
+require __DIR__ . '/lib/config.php';
 require __DIR__ . '/lib/resposta.php';
 require __DIR__ . '/lib/sessao.php';
 require __DIR__ . '/lib/validacao.php';
 require __DIR__ . '/lib/permissoes.php';
 require __DIR__ . '/lib/arquivos.php';
+use EduConnect\Database\Conexao;
+
 foreach (['conta', 'turmas', 'pessoas', 'publicacoes', 'entregas', 'comentarios'] as $modulo) require __DIR__ . "/acoes/$modulo.php";
 
 date_default_timezone_set(config('fuso'));
@@ -47,10 +50,10 @@ try {
     if ($metodo === 'POST') conferir_origem();
     $funcao();
 } catch (Falha $f) {
-    if (db()->inTransaction()) db()->rollBack();
+    Conexao::desfazerSeAberta();
     falhou($f->getMessage(), $f->status);
 } catch (Throwable $e) {
-    if (isset($pdo) || function_exists('db')) { try { if (db()->inTransaction()) db()->rollBack(); } catch (Throwable) {} }
+    try { Conexao::desfazerSeAberta(); } catch (Throwable) {}
     error_log('[educonnect] ' . $e);
     falhou('Algo deu errado no servidor. Tente de novo.', 500);
 }

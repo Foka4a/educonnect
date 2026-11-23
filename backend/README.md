@@ -21,8 +21,25 @@ O projeto está dividido em `frontend/` (páginas, modais, estilos) e `backend/`
 `../../backend/index.php/<rota>` (a partir de `frontend/pages/` e `frontend/modais/`). Para mudar o caminho, defina
 `window.EDUCONNECT_BACKEND = '/caminho/backend/index.php'` antes de carregar os componentes.
 
-`backend/public/`, `backend/src/` e `backend/config/` são o esqueleto de API do grupo (JSON + MySQL, ainda vazio) e **não são usados**
-por estas rotas. As rotas daqui ficam em `backend/index.php`, `lib/` e `acoes/`. Antes de seguir, o grupo precisa escolher um caminho
+### Camadas (PDO + DAO + Model)
+
+```
+index.php        roteador: rota → função acao_* em acoes/
+acoes/           regras de negócio de cada modal (validam, conferem permissão e chamam os DAOs). Sem SQL.
+lib/             config, sessão, validação, permissões, respostas e arquivos no disco. Sem SQL.
+src/Database/    Conexao.php: o PDO único (MySQL no Docker, SQLite por padrão) e Conexao::transacao();
+                 Esquema.php: cria as tabelas.
+src/Models/      uma classe por tabela (Usuario, Turma, Participacao, Publicacao, Entrega, Anexo, Comentario, Convite),
+                 com os dados de uma linha (deLinha) e regras pequenas (ehAdministrador, prazoVencido, foiCorrigida...).
+src/DAO/         uma classe por tabela com todo o SQL (buscarPorId, inserir, atualizar, excluir...), sempre com prepared
+                 statements, recebendo e devolvendo Models.
+src/autoload.php carrega as classes do namespace EduConnect\ (PSR-4).
+```
+
+Exemplo: `$turma = (new TurmaDAO())->buscarPorId(3); $turma->nome = 'Web I'; (new TurmaDAO())->atualizar($turma);`
+
+`backend/public/`, `src/Routes/`, `src/Controllers/` e `backend/config/` são o esqueleto de API do grupo (JSON + MySQL, ainda vazio)
+e **não são usados** por estas rotas. Antes de seguir, o grupo precisa escolher um caminho
 (ver "Ainda não existe").
 
 ## Rotas
@@ -51,7 +68,7 @@ por estas rotas. As rotas daqui ficam em `backend/index.php`, `lib/` e `acoes/`.
 - Regras de negócio do trabalho: quem entra pelo código é aluno e só o administrador (criador) promove a professor; atrasos
   são calculados pela data de entrega vigente (ao editar o prazo, as entregas já enviadas são reavaliadas).
 - Senhas com `password_hash`; sessão com cookie `HttpOnly` e `SameSite=Lax`; POST só aceito do próprio site (`Origin`).
-- Todas as consultas usam parâmetros (PDO). A descrição das atividades/materiais passa por uma lista de tags permitidas
+- Todas as consultas ficam nos DAOs e usam parâmetros (PDO). A descrição das atividades/materiais passa por uma lista de tags permitidas
   (`b`, `i`, `u`, `ul`, `li`, `br`...), sem atributos.
 - Uploads: até 20 MB por arquivo (10 por atividade/material, 5 por entrega), extensões executáveis recusadas, nome aleatório no disco
   (`backend/storage/uploads`) e download só por `arquivo?id=`, depois de conferir a turma.
