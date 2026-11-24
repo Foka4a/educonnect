@@ -3,3 +3,4 @@
 **/.env
 backend/storage/*.sqlite
 backend/storage/uploads/*
+node_modules

@@ -23,6 +23,15 @@ próprios formulários:
    (`dsn`, `usuario`, `senha`) e crie o banco vazio `educonnect`; as tabelas são criadas na primeira chamada, e um banco
    criado por uma versão anterior ganha sozinho as colunas novas (`Esquema::adicionarColunas`).
 
+## Testes
+
+- **Back-end** (SQLite na memória, não mexe no banco de verdade): `php backend/tests/run.php`. Sem PHP instalado:
+  `docker run --rm -v "$PWD":/app -w /app php:8.3-cli php backend/tests/run.php`. Teste novo: um `backend/tests/*Test.php`
+  com `teste('nome', function () {...})` e os ajudantes `igual()`, `verdade()`, `recusa(status, fn)`, `novo_usuario()` e
+  `turma_com_aluno()` (do `run.php`). O envio de arquivos não é testado: `move_uploaded_file` só funciona numa requisição HTTP.
+- **Front-end** (Node 20+): `npm install` uma vez e `npm test`. Os testes ficam em `frontend/tests/*.test.js` e rodam os
+  scripts numa página falsa (`jsdom`), montada por `frontend/tests/pagina.js`.
+
 ## Onde fica cada coisa
 
 O navegador só abre `frontend/`. A pasta `backend/` não é chamada direto: as páginas carregam o `backend/bootstrap.php`

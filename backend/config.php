@@ -5,10 +5,11 @@ return [
     //   'dsn' => 'mysql:host=localhost;dbname=educonnect;charset=utf8mb4', 'usuario' => 'root', 'senha' => ''
     // (crie o banco vazio `educonnect`; as tabelas são criadas sozinhas).
     // No Docker (docker compose up) as variáveis DB_* apontam para o MySQL do compose.
-    'dsn'     => getenv('DB_HOST')
+    // DB_DSN (opcional) troca o banco inteiro: os testes usam 'sqlite::memory:'.
+    'dsn'     => getenv('DB_DSN') ?: (getenv('DB_HOST')
         ? sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
             getenv('DB_HOST'), getenv('DB_PORT') ?: '3306', getenv('DB_DATABASE') ?: 'educonnect')
-        : 'sqlite:' . __DIR__ . '/storage/educonnect.sqlite',
+        : 'sqlite:' . __DIR__ . '/storage/educonnect.sqlite'),
     'usuario' => getenv('DB_USERNAME') ?: null,
     'senha'   => getenv('DB_PASSWORD') ?: null,
 

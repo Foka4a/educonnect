@@ -128,6 +128,11 @@ Categorias: **Configuração/Regras**, **Estrutura (HTML)**, **Estilo (CSS)**, *
 | 5 | 2026-11-18 | "faça o merge com a main e o pr" | A `main` foi mesclada na `painel-inicio`. Nos conflitos, entraram as mudanças das duas branches: o menu "+" com criar e participar de turma, da branch, e a engrenagem com o modal Configurações da turma, o Personalizar aparência e o mural novo, da `main`. A aba "Notas" continua fora do `mural.html`. No `PROMPTS.md` e no `DECLARACAO_IA.md` ficaram as entradas das duas branches, e as da `painel-inicio` foram renumeradas depois das da `main`. A branch foi enviada ao GitHub, e o link para abrir o pull request da `painel-inicio` para a `main` foi preparado. |
 | 6 | 2026-11-23 | (captura de tela do GitHub: "This branch has conflicts that must be resolved", sem texto) | Refez o merge da `main` na branch `BackEnd-João`: manteve as versões dos colegas dos modais Criar turma, Participar, Personalizar aparência e Promover (que a `main` reescreveu), uniu os registros de prompts e da declaração e ajustou os caminhos do back-end e dos formulários para a nova estrutura `frontend/` e `backend/`. |
 
+## Testes
+
+| # | Data | Prompt | Impacto no resultado final |
+|---|------|--------|----------------------------|
+| 1 | 2026-11-24 | "Tanto frontend quanto backend até agora nao possuem testes, crie estes testes para garantir a integridade das features, se houver alguma duvida sobre alguma funcionalidade ou feature ainda nao implementada, peça. O backend ainda nao esta finalizado então olhe apenas para oque ja esta finalizado e que pode ser aplicado um teste efetivo." | Criou 43 testes do back-end (`backend/tests/`, sem PHPUnit, em SQLite na memória). Eles cobrem conta e login, turmas, pessoas, atividades, materiais, avisos, entregas, notas, comentários, as permissões de professor, aluno e administrador, a limpeza de HTML, as datas e a checagem de origem (CSRF). Criou 19 testes do front-end (`frontend/tests/`, `node:test` + `jsdom`) para a base dos modais, as validações de Participar, Criar turma, Convidar alunos e Enviar trabalho, o `backend.js` (avisos e `fetch`) e o tema claro/escuro. O `backend/config.php` passou a aceitar `DB_DSN`, para os testes usarem outro banco. Ficaram de fora o envio de arquivos, que só funciona numa requisição HTTP de verdade, e as telas que ainda não existem. |
 
 ## Documentação
 
