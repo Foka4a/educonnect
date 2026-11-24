@@ -14,7 +14,7 @@ Como as páginas precisam de PHP, o site não roda no GitHub Pages: use o Docker
 
 | Página | Arquivo | O que faz |
 |--------|---------|-----------|
-| Início | `pages/index.php` | Cards das turmas, menu "+" para criar ou participar de uma turma e troca de tema claro/escuro. |
+| Início | `pages/index.php` | Cards das turmas (o ⋮ de cada card exclui a turma, para o administrador, ou sai dela), menu "+" para criar ou participar de uma turma e troca de tema claro/escuro. |
 | Login e cadastro | `pages/login.php`, `pages/cadastro.php` | Telas de acesso (conta real, com senha guardada pelo back-end). |
 | Mural | `pages/mural.php` | Banner da turma, código da turma, próximas atividades, novo aviso e publicações. |
 | Atividades | `pages/atividades.php` | Lista de atividades e materiais, com as subpáginas "Criar atividade" e "Criar material". |

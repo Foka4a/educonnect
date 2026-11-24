@@ -83,9 +83,15 @@
   padding: 8px;
 }
 
-.classroom-options {
-  position: relative;
+/* ⋮ fica acima do link que cobre o cartão; a lista abre para cima porque o cartão corta o que passa dele */
+.card-menu {
   z-index: 1;
+}
+
+.card-menu .menu-suspenso__lista {
+  right: 0;
+  bottom: 100%;
+  margin: 0 0 4px;
 }
 
 @media (max-width: 640px) {
