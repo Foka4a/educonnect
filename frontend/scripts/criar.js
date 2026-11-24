@@ -117,6 +117,6 @@ form.addEventListener('submit', (evento) => {
     // ponytail: sem back-end, publicar só volta para Atividades; com action no form, o POST segue normalmente.
     if (!form.getAttribute('action')) {
         evento.preventDefault();
-        location.href = 'atividades.html';
+        location.href = 'atividades.php';
     }
 });

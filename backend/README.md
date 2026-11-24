@@ -1,67 +1,94 @@
 # Back-end do EduConnect
 
-PHP 8 + PDO. Cada modal/formulário do front-end envia (POST) para `backend/index.php/<rota>`; o back-end valida, grava e
-**volta para a página de origem** com `?msg=…` (deu certo) ou `?erro=…` (falhou). Quem mostra o aviso é o `scripts/backend.js`.
-Chamadas por `fetch()` (cabeçalho `X-Requested-With: fetch`) recebem JSON: `{"ok": true, "mensagem": "…", …}` ou `{"ok": false, "erro": "…"}`.
+PHP 8 + PDO com **renderização no servidor**. Cada página `frontend/pages/*.php` lê os próprios dados e trata os
+próprios formulários:
+
+- **Ler:** a página chama os Services e já chega ao navegador com os dados (turmas, mural, atividades, pessoas,
+  entregas). Sem login, vai para `login.php`; sem permissão, volta para o início com o aviso.
+- **Gravar:** os formulários e modais postam para **a própria página**, com um campo oculto `acao`
+  (ex.: `acao=criar-aviso`). No topo, a página chama `formularios([...])`, que acha a ação, confere a origem, chama o
+  Service e volta para a página com `?msg=…` (deu certo) ou `?erro=…` (falhou). Quem mostra o aviso é o `scripts/backend.js`.
+- Duas ações salvam sem recarregar (nota e comentário em "Trabalhos dos estudantes"): `fetch()` para a própria página,
+  com o cabeçalho `X-Requested-With: fetch`, que recebe JSON `{"ok": true, …}` ou `{"ok": false, "erro": "…"}`.
 
 ## Como rodar
 
-1. **Servidor do PHP** (na raiz do projeto): `php -S localhost:8000 backend/servidor-dev.php` e abra `http://localhost:8000/frontend/pages/login.html`.
-   O `servidor-dev.php` bloqueia o acesso direto a `config`, `lib`, `acoes` e `storage` (o servidor embutido não lê `.htaccess`).
-2. **XAMPP/Apache**: coloque o projeto em `htdocs` (ex.: `http://localhost/educonnect/frontend/pages/login.html`). O `backend/.htaccess` já bloqueia tudo, menos o `index.php`.
-3. **Docker Compose** (na raiz do projeto): `docker compose up -d --build` e abra `http://localhost:8080/frontend/pages/login.html`.
+1. **Servidor do PHP** (na raiz do projeto): `php -S localhost:8000 backend/servidor-dev.php` e abra `http://localhost:8000/frontend/pages/login.php`.
+   O `servidor-dev.php` bloqueia o acesso direto à pasta `backend/` e a `frontend/partes` (o servidor embutido não lê `.htaccess`).
+2. **XAMPP/Apache**: coloque o projeto em `htdocs` (ex.: `http://localhost/educonnect/frontend/pages/login.php`). O `backend/.htaccess` bloqueia a pasta inteira e o `frontend/partes/.htaccess` bloqueia as partes das páginas.
+3. **Docker Compose** (na raiz do projeto): `docker compose up -d --build` e abra `http://localhost:8080/frontend/pages/login.php`.
    Sobe PHP 8.3 + Apache (lê os `.htaccess`) e MySQL 8.4; o `config.php` usa o MySQL sozinho quando a variável `DB_HOST` existe.
    Uploads ficam no volume `uploads` e o banco no volume `mysql`.
 4. **Banco**: por padrão é SQLite (arquivo em `backend/storage/`, criado sozinho, nada para instalar). Para MySQL, edite `backend/config.php`
-   (`dsn`, `usuario`, `senha`) e crie o banco vazio `educonnect`; as tabelas são criadas na primeira chamada.
+   (`dsn`, `usuario`, `senha`) e crie o banco vazio `educonnect`; as tabelas são criadas na primeira chamada, e um banco
+   criado por uma versão anterior ganha sozinho as colunas novas (`Esquema::adicionarColunas`).
 
 ## Onde fica cada coisa
 
-O projeto está dividido em `frontend/` (páginas, modais, estilos) e `backend/`. Os formulários do front-end enviam para
-`../../backend/index.php/<rota>` (a partir de `frontend/pages/` e `frontend/modais/`). Para mudar o caminho, defina
-`window.EDUCONNECT_BACKEND = '/caminho/backend/index.php'` antes de carregar os componentes.
+O navegador só abre `frontend/`. A pasta `backend/` não é chamada direto: as páginas carregam o `backend/bootstrap.php`
+(pelo `frontend/partes/pagina.php`) e usam as classes dela.
 
-### Camadas (PDO + DAO + Model)
+### Camadas
 
 ```
-index.php        roteador: rota → função acao_* em acoes/
-acoes/           regras de negócio de cada modal (validam, conferem permissão e chamam os DAOs). Sem SQL.
-lib/             config, sessão, validação, permissões, respostas e arquivos no disco. Sem SQL.
-src/Database/    Conexao.php: o PDO único (MySQL no Docker, SQLite por padrão) e Conexao::transacao();
-                 Esquema.php: cria as tabelas.
-src/Models/      uma classe por tabela (Usuario, Turma, Participacao, Publicacao, Entrega, Anexo, Comentario, Convite),
-                 com os dados de uma linha (deLinha) e regras pequenas (ehAdministrador, prazoVencido, foiCorrigida...).
-src/DAO/         uma classe por tabela com todo o SQL (buscarPorId, inserir, atualizar, excluir...), sempre com prepared
-                 statements, recebendo e devolvendo Models.
-src/autoload.php carrega as classes do namespace EduConnect\ (PSR-4).
+frontend/pages/*.php  páginas: no topo, formularios([...]) trata o POST (lê os campos e chama o Service); depois,
+                      carregar(fn () => ...) lê pelos Services e o HTML do grupo mostra os dados (foreach + e()).
+                      arquivo.php e imagem-turma.php: download de anexo e foto da turma.
+frontend/partes/      pedaços comuns das páginas: pagina.php (carrega o back-end, exige login, formularios() com as ações
+                      comuns: sair, criar/participar de turma, configurações da turma; ajudantes e(), acao(), data_br(),
+                      carregar()), cabeca.php (<head>), topo.php (barra superior e menu lateral),
+                      abas-turma.php (Mural/Atividades/Pessoas) e rodape.php (aviso e modais comuns)
+backend/bootstrap.php carrega as classes e o lib/
+src/Services/         as regras de negócio, usadas pelas páginas (leituras e gravações):
+                      quem pode o quê (Permissoes), prazos e atrasos, nota, código da turma, convites, avisos,
+                      comentários particulares, aparência, transações e arquivos no disco (ArquivoService).
+                      Recebem valores já lidos (não mexem em $_POST) e lançam Falha com a mensagem e o status HTTP.
+lib/                  apoio HTTP: config, sessão, leitura/validação dos campos, limpeza do HTML e respostas. Sem SQL.
+src/Database/         Conexao.php: o PDO único (MySQL no Docker, SQLite por padrão) e Conexao::transacao();
+                      Esquema.php: cria as tabelas e acrescenta colunas novas em bancos antigos.
+src/Models/           uma classe por tabela (Usuario, Turma, Participacao, Publicacao, Entrega, Anexo, Comentario, Convite),
+                      com os dados de uma linha (deLinha) e regras pequenas (ehAdministrador, prazoVencido, foiCorrigida...).
+src/DAO/              uma classe por tabela com todo o SQL (buscarPorId, listar..., inserir, atualizar, excluir...), sempre com
+                      prepared statements, recebendo e devolvendo Models.
+src/autoload.php      carrega as classes do namespace EduConnect\ (PSR-4).
 ```
 
-Exemplo: `$turma = (new TurmaDAO())->buscarPorId(3); $turma->nome = 'Web I'; (new TurmaDAO())->atualizar($turma);`
+Exemplo de leitura (`pessoas.php`): `$turma = (new TurmaService())->abrir($usuario, $_GET['turma'])` confere que a pessoa
+participa da turma e traz o papel dela; `(new PessoaService())->listar($usuario, $turma->id)` devolve as pessoas, e a página
+mostra o menu "Promover" só se `$turma->ehAdministrador($usuario)`.
 
-`backend/public/`, `src/Routes/`, `src/Controllers/` e `backend/config/` são o esqueleto de API do grupo (JSON + MySQL, ainda vazio)
-e **não são usados** por estas rotas. Antes de seguir, o grupo precisa escolher um caminho
-(ver "Ainda não existe").
+Exemplo de gravação (`pessoas.php`): o formulário "Remover da turma" posta `acao=remover-pessoa`, `turma_id` e `pessoa_id`
+para a própria página → `formularios(['remover-pessoa' => function () {...}])` lê os campos e chama
+`PessoaService::remover($usuario, $turmaId, $pessoaId)`, que confere se é professor e grava pelo DAO → `sucesso('Pessoa
+removida da turma.')` volta para `pessoas.php?turma=…&msg=…`.
 
-## Rotas
+Página nova: comece com `require __DIR__ . '/../partes/pagina.php';` e `$usuario = usuario_da_pagina();`, trate os
+formulários com `formularios([...])`, leia os dados dentro de `carregar(fn () => ...)` (chamando Services, nunca DAOs) e
+escape tudo com `e()`. Ação nova: a regra num método de um Service e uma entrada em `formularios()` da página que tem o
+formulário (ou em `acoes_comuns()`, se o formulário aparece em todas). `backend/config/` e `.env.example` ainda não são usados.
 
-| Modal / tela | Rota (POST) | Campos | Quem pode |
+## Ações
+
+| Página | `acao` | Campos | Quem pode |
 |---|---|---|---|
-| Cadastro / Login / Sair | `cadastro`, `login`, `sair` (`eu` é GET) | nome, email, senha, confirmar-senha | público |
-| Criar turma | `criar-turma` | nome*, niveis, materia | logado (vira administrador e professor) |
-| Participar da turma | `participar-turma` | codigo (5 a 8 letras/números) | logado (entra como aluno) |
-| Editar turma | `editar-turma` | turma_id, nome*, niveis, materia | professor |
-| Excluir turma | `excluir-turma` | turma_id | administrador |
-| Sair da turma | `sair-da-turma` | turma_id | membro (menos o administrador) |
-| Personalizar aparência | `personalizar-aparencia` | turma_id, imagem (JPG/PNG até 2 MB) | professor |
-| Convidar alunos | `convidar-alunos`, `redefinir-codigo` | turma_id, emails (separados por vírgula) | professor |
-| Promover a professor | `promover-professor` | turma_id, pessoa_id | administrador |
-| Remover da turma | `remover-pessoa` | turma_id, pessoa_id | professor (professores: só o administrador) |
-| Criar / Editar / Excluir atividade | `criar-atividade`, `editar-atividade`, `excluir-atividade` | turma_id ou atividade_id, titulo*, descricao, entrega (ou prazo_tipo/prazo_data/prazo_hora), anexos[], remover_anexos[] | professor |
-| Criar / Editar / Excluir material | `criar-material`, `editar-material`, `excluir-material` | turma_id ou material_id, titulo*, descricao, anexos[], remover_anexos[] | professor |
-| Enviar trabalho | `enviar-trabalho` | atividade_id, acao (`entregar` ou `cancelar`), arquivos[] | aluno (não altera trabalho já corrigido) |
-| Entrega do aluno: nota | `salvar-nota` | entrega_id, nota (0 a 100 ou vazio) | professor |
-| Comentários | `comentar`, `editar-comentario`, `excluir-comentario` | publicacao_id (ou entrega_id), texto, particular; comentario_id | membros; editar: só o autor; excluir: autor ou professor |
-| Baixar anexo / imagem da turma | `arquivo?id=`, `imagem-turma?id=` (GET) | | membros (entrega: o aluno dono e os professores) |
+| `cadastro.php` / `login.php` | `cadastro`, `login` | nome, email, senha, confirmar-senha | público |
+| todas (menu da conta) | `sair` | | logado |
+| todas (menu "+") | `criar-turma` | nome*, niveis, materia | logado (vira administrador e professor) |
+| todas (menu "+") | `participar-turma` | codigo (5 a 8 letras/números) | logado (entra como aluno) |
+| todas da turma (Configurações) | `editar-turma` | turma_id, nome*, niveis, materia, descricao, secao, sala (os três últimos: ausente = mantém) | professor |
+| `mural.php` | `personalizar-aparencia` | turma_id, imagem (JPG/PNG até 2 MB) ou cor (uma das cores do modal), remover_foto | professor |
+| `mural.php` | `criar-aviso`, `excluir-aviso` | turma_id, texto* (até 2000); aviso_id | professor |
+| `mural.php` | `redefinir-codigo` | turma_id | professor |
+| `mural.php`, `atividades.php`, `instrucoes.php` | `excluir-atividade`, `excluir-material` | atividade_id ou material_id | professor |
+| `atividades.php` | `criar-atividade`, `editar-atividade`, `criar-material`, `editar-material` | turma_id ou atividade_id/material_id, titulo*, descricao, prazo_tipo/prazo_data/prazo_hora (ou entrega), anexos[], remover_anexos[] | professor |
+| `pessoas.php` | `promover-professor` | turma_id, pessoa_id | administrador |
+| `pessoas.php` | `remover-pessoa` | turma_id, pessoa_id | professor (professores: só o administrador) |
+| `instrucoes.php` | `entregar-trabalho`, `cancelar-envio` | atividade_id, arquivos[] | aluno (não altera trabalho já corrigido) |
+| `instrucoes.php` | `comentar` | publicacao_id, texto, particular (1 = só para os professores) | membros |
+| `trabalho-estudantes.php` (fetch) | `salvar-nota`, `comentar` | entrega_id, nota (0 a 100 ou vazio); entrega_id, texto | professor |
+| `arquivo.php?id=`, `imagem-turma.php?id=` (GET) | | | membros (entrega: o aluno dono e os professores) |
+
+Uma ação só vale na página que a trata: `acao=criar-aviso` postado em `pessoas.php` volta com "Ação inválida.".
 
 ## Regras e segurança
 
@@ -71,11 +98,24 @@ e **não são usados** por estas rotas. Antes de seguir, o grupo precisa escolhe
 - Todas as consultas ficam nos DAOs e usam parâmetros (PDO). A descrição das atividades/materiais passa por uma lista de tags permitidas
   (`b`, `i`, `u`, `ul`, `li`, `br`...), sem atributos.
 - Uploads: até 20 MB por arquivo (10 por atividade/material, 5 por entrega), extensões executáveis recusadas, nome aleatório no disco
-  (`backend/storage/uploads`) e download só por `arquivo?id=`, depois de conferir a turma.
+  (`backend/storage/uploads`) e download só por `arquivo.php?id=`, depois de conferir a turma.
+
+## Páginas
+
+| Página | Lê (Services) | Quem vê o quê |
+|---|---|---|
+| `index.php` | `TurmaService::listarDoUsuario` | turmas de que a pessoa participa |
+| `mural.php?turma=` | `TurmaService::abrir`, `PublicacaoService::proximasAtividades`, `listar` (avisos, atividades, materiais) | código, Novo aviso, Personalizar e Excluir: só professor |
+| `atividades.php?turma=` (`&editar=`) | `PublicacaoService::listar`, `anexosDe`, `EntregaService::contarEntregues`, `PessoaService::listar` | Criar, Editar, Excluir e contadores: só professor |
+| `pessoas.php?turma=` | `PessoaService::listar` | Remover: professor; Promover e remover professor: administrador |
+| `instrucoes.php?atividade=` | `PublicacaoService::abrir`, `ComentarioService::publicos`; aluno: `EntregaService::doAluno`, `ComentarioService::meusParticulares` | aluno: "Seu trabalho" (entregar, reenviar, cancelar) e comentários particulares |
+| `trabalho-estudantes.php?atividade=` | `EntregaService::daAtividade` | só professor (nota e comentário particular por fetch) |
+| `login.php`, `cadastro.php` | — | público (quem já entrou vai para o início) |
 
 ## Ainda não existe
 
-- **Decisão do grupo:** a `main` tem o esqueleto de uma API JSON (`backend/public`, `src`, `config`, `.env.example` com `JWT_SECRET`). Este back-end usa formulários e sessão. É preciso escolher um dos dois (ou migrar as regras de `acoes/` para a API).
-- Os modais Criar turma, Participar, Personalizar aparência e Promover a professor foram reescritos pelo grupo (sem Bootstrap) e hoje só postam para o `action` que a página passar; os campos deles (`foto`, `cor`, `pessoa_nome`) ainda não batem com as rotas daqui (`imagem`, `pessoa_id` + `turma_id`).
-- As páginas continuam estáticas (`.html`): para listar turmas, atividades e pessoas vindas do banco falta uma leitura (páginas em PHP ou rotas GET em JSON).
+- Na página inicial, o menu ⋮ dos cards (sair da turma / excluir turma), o botão "Convidar" da aba Pessoas e editar ou
+  excluir comentários ainda não têm tela. As regras já existem nos Services (`TurmaService::sair`, `excluir`, `convidar`;
+  `ComentarioService::editar`, `excluir`): falta o formulário e a entrada em `formularios()` da página.
+- O interruptor "Aceita envios" de "Trabalhos dos estudantes" saiu da tela: não há regra para fechar as entregas.
 - Envio de e-mail dos convites (o convite é só registrado) e limite de tentativas de login.

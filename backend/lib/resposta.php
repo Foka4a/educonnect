@@ -8,30 +8,17 @@ class Falha extends Exception {
     }
 }
 
-/** True quando a chamada veio de fetch() (eventos dos modais): a resposta é JSON em vez de redirecionamento. */
+/** True quando a chamada veio de fetch() (nota e comentário em "Trabalhos dos estudantes"): a resposta é JSON em vez de redirecionamento. */
 function eh_fetch(): bool {
     return ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'fetch';
 }
 
-function url_base_site(): string {
-    // /backend/index.php/x  →  /  (raiz do projeto: contém "backend" e "frontend")
-    return rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'] ?? '/backend/index.php')), '/') . '/';
-}
-
-function pagina(string $nome, string $consulta = ''): string {
-    return url_base_site() . 'frontend/pages/' . $nome . ($consulta !== '' ? '?' . $consulta : '');
-}
-
-/** Página de onde o formulário veio (só do mesmo site), sem os avisos antigos. */
+/** A própria página que recebeu o formulário (os formulários postam para ela mesma), sem os avisos antigos. */
 function pagina_de_origem(): string {
-    $ref = $_SERVER['HTTP_REFERER'] ?? '';
-    $p = $ref !== '' ? parse_url($ref) : false;
-    if ($p && isset($p['host']) && ($p['host'] . (isset($p['port']) ? ':' . $p['port'] : '')) === ($_SERVER['HTTP_HOST'] ?? '')) {
-        parse_str($p['query'] ?? '', $q);
-        unset($q['msg'], $q['erro']);
-        return ($p['path'] ?? '/') . ($q ? '?' . http_build_query($q) : '');
-    }
-    return pagina('index.html');
+    $p = parse_url($_SERVER['REQUEST_URI'] ?? '/') ?: [];
+    parse_str($p['query'] ?? '', $q);
+    unset($q['msg'], $q['erro']);
+    return ($p['path'] ?? '/') . ($q ? '?' . http_build_query($q) : '');
 }
 
 function com_aviso(string $url, string $chave, string $texto): string {
@@ -54,7 +41,7 @@ function sucesso(string $mensagem, ?string $destino = null, array $dados = []): 
 
 function falhou(string $mensagem, int $status = 400): never {
     if (eh_fetch()) json_resposta(['ok' => false, 'erro' => $mensagem], $status);
-    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET') {   // download/imagem: status HTTP de verdade (serve para <img> e links)
+    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET') {   // arquivo.php/imagem-turma.php: status HTTP de verdade (serve para <img> e links)
         http_response_code($status);
         header('Content-Type: text/plain; charset=utf-8');
         echo $mensagem;

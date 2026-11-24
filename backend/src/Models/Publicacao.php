@@ -8,6 +8,7 @@ final class Publicacao
 {
     public const ATIVIDADE = 'atividade';
     public const MATERIAL = 'material';
+    public const AVISO = 'aviso';         // texto do mural: sem título, prazo nem anexos
 
     public function __construct(
         public ?int $id = null,
@@ -19,12 +20,13 @@ final class Publicacao
         public int $autorId = 0,
         public ?string $criadoEm = null,
         public ?string $atualizadoEm = null,
+        public ?string $autor = null,     // nome do autor (JOIN com usuarios)
     ) {}
 
     public static function deLinha(array $l): self
     {
         return new self((int) $l['id'], (int) $l['turma_id'], $l['tipo'], $l['titulo'], $l['descricao'],
-            $l['entrega_em'] ?? null, (int) $l['autor_id'], $l['criado_em'] ?? null, $l['atualizado_em'] ?? null);
+            $l['entrega_em'] ?? null, (int) $l['autor_id'], $l['criado_em'] ?? null, $l['atualizado_em'] ?? null, $l['autor'] ?? null);
     }
 
     public function ehAtividade(): bool

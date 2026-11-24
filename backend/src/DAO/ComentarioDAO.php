@@ -17,6 +17,19 @@ final class ComentarioDAO extends DAO
         return $l ? Comentario::deLinha($l) : null;
     }
 
+    /**
+     * Públicos ($alunoId null) ou a conversa particular com um aluno, do mais antigo para o mais novo.
+     * @return list<Comentario>
+     */
+    public function listarDaPublicacao(int $publicacaoId, ?int $alunoId = null): array
+    {
+        $filtro = $alunoId === null ? 'c.particular = 0' : 'c.particular = 1 AND c.aluno_id = ?';
+        $params = $alunoId === null ? [$publicacaoId] : [$publicacaoId, $alunoId];
+        return array_map([Comentario::class, 'deLinha'], $this->linhas(
+            "SELECT c.*, u.nome AS autor FROM comentarios c JOIN usuarios u ON u.id = c.autor_id
+             WHERE c.publicacao_id = ? AND $filtro ORDER BY c.criado_em, c.id", $params));
+    }
+
     /** Grava o comentário e preenche $c->id. */
     public function inserir(Comentario $c): int
     {

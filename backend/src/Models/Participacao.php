@@ -14,10 +14,11 @@ final class Participacao
         public int $usuarioId = 0,
         public string $papel = self::ALUNO,
         public ?string $criadoEm = null,
+        public ?string $nome = null,      // nome do usuário (JOIN com usuarios)
     ) {}
 
     public static function deLinha(array $l): self
     {
-        return new self((int) $l['turma_id'], (int) $l['usuario_id'], $l['papel'], $l['criado_em'] ?? null);
+        return new self((int) $l['turma_id'], (int) $l['usuario_id'], $l['papel'], $l['criado_em'] ?? null, $l['nome'] ?? null);
     }
 }

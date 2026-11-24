@@ -619,3 +619,72 @@ button {
         bottom: 16px;
     }
 }
+
+/* ---------- Páginas renderizadas no servidor (.php) ---------- */
+
+/* Menu do perfil (avatar do topo): nome e "Sair da conta". Abre para a esquerda, como o "+". */
+.barra-superior__perfil .menu-suspenso__lista {
+    right: 0;
+    min-width: 220px;
+}
+
+.barra-superior__perfil p.menu-suspenso__item {
+    margin: 0;
+    color: var(--cor-texto-suave);
+    cursor: default;
+}
+
+.barra-superior__perfil p.menu-suspenso__item:hover {
+    background: none;
+}
+
+.menu-suspenso__lista form {
+    margin: 0;
+}
+
+/* Lista de arquivos para baixar (anexos de atividade/material e da entrega). */
+.lista-arquivos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.lista-arquivos a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    color: var(--cor-texto);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.lista-arquivos a:hover {
+    background: var(--cor-hover);
+}
+
+.lista-arquivos label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+/* Lista vazia (sem turmas, sem publicações...). */
+.estado-vazio {
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    padding: 48px 16px;
+    color: var(--cor-texto-suave);
+    text-align: center;
+}
+
+.estado-vazio .material-symbols-outlined {
+    font-size: 48px;
+}

@@ -21,6 +21,23 @@ final class EntregaDAO extends DAO
         return $l ? Entrega::deLinha($l) : null;
     }
 
+    /** @return list<Entrega> */
+    public function listarDaAtividade(int $atividadeId): array
+    {
+        return array_map([Entrega::class, 'deLinha'], $this->linhas('SELECT * FROM entregas WHERE atividade_id = ?', [$atividadeId]));
+    }
+
+    /** Quantas entregas válidas (não canceladas) cada atividade da turma tem. @return array<int, int> atividade_id => total */
+    public function contarEntreguesDaTurma(int $turmaId): array
+    {
+        $total = [];
+        foreach ($this->linhas("SELECT e.atividade_id, COUNT(*) AS total FROM entregas e JOIN publicacoes p ON p.id = e.atividade_id
+                                WHERE p.turma_id = ? AND e.status = 'entregue' GROUP BY e.atividade_id", [$turmaId]) as $l) {
+            $total[(int) $l['atividade_id']] = (int) $l['total'];
+        }
+        return $total;
+    }
+
     /** @return list<int> */
     public function idsDaAtividade(int $atividadeId): array
     {
