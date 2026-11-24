@@ -128,15 +128,18 @@ function subpagina(string $tipo, $turma, ?Publicacao $editando, array $anexos): 
                         <div class="prazo" data-prazo<?= $prazo ? '' : ' hidden' ?>>
                             <div class="campo">
                                 <label class="campo__rotulo" for="atividade-prazo-data">Data</label>
-                                <input class="campo__entrada" id="atividade-prazo-data" name="prazo_data" type="date" aria-describedby="atividade-erro-prazo" value="<?= $prazo ? date('Y-m-d', $prazo) : '' ?>">
+                                <?php /* texto, não type="date": o campo nativo segue o idioma do navegador (mm/dd/aaaa em inglês) */ ?>
+                                <input class="campo__entrada" id="atividade-prazo-data" name="prazo_data" type="text" inputmode="numeric" maxlength="10"
+                                       placeholder="dd/mm/aaaa" autocomplete="off" aria-describedby="atividade-erro-prazo" value="<?= $prazo ? date('d/m/Y', $prazo) : '' ?>">
                                 <p class="campo__erro" id="atividade-erro-prazo" role="alert" hidden>
                                     <span class="material-symbols-outlined" aria-hidden="true">error</span>
-                                    <span>Informe a data de entrega.</span>
+                                    <span data-erro-prazo>Informe a data de entrega.</span>
                                 </p>
                             </div>
                             <div class="campo">
                                 <label class="campo__rotulo" for="atividade-prazo-hora">Hora</label>
-                                <input class="campo__entrada" id="atividade-prazo-hora" name="prazo_hora" type="time" value="<?= $prazo ? date('H:i', $prazo) : '23:59' ?>">
+                                <input class="campo__entrada" id="atividade-prazo-hora" name="prazo_hora" type="text" inputmode="numeric" maxlength="5"
+                                       placeholder="hh:mm" autocomplete="off" aria-describedby="atividade-erro-prazo" value="<?= $prazo ? date('H:i', $prazo) : '23:59' ?>">
                             </div>
                             <p class="prazo__ajuda">Entregas depois desse horário ficam como atrasadas.</p>
                         </div>

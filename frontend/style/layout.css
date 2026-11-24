@@ -686,5 +686,6 @@ button {
 }
 
 .estado-vazio .material-symbols-outlined {
+    width: 48px;   /* a base fixa 24px com overflow: hidden; sem isto o ícone de 48px fica cortado ao meio */
     font-size: 48px;
 }
