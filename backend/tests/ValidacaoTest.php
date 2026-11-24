@@ -49,8 +49,10 @@ teste('data_de_entrega(): modal (entrega) e subpágina (prazo_tipo)', function (
     igual(null, data_de_entrega());
     $_POST['entrega'] = '2026-11-20T14:30';
     igual('2026-11-20 14:30:00', data_de_entrega());
-    $_POST = ['prazo_tipo' => 'definir', 'prazo_data' => '2026-12-01', 'prazo_hora' => ''];
-    igual('2026-12-01 23:59:00', data_de_entrega(), 'sem hora vale o fim do dia');
+    $_POST = ['prazo_tipo' => 'definir', 'prazo_data' => '01/12/2026', 'prazo_hora' => ''];
+    igual('2026-12-01 23:59:00', data_de_entrega(), 'formato BR; sem hora vale o fim do dia');
+    $_POST = ['prazo_tipo' => 'definir', 'prazo_data' => '05/03/2027', 'prazo_hora' => '08:15'];
+    igual('2027-03-05 08:15:00', data_de_entrega(), 'dia/mês, não mês/dia');
     $_POST = ['prazo_tipo' => 'sem', 'entrega' => ''];
     igual(null, data_de_entrega());
 });
@@ -58,6 +60,10 @@ teste('data_de_entrega(): modal (entrega) e subpágina (prazo_tipo)', function (
 teste('data_de_entrega(): data impossível ou mal formatada é recusada', function () {
     foreach (['2026-02-30T10:00', '20/11/2026', '2026-11-20', '2026-11-20T25:00'] as $ruim) {
         $_POST = ['entrega' => $ruim];
+        recusa(400, fn () => data_de_entrega(), 'Data de entrega inválida');
+    }
+    foreach ([['30/02/2026', '10:00'], ['12/31/2026', '10:00'], ['1/2/2026', '10:00'], ['01/12/2026', '24:00'], ['01/12/2026', '9:00']] as [$dia, $hora]) {
+        $_POST = ['prazo_tipo' => 'definir', 'prazo_data' => $dia, 'prazo_hora' => $hora];
         recusa(400, fn () => data_de_entrega(), 'Data de entrega inválida');
     }
 });

@@ -73,11 +73,16 @@ function limpar_html(string $html): string {
     return trim($resultado);
 }
 
-/** Data de entrega vinda do modal (`entrega`) ou da subpágina (`prazo_tipo`, `prazo_data`, `prazo_hora`). */
+/**
+ * Data de entrega vinda do modal (`entrega`, 2026-11-20T23:59) ou da subpágina (`prazo_tipo`, `prazo_data` em dd/mm/aaaa,
+ * `prazo_hora` em hh:mm).
+ */
 function data_de_entrega(): ?string {
     $data = null;
     if (($_POST['prazo_tipo'] ?? '') === 'definir') {
-        $data = trim((string) ($_POST['prazo_data'] ?? '')) . 'T' . (trim((string) ($_POST['prazo_hora'] ?? '')) ?: '23:59');
+        $dia = trim((string) ($_POST['prazo_data'] ?? ''));
+        if (preg_match('#^(\d{2})/(\d{2})/(\d{4})$#', $dia, $m)) $dia = "$m[3]-$m[2]-$m[1]";   // dd/mm/aaaa → aaaa-mm-dd
+        $data = $dia . 'T' . (trim((string) ($_POST['prazo_hora'] ?? '')) ?: '23:59');
     } elseif (trim((string) ($_POST['entrega'] ?? '')) !== '') {
         $data = trim((string) $_POST['entrega']);
     } else {

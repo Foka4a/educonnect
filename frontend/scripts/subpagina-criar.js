@@ -35,6 +35,16 @@ function formatarTamanho(bytes) {
     return bytes >= 1048576 ? `${(bytes / 1048576).toFixed(1).replace('.', ',')} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
 }
 
+/** Data (dd/mm/aaaa) e hora (hh:mm, 24 h) do prazo: null se estão certas, senão {campo, texto} do erro. */
+function problemaNoPrazo(data, hora) {
+    if (!data) return { campo: 'data', texto: 'Informe a data de entrega.' };
+    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(data);
+    const dia = m && new Date(+m[3], m[2] - 1, +m[1]);
+    if (!m || dia.getDate() !== +m[1] || dia.getMonth() !== m[2] - 1) return { campo: 'data', texto: 'Data inválida. Use dd/mm/aaaa.' };
+    if (hora && !/^([01]\d|2[0-3]):[0-5]\d$/.test(hora)) return { campo: 'hora', texto: 'Hora inválida. Use hh:mm (00:00 a 23:59).' };
+    return null;
+}
+
 // ---------- Uma subpágina ----------
 function iniciar(dialogo) {
     const tipo = dialogo.dataset.tipo;
@@ -51,6 +61,7 @@ function iniciar(dialogo) {
     const prazoTipo = dialogo.querySelector('[data-prazo-tipo]');   // só atividade
     const prazo = dialogo.querySelector('[data-prazo]');
     const prazoData = form.elements.prazo_data;
+    const prazoHora = form.elements.prazo_hora;
     const erroPrazo = dialogo.querySelector('#atividade-erro-prazo');
     let anexos = [];
 
@@ -89,7 +100,22 @@ function iniciar(dialogo) {
             if (!prazo.hidden) prazoData.focus();
             erroPrazo.hidden = true;
         });
-        prazoData.addEventListener('input', () => { erroPrazo.hidden = true; prazoData.removeAttribute('aria-invalid'); });
+        // máscara: só dígitos, com as barras (dd/mm/aaaa) e os dois-pontos (hh:mm, 24 h) postos sozinhos
+        const mascara = (campo, partes, separador) => campo.addEventListener('input', () => {
+            const digitos = campo.value.replace(/\D/g, '').slice(0, partes.reduce((a, b) => a + b));
+            let saida = '';
+            let i = 0;
+            for (const n of partes) {
+                if (i >= digitos.length) break;
+                saida += (i ? separador : '') + digitos.slice(i, i + n);
+                i += n;
+            }
+            campo.value = saida;
+            erroPrazo.hidden = true;
+            campo.removeAttribute('aria-invalid');
+        });
+        mascara(prazoData, [2, 2, 4], '/');
+        mascara(prazoHora, [2, 2], ':');
     }
 
     // anexos (só upload de arquivos)
@@ -155,7 +181,12 @@ function iniciar(dialogo) {
         desenharAnexos();
         mostrarErroUpload('');
         erroDoTitulo(false);
-        if (prazoTipo) { prazo.hidden = true; erroPrazo.hidden = true; prazoData.removeAttribute('aria-invalid'); }
+        if (prazoTipo) {
+            prazo.hidden = true;
+            erroPrazo.hidden = true;
+            prazoData.removeAttribute('aria-invalid');
+            prazoHora.removeAttribute('aria-invalid');
+        }
         atualizarBotoes();
     });
 
@@ -163,11 +194,14 @@ function iniciar(dialogo) {
     form.addEventListener('submit', (evento) => {
         if (!titulo.value.trim()) { evento.preventDefault(); erroDoTitulo(true); titulo.focus(); return; }
         const comPrazo = prazoTipo && prazoTipo.value === 'definir';
-        if (comPrazo && !prazoData.value) {
+        const problema = comPrazo ? problemaNoPrazo(prazoData.value, prazoHora.value) : null;
+        if (problema) {
             evento.preventDefault();
+            const campo = problema.campo === 'hora' ? prazoHora : prazoData;
+            erroPrazo.querySelector('[data-erro-prazo]').textContent = problema.texto;
             erroPrazo.hidden = false;
-            prazoData.setAttribute('aria-invalid', 'true');
-            prazoData.focus();
+            campo.setAttribute('aria-invalid', 'true');
+            campo.focus();
             return;
         }
         const pacote = document.createElement('div');
