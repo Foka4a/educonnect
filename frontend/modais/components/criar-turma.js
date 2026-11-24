@@ -10,18 +10,19 @@
 
    Campos: Nome da turma (obrigatório), Níveis e Matéria (opcionais).
    Desktop: título + Cancelar / Criar. Celular (< 576 px): tela cheia com [×] título [Criar].
-   Atributo: action (destino do POST). Sem action, não há back-end: ao criar, abre o Mural. */
+   Atributo: action (destino do POST; sem ele, a própria página, com acao=criar-turma; ela abre o Mural da turma nova). */
 (function () {
   'use strict';
 
   class EduModalCriarTurma extends HTMLElement {
     connectedCallback() {
       if (this.dialogo) return;
-      var action = this.getAttribute('action');
+      var action = this.getAttribute('action') || ''; // sem action: a própria página
       this.style.display = 'contents';
       this.innerHTML = `
 <dialog class="dialogo criar-turma" id="modal-criar-turma" aria-labelledby="titulo-criar-turma">
   <form method="post" novalidate>
+    <input type="hidden" name="acao" value="criar-turma">
     <header class="criar-turma__cabecalho">
       <button class="botao-icone criar-turma__so-celular" type="button" data-fechar aria-label="Fechar sem salvar">
         <span class="material-symbols-outlined" aria-hidden="true">close</span>
@@ -48,7 +49,7 @@
       var form = dialogo.querySelector('form');
       var nome = form.elements.nome;
       var erro = form.querySelector('#criar-turma-erro');
-      if (action) form.action = action;
+      form.action = action;
 
       function limparErro() {
         nome.removeAttribute('aria-invalid');
@@ -63,11 +64,6 @@
           erro.hidden = false;
           nome.focus();
           return;
-        }
-        // ponytail: sem back-end, criar só abre o Mural; com action, o POST segue normalmente.
-        if (!action) {
-          evento.preventDefault();
-          location.href = 'mural.html';
         }
       });
       nome.addEventListener('input', limparErro);

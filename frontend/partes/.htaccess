@@ -1,0 +1,2 @@
+# Partes das páginas (incluídas pelos .php de frontend/pages): não são abertas direto pelo navegador.
+Require all denied

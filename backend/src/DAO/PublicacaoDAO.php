@@ -13,6 +13,29 @@ final class PublicacaoDAO extends DAO
         return $l ? Publicacao::deLinha($l) : null;
     }
 
+    /** Da mais nova para a mais antiga, com o nome do autor. @param list<string> $tipos @return list<Publicacao> */
+    public function listarDaTurma(int $turmaId, array $tipos): array
+    {
+        $marcas = implode(',', array_fill(0, count($tipos), '?'));
+        return array_map([Publicacao::class, 'deLinha'], $this->linhas(
+            "SELECT p.*, u.nome AS autor FROM publicacoes p JOIN usuarios u ON u.id = p.autor_id
+             WHERE p.turma_id = ? AND p.tipo IN ($marcas) ORDER BY p.criado_em DESC, p.id DESC", [$turmaId, ...$tipos]));
+    }
+
+    /** Atividades com prazo a partir de $agora, da mais próxima para a mais distante. @return list<Publicacao> */
+    public function proximasAtividades(int $turmaId, string $agora, int $limite): array
+    {
+        return array_map([Publicacao::class, 'deLinha'], $this->linhas(
+            "SELECT * FROM publicacoes WHERE turma_id = ? AND tipo = 'atividade' AND entrega_em >= ?
+             ORDER BY entrega_em LIMIT " . max(1, $limite), [$turmaId, $agora]));
+    }
+
+    public function buscarComAutor(int $id): ?Publicacao
+    {
+        $l = $this->linha('SELECT p.*, u.nome AS autor FROM publicacoes p JOIN usuarios u ON u.id = p.autor_id WHERE p.id = ?', [$id]);
+        return $l ? Publicacao::deLinha($l) : null;
+    }
+
     /** Grava a atividade/material e preenche $p->id. */
     public function inserir(Publicacao $p): int
     {

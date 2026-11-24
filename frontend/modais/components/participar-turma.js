@@ -10,18 +10,19 @@
 
    Código: 5 a 8 letras/números, sem espaços; o erro aparece abaixo do campo.
    Participar fica desabilitado até digitar o código. Valide também no servidor.
-   Atributo: action (destino do POST). Sem action, não há back-end: ao participar, abre o Mural. */
+   Atributo: action (destino do POST; sem ele, a própria página, com acao=participar-turma; ela abre o Mural da turma). */
 (function () {
   'use strict';
 
   class EduModalParticiparTurma extends HTMLElement {
     connectedCallback() {
       if (this.dialogo) return;
-      var action = this.getAttribute('action');
+      var action = this.getAttribute('action') || ''; // sem action: a própria página
       this.style.display = 'contents';
       this.innerHTML = `
 <dialog class="dialogo participar-turma" id="modal-participar-turma" aria-labelledby="titulo-participar-turma">
   <form method="post" novalidate>
+    <input type="hidden" name="acao" value="participar-turma">
     <h2 class="dialogo__titulo" id="titulo-participar-turma">Participar da turma</h2>
     <label class="dialogo__rotulo" for="participar-turma-codigo">Código da turma</label>
     <p id="participar-turma-instrucao">Peça o código ao professor e digite-o aqui.</p>
@@ -41,7 +42,7 @@
       var campo = form.elements.codigo;
       var erro = form.querySelector('#participar-turma-erro');
       var participar = form.querySelector('[type="submit"]');
-      if (action) form.action = action;
+      form.action = action;
 
       function valido() { return /^[A-Za-z0-9]{5,8}$/.test(campo.value); }
       function mostrarErro(sim) {
@@ -65,11 +66,6 @@
           mostrarErro(true);
           campo.focus();
           return;
-        }
-        // ponytail: sem back-end, participar só abre o Mural; com action, o POST segue normalmente.
-        if (!action) {
-          evento.preventDefault();
-          location.href = 'mural.html';
         }
       });
 

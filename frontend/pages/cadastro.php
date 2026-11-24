@@ -1,3 +1,17 @@
+<?php
+require __DIR__ . '/../partes/pagina.php';
+
+use EduConnect\Services\ContaService;
+
+formularios([
+    'cadastro' => function () {
+        $u = (new ContaService())->cadastrar(texto('nome', 120, true, 'O nome'), texto('email', 190, true, 'O e-mail'),
+            (string) ($_POST['senha'] ?? ''), (string) ($_POST['confirmar-senha'] ?? ''));
+        entrar_na_sessao($u->id);
+        sucesso('Conta criada.', 'index.php');
+    },
+]);
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -18,7 +32,8 @@
                 <h1 id="titulo-acesso">Criar conta</h1>
             </header>
 
-            <form method="post" action="../../backend/index.php/cadastro" novalidate>
+            <form method="post" novalidate>
+                <?= acao('cadastro') ?>
                 <label for="nome">Nome completo</label>
                 <input type="text" id="nome" name="nome" autocomplete="name" required>
 
@@ -36,7 +51,7 @@
                 <button type="submit">Criar conta</button>
             </form>
 
-            <p>Já tem conta? <a href="login.html">Fazer login</a></p>
+            <p>Já tem conta? <a href="login.php">Fazer login</a></p>
         </section>
     </main>
 </body>

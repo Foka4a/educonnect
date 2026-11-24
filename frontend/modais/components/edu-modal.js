@@ -6,7 +6,7 @@
      <edu-modal-criar-turma></edu-modal-criar-turma>
      <button data-bs-toggle="modal" data-bs-target="#modal-criar-turma">Criar turma</button>
 
-   Atributo aceito pelos componentes com formulário:  action="url"  (destino, método POST) */
+   Atributo aceito pelos componentes com formulário:  action="url"  (destino, método POST; sem ele, a própria página) */
 (function () {
   'use strict';
 
@@ -27,6 +27,13 @@
       this._pronto = true;
       this.style.display = 'contents';
       this.innerHTML = this.render();
+      this.querySelectorAll('form[data-acao]').forEach(function (form) {
+        var campo = document.createElement('input');
+        campo.type = 'hidden';
+        campo.name = 'acao';
+        campo.value = form.dataset.acao;
+        form.prepend(campo);
+      });
       this.depoisDeRenderizar();
     }
     /* lê um atributo, com valor padrão */
@@ -40,13 +47,13 @@
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
       });
     }
-    /* atributos do <form>: method="post" e o action.
-       Sem o atributo action no componente, vale a rota do back-end (backend/index.php/<rota>).
-       Para outro caminho: window.EDUCONNECT_BACKEND = '/meu/caminho/backend/index.php' antes de carregar os componentes. */
+    /* atributos do <form>: method="post" e o action (só se o componente tiver o atributo action).
+       Sem action, o formulário posta para a própria página, que trata o pedido pelo campo oculto `acao`
+       (posto pelo connectedCallback a partir do data-acao). */
     formAttrs(rota) {
       var a = this.getAttribute('action');
-      if (!a && rota) a = (window.EDUCONNECT_BACKEND || '../../backend/index.php') + rota;
-      return 'method="post"' + (a ? ' action="' + this.esc(a) + '"' : '');
+      return 'method="post"' + (a ? ' action="' + this.esc(a) + '"' : '') +
+        (rota ? ' data-acao="' + this.esc(rota.replace(/^\//, '')) + '"' : '');
     }
     /* <input hidden> com a turma da página (atributo turma-id do componente) */
     campoTurma() {

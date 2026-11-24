@@ -7,14 +7,15 @@
      <link rel="stylesheet" href="../modais/css/personalizar-aparencia.css">
      <script src="../modais/components/personalizar-aparencia.js" defer></script>
      <button type="button" data-abrir="modal-personalizar-aparencia">…</button>
-     <edu-modal-personalizar-aparencia></edu-modal-personalizar-aparencia>
+     <edu-modal-personalizar-aparencia turma-id="3" cor="#e97a1b" foto="…/imagem-turma?id=3"></edu-modal-personalizar-aparencia>
 
-   Aplica em .mural-cabecalho. Salvar só habilita quando algo mudou; Cancelar, Esc ou clique fora descartam. */
+   Atributos: turma-id, cor e foto (aparência atual, vinda do servidor) e action (sem ele, a própria página, com acao=personalizar-aparencia).
+   Salvar posta para a própria página (campos imagem, cor e remover_foto), que confere o arquivo e volta para o Mural já com a
+   aparência nova. Salvar só habilita quando algo mudou; Cancelar, Esc ou clique fora descartam. */
 (function () {
   'use strict';
 
   var LIMITE = 2 * 1024 * 1024;
-  var CHAVE = 'educonnect:aparencia';
   var CORES = [
     ['', 'Padrão (azul)'],
     ['#3a86eb', 'Azul'],
@@ -23,13 +24,10 @@
     ['#d3e3fd', 'Azul-claro']
   ];
 
-  // ponytail: sem back-end, a aparência fica no navegador (localStorage); trocar por upload no servidor quando ele existir.
-  function lerSalvo() {
-    try { return JSON.parse(localStorage.getItem(CHAVE)) || { cor: '', foto: '' }; } catch (erro) { return { cor: '', foto: '' }; }
-  }
-
-  function gravar(estado) {
-    try { localStorage.setItem(CHAVE, JSON.stringify(estado)); return true; } catch (erro) { return false; }
+  function esc(valor) {
+    return String(valor).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
   }
 
   // Foto ou cor viram o fundo; a classe aplica a sombra escura que mantém o texto branco legível.
@@ -43,12 +41,16 @@
     connectedCallback() {
       if (this.dialogo) return;
       var self = this;
-      var salvo = lerSalvo();
+      var action = this.getAttribute('action') || ''; // sem action: a própria página
+      var salvo = { cor: this.getAttribute('cor') || '', foto: this.getAttribute('foto') || '' };
       var rascunho = Object.assign({}, salvo);
       this.style.display = 'contents';
       this.innerHTML = `
 <dialog class="dialogo aparencia" id="modal-personalizar-aparencia" aria-labelledby="titulo-aparencia">
-  <form method="dialog">
+  <form method="post" action="${esc(action)}" enctype="multipart/form-data">
+    <input type="hidden" name="acao" value="personalizar-aparencia">
+    <input type="hidden" name="turma_id" value="${esc(this.getAttribute('turma-id') || '')}">
+    <input type="hidden" name="remover_foto" value="0">
     <h2 class="dialogo__titulo" id="titulo-aparencia">Personalizar aparência</h2>
     <div class="aparencia__previa" data-previa>
       <strong data-previa-nome></strong>
@@ -60,7 +62,7 @@
       <label class="aparencia__upload">
         <span class="material-symbols-outlined" aria-hidden="true">upload</span>
         Fazer upload da foto
-        <input class="visualmente-oculto" type="file" name="foto" accept="image/png,image/jpeg" aria-describedby="aparencia-ajuda aparencia-erro">
+        <input class="visualmente-oculto" type="file" name="imagem" accept="image/png,image/jpeg" aria-describedby="aparencia-ajuda aparencia-erro">
       </label>
       <button class="botao-texto" type="button" data-remover-foto hidden>Remover foto</button>
     </div>
@@ -72,16 +74,16 @@
 
     <fieldset class="aparencia__cores">
       <legend class="aparencia__rotulo">Cor do cabeçalho</legend>
-      ${CORES.map(function (cor, i) {
+      ${CORES.map(function (cor) {
         return `<label class="aparencia__cor" style="--cor: ${cor[0] || 'linear-gradient(135deg, #155b93, #1769aa)'}">
-          <input class="visualmente-oculto" type="radio" name="cor" value="${cor[0]}" aria-label="${cor[1]}"${i === 0 ? ' checked' : ''}>
+          <input class="visualmente-oculto" type="radio" name="cor" value="${cor[0]}" aria-label="${cor[1]}">
         </label>`;
       }).join('')}
     </fieldset>
 
     <div class="dialogo__acoes">
-      <button class="botao-texto" type="submit" value="cancelar">Cancelar</button>
-      <button class="botao-texto" type="submit" value="salvar" disabled data-salvar>Salvar</button>
+      <button class="botao-texto" type="button" data-cancelar>Cancelar</button>
+      <button class="botao-texto" type="submit" disabled data-salvar>Salvar</button>
     </div>
   </form>
 </dialog>`;
@@ -89,7 +91,7 @@
       this.dialogo = this.querySelector('dialog');
       var form = this.querySelector('form');
       var previa = this.querySelector('[data-previa]');
-      var arquivo = form.elements.foto;
+      var arquivo = form.elements.imagem;
       var removerFoto = this.querySelector('[data-remover-foto]');
       var erro = this.querySelector('[data-erro]');
       var salvar = this.querySelector('[data-salvar]');
@@ -103,15 +105,11 @@
         aplicar(previa, rascunho);
         removerFoto.hidden = !rascunho.foto;
         salvar.disabled = rascunho.cor === salvo.cor && rascunho.foto === salvo.foto;
-        // Com foto, nenhuma cor fica marcada (a foto é que vale).
+        // Com foto, nenhuma cor fica marcada (a foto é que vale) e a cor não é enviada.
         form.querySelectorAll('[name="cor"]').forEach(function (radio) {
           radio.checked = !rascunho.foto && radio.value === rascunho.cor;
         });
       }
-
-      // Ao carregar a página: aplica o que foi salvo no cabeçalho do Mural.
-      var cabecalho = document.querySelector('.mural-cabecalho');
-      if (cabecalho) aplicar(cabecalho, salvo);
 
       document.addEventListener('click', function (evento) {
         if (!evento.target.closest('[data-abrir="modal-personalizar-aparencia"]')) return;
@@ -124,6 +122,8 @@
         self.dialogo.showModal();
       });
 
+      this.querySelector('[data-cancelar]').addEventListener('click', function () { self.dialogo.close(); });
+
       arquivo.addEventListener('change', function () {
         var foto = arquivo.files[0];
         erro.hidden = true;
@@ -133,7 +133,7 @@
           mostrarErro('Arquivo inválido. Use JPG ou PNG de até 2 MB.');
           return;
         }
-        // Data URL (e não blob:) para a foto continuar valendo depois de recarregar a página.
+        // Só para a prévia; o arquivo vai no próprio formulário.
         var leitor = new FileReader();
         leitor.addEventListener('load', function () {
           rascunho.foto = leitor.result;
@@ -153,19 +153,14 @@
         rascunho.foto = '';
         arquivo.value = '';
         atualizar();
-        form.querySelector('[name="cor"]:checked').focus();
+        var cor = form.querySelector('[name="cor"]:checked') || form.querySelector('[name="cor"]');
+        cor.checked = true;
+        cor.focus();
       });
 
-      form.addEventListener('submit', function (evento) {
-        if (evento.submitter.value !== 'salvar') return;
-        if (!gravar(rascunho)) {
-          // Navegador sem espaço/bloqueado: não fecha, avisa e deixa tentar outra foto.
-          evento.preventDefault();
-          mostrarErro('Não foi possível salvar a foto neste navegador. Tente uma imagem menor.');
-          return;
-        }
-        salvo = Object.assign({}, rascunho);
-        if (cabecalho) aplicar(cabecalho, salvo);
+      // Tinha foto e ela saiu (removida ou trocada por cor): o servidor apaga a foto.
+      form.addEventListener('submit', function () {
+        form.elements.remover_foto.value = salvo.foto && !rascunho.foto ? '1' : '0';
       });
     }
   }

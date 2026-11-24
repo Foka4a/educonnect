@@ -30,6 +30,9 @@ A IA foi usada para:
 - reorganizar o projeto em `frontend/` e `backend/`, corrigindo o redirecionamento raiz e preparando a estrutura inicial da API PHP;
 - desenvolver o back-end em PHP (`backend/`): banco de dados, conta de usuário, regras de permissão e uma rota para cada modal, com testes automatizados feitos pela IA;
 - reorganizar o acesso ao banco do back-end em camadas PDO, DAO e Model (`backend/src/`);
+- transferir as regras de negócio de `backend/acoes/` para camadas de Services, Controllers e Routes (`backend/src/`);
+- mudar o site para renderização no servidor: páginas `.php` que mostram os dados do banco usando as regras de negócio já existentes, com os formulários e modais ligados ao back-end;
+- simplificar o back-end, tirando os Controllers e o Roteador: cada página `.php` passou a tratar os próprios formulários, chamando os Services;
 - deixar o projeto pronto para Docker Compose (PHP com Apache e MySQL), com o `Dockerfile`, o `docker-compose.yml` e as instruções de uso.
 
 <!-- Atualize esta lista conforme a IA for usada em outras partes (HTML, CSS, JS, conteúdo, correção de bugs). -->

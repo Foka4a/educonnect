@@ -5,7 +5,7 @@ namespace EduConnect\DAO;
 
 use EduConnect\Models\Anexo;
 
-/** Só os registros dos anexos. Gravar/apagar o arquivo no disco fica em lib/arquivos.php. */
+/** Só os registros dos anexos. Gravar/apagar o arquivo no disco fica em src/Services/ArquivoService.php. */
 final class AnexoDAO extends DAO
 {
     public function buscarPorId(int $id): ?Anexo

@@ -1,13 +1,13 @@
-// Aba Atividades: subpáginas "Criar atividade" e "Criar material" (<dialog> em tela cheia).
+// Aba Atividades: subpáginas "Criar atividade" e "Criar material" (<dialog> em tela cheia), que também servem para editar.
+// O formulário posta para o back-end (criar-* ou editar-*, definido pelo atividades.php), que volta para Atividades com o aviso.
 // Menus, fundo do diálogo e avisar() vêm do layout.js.
 const MAX_ARQUIVOS = 10;
 const MAX_BYTES = 20 * 1024 * 1024;
 const dialogoDescartar = document.getElementById('dialogo-descartar');
-const listaAtividades = document.querySelector('.lista-atividades');
 
 const TEXTOS = {
-    atividade: { descartar: 'atividade', aviso: 'Atividade atribuída.' },
-    material: { descartar: 'material', aviso: 'Material publicado.' },
+    atividade: { descartar: 'atividade' },
+    material: { descartar: 'material' },
 };
 
 // ---------- HTML da descrição: só negrito, itálico, sublinhado, lista e quebra de linha ----------
@@ -33,11 +33,6 @@ function limparHtml(origem) {
 
 function formatarTamanho(bytes) {
     return bytes >= 1048576 ? `${(bytes / 1048576).toFixed(1).replace('.', ',')} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
-}
-
-function dataBr(iso) { // 2026-11-20 → 20/11/2026
-    const [ano, mes, dia] = iso.split('-');
-    return `${dia}/${mes}/${ano}`;
 }
 
 // ---------- Uma subpágina ----------
@@ -150,8 +145,9 @@ function iniciar(dialogo) {
     dialogo.querySelector('[data-cancelar]').addEventListener('click', cancelar);
     dialogo.addEventListener('cancel', (evento) => { evento.preventDefault(); cancelar(); }); // Esc
 
-    // limpa tudo quando fecha (publicou, cancelou ou descartou)
+    // limpa tudo quando fecha (cancelou ou descartou). Editando, volta para a lista sem o ?editar= na URL.
     dialogo.addEventListener('close', () => {
+        if (dialogo.hasAttribute('data-editar')) { location.replace(dialogo.dataset.voltar); return; }
         form.reset();
         editor.replaceChildren();
         anexos = [];
@@ -165,73 +161,20 @@ function iniciar(dialogo) {
 
     // postar / atribuir
     form.addEventListener('submit', (evento) => {
-        evento.preventDefault();
-        if (!titulo.value.trim()) { erroDoTitulo(true); titulo.focus(); return; }
+        if (!titulo.value.trim()) { evento.preventDefault(); erroDoTitulo(true); titulo.focus(); return; }
         const comPrazo = prazoTipo && prazoTipo.value === 'definir';
         if (comPrazo && !prazoData.value) {
+            evento.preventDefault();
             erroPrazo.hidden = false;
             prazoData.setAttribute('aria-invalid', 'true');
             prazoData.focus();
             return;
         }
-        const descricao = limparHtml(editor);
         const pacote = document.createElement('div');
-        pacote.append(descricao.cloneNode(true));
-        descricaoHtml.value = pacote.innerHTML; // para o envio ao back-end (que também deve sanitizar)
-        // ponytail: publicar só muda a tela; trocar por envio ao back-end quando ele existir.
-        adicionarNaLista({ tipo, titulo: titulo.value.trim(), descricao, data: comPrazo ? prazoData.value : '' });
-        dialogo.close();
-        avisar(TEXTOS[tipo].aviso);
+        pacote.append(limparHtml(editor));
+        descricaoHtml.value = pacote.innerHTML; // o back-end limpa de novo (lista de tags permitidas)
+        // segue o envio normal do formulário (com os arquivos da lista)
     });
-}
-
-// ---------- Mostra o item novo no topo da lista (mesmo HTML dos itens existentes) ----------
-function adicionarNaLista({ tipo, titulo, descricao, data }) {
-    const ehAtividade = tipo === 'atividade';
-    const hoje = new Date().toLocaleDateString('pt-BR');
-    const rotuloPrazo = data ? `Entrega: ${dataBr(data).slice(0, 5)}` : 'Sem data de entrega';
-    const linhaData = ehAtividade ? (data ? `Data de entrega: ${dataBr(data)}` : 'Sem data de entrega') : `Publicado em ${hoje}`;
-    const item = document.createElement('li');
-    item.className = 'item-atividade';
-    item.id = `item-${Date.now()}`;
-    item.dataset.tipo = tipo;
-    item.dataset.titulo = titulo;
-    item.innerHTML = `
-        <details class="item-atividade__detalhes" name="item-atividade" open>
-            <summary class="item-atividade__resumo">
-                <span class="item-atividade__icone material-symbols-outlined" aria-hidden="true">${ehAtividade ? 'assignment' : 'book'}</span>
-                <span class="item-atividade__titulo"></span>
-                ${ehAtividade ? '<span class="item-atividade__prazo"></span>' : ''}
-            </summary>
-            <div class="item-atividade__conteudo">
-                <div class="item-atividade__texto">
-                    <p class="item-atividade__data"></p>
-                    <div data-descricao></div>
-                </div>
-                ${ehAtividade ? `<dl class="item-atividade__contadores">
-                    <div><dt>Entregues</dt><dd>0</dd></div>
-                    <div><dt>Pendentes</dt><dd>0</dd></div>
-                </dl>` : ''}
-                <a class="item-atividade__link" href="${ehAtividade ? 'instrucoes.html' : '#'}">${ehAtividade ? 'Ver instruções' : 'Ver material'}</a>
-            </div>
-        </details>
-        <details class="menu-suspenso item-atividade__menu">
-            <summary class="botao-icone" title="Mais opções">
-                <span class="material-symbols-outlined" aria-hidden="true">more_vert</span>
-            </summary>
-            <ul class="menu-suspenso__lista">
-                <li><a class="menu-suspenso__item" href="criar-${tipo}.html">Editar</a></li>
-                <li><button class="menu-suspenso__item" type="button" data-acao="excluir">Excluir</button></li>
-                <li><button class="menu-suspenso__item" type="button" data-acao="copiar-link">Copiar link</button></li>
-            </ul>
-        </details>`;
-    // textos digitados entram como texto; a descrição passou pelo limparHtml
-    item.querySelector('.item-atividade__titulo').textContent = titulo;
-    if (ehAtividade) item.querySelector('.item-atividade__prazo').textContent = rotuloPrazo;
-    item.querySelector('.item-atividade__data').textContent = linhaData;
-    item.querySelector('[data-descricao]').append(descricao);
-    item.querySelector('.item-atividade__menu summary').setAttribute('aria-label', `Mais opções para ${titulo}`);
-    listaAtividades.prepend(item);
 }
 
 // ---------- Abrir ----------
@@ -253,9 +196,14 @@ dialogoDescartar.addEventListener('submit', (evento) => {
     if (evento.submitter.value === 'descartar') dialogos[dialogoDescartar.dataset.origem].close();
 });
 
-// criar-atividade.html e criar-material.html redirecionam para cá (?criar=atividade|material).
+// ?criar=atividade|material abre a subpágina direto; ?editar=<id> já vem com a subpágina preenchida (data-editar).
 const pedido = new URLSearchParams(location.search).get('criar');
-if (dialogos[pedido]) {
-    history.replaceState(null, '', location.pathname);
+const editando = document.querySelector('.subpagina[data-editar]');
+if (editando) {
+    editando.showModal();
+} else if (dialogos[pedido]) {
+    const params = new URLSearchParams(location.search);
+    params.delete('criar');
+    history.replaceState(null, '', location.pathname + '?' + params);
     dialogos[pedido].showModal();
 }

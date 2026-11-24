@@ -1,5 +1,3 @@
-# Apache/XAMPP: só index.php pode ser chamado direto. config, lib, acoes e storage (banco e uploads) ficam bloqueados.
+# Apache/XAMPP: nada aqui é chamado direto pelo navegador (as páginas em frontend/pages carregam o back-end).
+# config, lib, src e storage (banco e uploads) ficam bloqueados.
 Require all denied
-<Files "index.php">
-    Require all granted
-</Files>

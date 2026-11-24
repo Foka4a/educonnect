@@ -9,22 +9,24 @@
      <li class="pessoa" data-nome="Ana Souza"> … <button type="button" data-promover>Promover a professor</button> … </li>
      <edu-modal-promover-professor></edu-modal-promover-professor>
 
-   O botão [data-promover] abre o modal com o nome do .pessoa[data-nome] mais próximo.
-   Atributo: action (destino do POST, envia o campo "pessoa_nome").
-   Sem action, não há back-end: ao confirmar, dispara o evento "promover-professor" no document,
-   com detail = { pessoa: <li>, nome }, e a página atualiza a tela. */
+   O botão [data-promover] abre o modal com o nome e o id do .pessoa[data-nome][data-pessoa-id] mais próximo.
+   Atributos: turma-id e action (destino do POST; sem ele, a própria página, com acao=promover-professor).
+   Envia turma_id e pessoa_id; a página confere (PessoaService) que é o administrador e volta para a página com o aviso. */
 (function () {
   'use strict';
 
   class EduModalPromoverProfessor extends HTMLElement {
     connectedCallback() {
       if (this.dialogo) return;
-      var action = this.getAttribute('action');
+      var action = this.getAttribute('action') || ''; // sem action: a própria página
+      var turmaId = this.getAttribute('turma-id') || '';
       this.style.display = 'contents';
       this.innerHTML = `
 <dialog class="dialogo promover-professor" id="modal-promover-professor" aria-labelledby="titulo-promover-professor" aria-describedby="descricao-promover-professor">
   <form method="post">
-    <input type="hidden" name="pessoa_nome">
+    <input type="hidden" name="acao" value="promover-professor">
+    <input type="hidden" name="turma_id">
+    <input type="hidden" name="pessoa_id">
     <h2 class="dialogo__titulo" id="titulo-promover-professor">Promover a professor?</h2>
     <div id="descricao-promover-professor">
       <p class="promover-professor__pessoa">
@@ -42,15 +44,15 @@
 
       var dialogo = this.dialogo = this.querySelector('dialog');
       var form = dialogo.querySelector('form');
-      var pessoa = null;
-      if (action) form.action = action;
+      form.action = action;
+      form.elements.turma_id.value = turmaId;
 
       document.addEventListener('click', function (evento) {
         var botao = evento.target.closest('[data-promover]');
         if (!botao) return;
-        pessoa = botao.closest('.pessoa');
+        var pessoa = botao.closest('.pessoa');
         var nome = pessoa.dataset.nome;
-        form.elements.pessoa_nome.value = nome;
+        form.elements.pessoa_id.value = pessoa.dataset.pessoaId;
         dialogo.querySelector('[data-promover-nome]').textContent = nome;
         dialogo.querySelector('.promover-professor__avatar').textContent = nome.charAt(0).toUpperCase();
         var menu = botao.closest('.menu-suspenso');
@@ -59,17 +61,6 @@
       });
 
       form.querySelector('[data-fechar]').addEventListener('click', function () { dialogo.close(); });
-
-      // ponytail: sem back-end, só avisa a página; com action, o POST segue normalmente.
-      form.addEventListener('submit', function (evento) {
-        if (action) return;
-        evento.preventDefault();
-        var detalhe = { pessoa: pessoa, nome: form.elements.pessoa_nome.value };
-        dialogo.close();
-        document.dispatchEvent(new CustomEvent('promover-professor', { detail: detalhe }));
-      });
-
-      dialogo.addEventListener('close', function () { pessoa = null; });
     }
   }
 

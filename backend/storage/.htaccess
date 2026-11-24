@@ -1,2 +1,2 @@
-# Nada aqui deve ser servido pelo Apache (banco e uploads só passam por backend/index.php).
+# Nada aqui deve ser servido pelo Apache (banco e uploads só passam pelas páginas, via PHP).
 Require all denied

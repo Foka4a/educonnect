@@ -21,6 +21,8 @@ final class Esquema
                 id $pk, nome VARCHAR(120) NOT NULL, niveis VARCHAR(120) NOT NULL DEFAULT '', materia VARCHAR(120) NOT NULL DEFAULT '',
                 codigo VARCHAR(8) NOT NULL UNIQUE, imagem VARCHAR(255) NULL,
                 criador_id INT NOT NULL, criado_em DATETIME NOT NULL,
+                descricao VARCHAR(1000) NOT NULL DEFAULT '', secao VARCHAR(120) NOT NULL DEFAULT '', sala VARCHAR(120) NOT NULL DEFAULT '',
+                cor VARCHAR(7) NOT NULL DEFAULT '',
                 FOREIGN KEY (criador_id) REFERENCES usuarios(id))$motor",
             "CREATE TABLE IF NOT EXISTS participacoes (
                 turma_id INT NOT NULL, usuario_id INT NOT NULL, papel VARCHAR(10) NOT NULL DEFAULT 'aluno', criado_em DATETIME NOT NULL,
@@ -57,5 +59,25 @@ final class Esquema
                 FOREIGN KEY (turma_id) REFERENCES turmas(id) ON DELETE CASCADE)$motor",
         ];
         foreach ($tabelas as $sql) $pdo->exec($sql);
+
+        // Bancos criados antes destas colunas existirem ganham as que faltam.
+        self::adicionarColunas($pdo, 'turmas', [
+            'descricao' => "VARCHAR(1000) NOT NULL DEFAULT ''",
+            'secao' => "VARCHAR(120) NOT NULL DEFAULT ''",
+            'sala' => "VARCHAR(120) NOT NULL DEFAULT ''",
+            'cor' => "VARCHAR(7) NOT NULL DEFAULT ''",
+        ]);
+    }
+
+    /** @param array<string, string> $colunas nome => definição */
+    private static function adicionarColunas(PDO $pdo, string $tabela, array $colunas): void
+    {
+        $st = $pdo->query("SELECT * FROM $tabela LIMIT 0");
+        $existentes = [];
+        for ($i = 0; $i < $st->columnCount(); $i++) $existentes[] = $st->getColumnMeta($i)['name'];
+        $st->closeCursor();
+        foreach ($colunas as $nome => $definicao) {
+            if (!in_array($nome, $existentes, true)) $pdo->exec("ALTER TABLE $tabela ADD COLUMN $nome $definicao");
+        }
     }
 }

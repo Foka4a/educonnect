@@ -15,6 +15,27 @@ function inteiro(string $campo, string $rotulo = 'Identificador'): int {
     return (int) $v;
 }
 
+/** Como inteiro(), mas campo ausente ou vazio vira null. */
+function inteiro_opcional(string $campo, string $rotulo = 'Identificador'): ?int {
+    $v = $_POST[$campo] ?? $_GET[$campo] ?? '';
+    return ($v === '' || $v === null) ? null : inteiro($campo, $rotulo);
+}
+
+/** Normaliza $_FILES['campo'] (um ou vários) numa lista simples, ignorando campos vazios. */
+function arquivos_enviados(string $campo): array {
+    if (empty($_FILES[$campo])) return [];
+    $f = $_FILES[$campo];
+    $lista = [];
+    if (is_array($f['name'])) {
+        foreach (array_keys($f['name']) as $i) {
+            $lista[] = ['name' => $f['name'][$i], 'tmp_name' => $f['tmp_name'][$i], 'size' => $f['size'][$i], 'error' => $f['error'][$i]];
+        }
+    } else {
+        $lista[] = $f;
+    }
+    return array_values(array_filter($lista, fn ($a) => $a['error'] !== UPLOAD_ERR_NO_FILE));
+}
+
 /** Texto do editor da descrição: só negrito, itálico, sublinhado, lista e quebra de linha, sem atributos. */
 function limpar_html(string $html): string {
     $html = trim($html);

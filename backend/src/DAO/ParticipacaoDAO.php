@@ -19,6 +19,14 @@ final class ParticipacaoDAO extends DAO
         return $this->buscar($turmaId, $usuarioId)?->papel;
     }
 
+    /** Pessoas da turma com o nome, professores primeiro e depois por nome. @return list<Participacao> */
+    public function listarDaTurma(int $turmaId): array
+    {
+        return array_map([Participacao::class, 'deLinha'], $this->linhas(
+            "SELECT p.*, u.nome FROM participacoes p JOIN usuarios u ON u.id = p.usuario_id
+             WHERE p.turma_id = ? ORDER BY CASE WHEN p.papel = 'professor' THEN 0 ELSE 1 END, u.nome", [$turmaId]));
+    }
+
     public function inserir(Participacao $p): void
     {
         $p->criadoEm ??= self::agora();
