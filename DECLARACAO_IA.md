@@ -34,7 +34,8 @@ A IA foi usada para:
 - mudar o site para renderização no servidor: páginas `.php` que mostram os dados do banco usando as regras de negócio já existentes, com os formulários e modais ligados ao back-end;
 - simplificar o back-end, tirando os Controllers e o Roteador: cada página `.php` passou a tratar os próprios formulários, chamando os Services;
 - deixar o projeto pronto para Docker Compose (PHP com Apache e MySQL), com o `Dockerfile`, o `docker-compose.yml` e as instruções de uso;
-- criar os testes automatizados do back-end (`backend/tests/`) e do front-end (`frontend/tests/`) para as funcionalidades já prontas.
+- criar os testes automatizados do back-end (`backend/tests/`) e do front-end (`frontend/tests/`) para as funcionalidades já prontas;
+- ligar o menu ⋮ dos cards da página inicial às ações de excluir turma (administrador) e sair da turma (demais participantes), com confirmação.
 
 <!-- Atualize esta lista conforme a IA for usada em outras partes (HTML, CSS, JS, conteúdo, correção de bugs). -->
 
