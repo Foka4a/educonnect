@@ -1,0 +1,11 @@
+{
+  "name": "educonnect",
+  "private": true,
+  "description": "Testes do front-end (node:test + jsdom). Back-end: php backend/tests/run.php",
+  "scripts": {
+    "test": "node --test \"frontend/tests/*.test.js\""
+  },
+  "devDependencies": {
+    "jsdom": "25.0.1"
+  }
+}
