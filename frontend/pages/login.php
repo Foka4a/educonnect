@@ -49,5 +49,9 @@ if (usuario()) { header('Location: index.php', true, 303); exit; } // já entrou
             <p>Não tem conta? <a href="cadastro.php">Criar conta</a></p>
         </section>
     </main>
+
+    <footer class="rodape">
+        <p>EduConnect é um clone do Google Classroom feito para fins educacionais, sem vínculo com o Google.</p>
+    </footer>
 </body>
 </html>

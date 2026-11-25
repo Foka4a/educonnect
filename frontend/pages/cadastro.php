@@ -54,5 +54,9 @@ formularios([
             <p>Já tem conta? <a href="login.php">Fazer login</a></p>
         </section>
     </main>
+
+    <footer class="rodape">
+        <p>EduConnect é um clone do Google Classroom feito para fins educacionais, sem vínculo com o Google.</p>
+    </footer>
 </body>
 </html>

@@ -176,8 +176,9 @@ button {
     display: grid;
     grid-template-columns: var(--largura-menu) minmax(0, 1fr);
     /* 1ª linha: barra opcional da página (ex.: abas do mural), só a altura dela.
-       2ª linha: o <main>, que ocupa o resto da tela. */
-    grid-template-rows: auto 1fr;
+       2ª linha: o <main>, que ocupa o resto da tela.
+       3ª linha: o rodapé, sempre no fim da tela ou do conteúdo. */
+    grid-template-rows: auto 1fr auto;
     min-height: calc(100vh - var(--altura-barra));
     transition: grid-template-columns 180ms ease;
 }
@@ -273,6 +274,11 @@ button {
     border-top: 1px solid var(--cor-borda);
     font-size: 12px;
     text-align: center;
+}
+
+.estrutura-aplicacao > .rodape {
+    grid-row: -2;
+    grid-column: -2;
 }
 
 .rodape p {

@@ -4,61 +4,20 @@ declare(strict_types=1);
 namespace EduConnect\Database;
 
 use PDO;
+use RuntimeException;
 
-/** Cria as tabelas se ainda não existem (SQLite e MySQL). */
+/** Cria as tabelas (backend/sql/schema.sql) e o usuário padrão (backend/sql/usuario-padrao.sql) se ainda não existem, no SQLite e no MySQL. */
 final class Esquema
 {
+    /** Script com os CREATE TABLE, escrito para o MySQL. */
+    public const ARQUIVO = __DIR__ . '/../../sql/schema.sql';
+
+    /** Usuário padrão (padrao@educonnect.test), criado depois das tabelas se ainda não existe. */
+    public const USUARIO_PADRAO = __DIR__ . '/../../sql/usuario-padrao.sql';
+
     public static function criar(PDO $pdo): void
     {
-        $mysql = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql';
-        $pk = $mysql ? 'INT AUTO_INCREMENT PRIMARY KEY' : 'INTEGER PRIMARY KEY AUTOINCREMENT';
-        $motor = $mysql ? ' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4' : '';
-        $tabelas = [
-            "CREATE TABLE IF NOT EXISTS usuarios (
-                id $pk, nome VARCHAR(120) NOT NULL, email VARCHAR(190) NOT NULL UNIQUE,
-                senha_hash VARCHAR(255) NOT NULL, criado_em DATETIME NOT NULL)$motor",
-            "CREATE TABLE IF NOT EXISTS turmas (
-                id $pk, nome VARCHAR(120) NOT NULL, niveis VARCHAR(120) NOT NULL DEFAULT '', materia VARCHAR(120) NOT NULL DEFAULT '',
-                codigo VARCHAR(8) NOT NULL UNIQUE, imagem VARCHAR(255) NULL,
-                criador_id INT NOT NULL, criado_em DATETIME NOT NULL,
-                descricao VARCHAR(1000) NOT NULL DEFAULT '', secao VARCHAR(120) NOT NULL DEFAULT '', sala VARCHAR(120) NOT NULL DEFAULT '',
-                cor VARCHAR(7) NOT NULL DEFAULT '',
-                FOREIGN KEY (criador_id) REFERENCES usuarios(id))$motor",
-            "CREATE TABLE IF NOT EXISTS participacoes (
-                turma_id INT NOT NULL, usuario_id INT NOT NULL, papel VARCHAR(10) NOT NULL DEFAULT 'aluno', criado_em DATETIME NOT NULL,
-                PRIMARY KEY (turma_id, usuario_id),
-                FOREIGN KEY (turma_id) REFERENCES turmas(id) ON DELETE CASCADE,
-                FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE)$motor",
-            "CREATE TABLE IF NOT EXISTS publicacoes (
-                id $pk, turma_id INT NOT NULL, tipo VARCHAR(10) NOT NULL, titulo VARCHAR(120) NOT NULL, descricao TEXT NOT NULL,
-                entrega_em DATETIME NULL, autor_id INT NOT NULL, criado_em DATETIME NOT NULL, atualizado_em DATETIME NULL,
-                FOREIGN KEY (turma_id) REFERENCES turmas(id) ON DELETE CASCADE,
-                FOREIGN KEY (autor_id) REFERENCES usuarios(id))$motor",
-            "CREATE TABLE IF NOT EXISTS entregas (
-                id $pk, atividade_id INT NOT NULL, aluno_id INT NOT NULL, status VARCHAR(10) NOT NULL DEFAULT 'entregue',
-                atrasada TINYINT NOT NULL DEFAULT 0, nota INT NULL, enviado_em DATETIME NOT NULL,
-                UNIQUE (atividade_id, aluno_id),
-                FOREIGN KEY (atividade_id) REFERENCES publicacoes(id) ON DELETE CASCADE,
-                FOREIGN KEY (aluno_id) REFERENCES usuarios(id) ON DELETE CASCADE)$motor",
-            "CREATE TABLE IF NOT EXISTS entrega_historico (
-                id $pk, entrega_id INT NOT NULL, evento VARCHAR(12) NOT NULL, em DATETIME NOT NULL,
-                FOREIGN KEY (entrega_id) REFERENCES entregas(id) ON DELETE CASCADE)$motor",
-            "CREATE TABLE IF NOT EXISTS anexos (
-                id $pk, publicacao_id INT NULL, entrega_id INT NULL, nome VARCHAR(255) NOT NULL, caminho VARCHAR(80) NOT NULL,
-                tipo VARCHAR(100) NOT NULL, tamanho INT NOT NULL, criado_em DATETIME NOT NULL,
-                FOREIGN KEY (publicacao_id) REFERENCES publicacoes(id) ON DELETE CASCADE,
-                FOREIGN KEY (entrega_id) REFERENCES entregas(id) ON DELETE CASCADE)$motor",
-            "CREATE TABLE IF NOT EXISTS comentarios (
-                id $pk, publicacao_id INT NOT NULL, autor_id INT NOT NULL, aluno_id INT NULL, texto VARCHAR(1000) NOT NULL,
-                particular TINYINT NOT NULL DEFAULT 0, criado_em DATETIME NOT NULL, editado_em DATETIME NULL,
-                FOREIGN KEY (publicacao_id) REFERENCES publicacoes(id) ON DELETE CASCADE,
-                FOREIGN KEY (autor_id) REFERENCES usuarios(id) ON DELETE CASCADE)$motor",
-            "CREATE TABLE IF NOT EXISTS convites (
-                id $pk, turma_id INT NOT NULL, email VARCHAR(190) NOT NULL, convidado_por INT NOT NULL, criado_em DATETIME NOT NULL,
-                UNIQUE (turma_id, email),
-                FOREIGN KEY (turma_id) REFERENCES turmas(id) ON DELETE CASCADE)$motor",
-        ];
-        foreach ($tabelas as $sql) $pdo->exec($sql);
+        foreach (self::comandos($pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql') as $sql) $pdo->exec($sql);
 
         // Bancos criados antes destas colunas existirem ganham as que faltam.
         self::adicionarColunas($pdo, 'turmas', [
@@ -67,6 +26,25 @@ final class Esquema
             'sala' => "VARCHAR(120) NOT NULL DEFAULT ''",
             'cor' => "VARCHAR(7) NOT NULL DEFAULT ''",
         ]);
+
+        foreach (self::comandos($pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql', self::USUARIO_PADRAO) as $sql) $pdo->exec($sql);
+    }
+
+    /**
+     * Lê um script .sql (o schema.sql por padrão) e separa os comandos (cada um termina com `;` no fim da linha),
+     * sem os comentários `--`. No SQLite troca a chave autoincremento e tira as opções de tabela que só o MySQL entende.
+     * @return list<string>
+     */
+    public static function comandos(bool $mysql, string $arquivo = self::ARQUIVO): array
+    {
+        $texto = file_get_contents($arquivo);
+        if ($texto === false) throw new RuntimeException('Não foi possível ler ' . $arquivo);
+        $texto = preg_replace('/^\s*--.*$/m', '', $texto);
+        if (!$mysql) {
+            $texto = str_replace('INT AUTO_INCREMENT PRIMARY KEY', 'INTEGER PRIMARY KEY AUTOINCREMENT', $texto);
+            $texto = str_replace(' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4', '', $texto);
+        }
+        return array_values(array_filter(array_map('trim', preg_split('/;\s*$/m', $texto))));
     }
 
     /** @param array<string, string> $colunas nome => definição */

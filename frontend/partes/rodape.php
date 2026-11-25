@@ -1,11 +1,14 @@
 <?php
 /*
  * Fecha a .estrutura-aplicacao aberta em partes/topo.php e põe o que é comum a todas as páginas:
- * aviso (mostra ?msg=/?erro= vindos do back-end), modais Criar/Participar e, nas páginas de turma,
+ * rodapé com o aviso de clone do Google Classroom, aviso (mostra ?msg=/?erro= vindos do back-end), modais Criar/Participar e, nas páginas de turma,
  * Configurações/Informações da turma (precisa de ../modais/components/configuracoes-turma.js no <head>).
  */
 $turma ??= null;
 ?>
+        <footer class="rodape">
+            <p>EduConnect é um clone do Google Classroom feito para fins educacionais, sem vínculo com o Google.</p>
+        </footer>
     </div>
 
     <p class="aviso" role="status" data-aviso></p>

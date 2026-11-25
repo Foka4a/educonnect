@@ -35,7 +35,10 @@ A IA foi usada para:
 - simplificar o back-end, tirando os Controllers e o Roteador: cada página `.php` passou a tratar os próprios formulários, chamando os Services;
 - deixar o projeto pronto para Docker Compose (PHP com Apache e MySQL), com o `Dockerfile`, o `docker-compose.yml` e as instruções de uso;
 - criar os testes automatizados do back-end (`backend/tests/`) e do front-end (`frontend/tests/`) para as funcionalidades já prontas;
-- ligar o menu ⋮ dos cards da página inicial às ações de excluir turma (administrador) e sair da turma (demais participantes), com confirmação.
+- ligar o menu ⋮ dos cards da página inicial às ações de excluir turma (administrador) e sair da turma (demais participantes), com confirmação;
+- pôr em todas as páginas um rodapé avisando que o EduConnect é um clone do Google Classroom feito para fins educacionais;
+- separar o script de inicialização do banco (os `CREATE TABLE`) em `backend/sql/schema.sql`, lido pelo back-end;
+- criar um usuário padrão para desenvolvimento (`backend/sql/usuario-padrao.sql`).
 
 <!-- Atualize esta lista conforme a IA for usada em outras partes (HTML, CSS, JS, conteúdo, correção de bugs). -->
 

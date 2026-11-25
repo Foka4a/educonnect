@@ -16,12 +16,16 @@ próprios formulários:
 1. **Servidor do PHP** (na raiz do projeto): `php -S localhost:8000 backend/servidor-dev.php` e abra `http://localhost:8000/frontend/pages/login.php`.
    O `servidor-dev.php` bloqueia o acesso direto à pasta `backend/` e a `frontend/partes` (o servidor embutido não lê `.htaccess`).
 2. **XAMPP/Apache**: coloque o projeto em `htdocs` (ex.: `http://localhost/educonnect/frontend/pages/login.php`). O `backend/.htaccess` bloqueia a pasta inteira e o `frontend/partes/.htaccess` bloqueia as partes das páginas.
-3. **Docker Compose** (na raiz do projeto): `docker compose up -d --build` e abra `http://localhost:8080/frontend/pages/login.php`.
+3. **Docker Compose** (na raiz do projeto): `docker compose up -d --build` e abra `http://localhost/frontend/pages/login.php` (ou a porta definida em `WEB_PORT`).
    Sobe PHP 8.3 + Apache (lê os `.htaccess`) e MySQL 8.4; o `config.php` usa o MySQL sozinho quando a variável `DB_HOST` existe.
    Uploads ficam no volume `uploads` e o banco no volume `mysql`.
 4. **Banco**: por padrão é SQLite (arquivo em `backend/storage/`, criado sozinho, nada para instalar). Para MySQL, edite `backend/config.php`
    (`dsn`, `usuario`, `senha`) e crie o banco vazio `educonnect`; as tabelas são criadas na primeira chamada, e um banco
    criado por uma versão anterior ganha sozinho as colunas novas (`Esquema::adicionarColunas`).
+   O script de inicialização fica em `sql/schema.sql` (escrito para o MySQL, dá para importar direto no phpMyAdmin);
+   o `Esquema.php` roda esse arquivo e, no SQLite, adapta a chave autoincremento.
+   Em seguida roda o `sql/usuario-padrao.sql`, que cria a conta **padrao@educonnect.test** / senha **educonnect123**
+   se ela ainda não existe (também volta se for apagada). É só para desenvolvimento: troque o hash ou tire o arquivo antes de publicar.
 
 ## Testes
 
@@ -54,7 +58,9 @@ src/Services/         as regras de negócio, usadas pelas páginas (leituras e g
                       Recebem valores já lidos (não mexem em $_POST) e lançam Falha com a mensagem e o status HTTP.
 lib/                  apoio HTTP: config, sessão, leitura/validação dos campos, limpeza do HTML e respostas. Sem SQL.
 src/Database/         Conexao.php: o PDO único (MySQL no Docker, SQLite por padrão) e Conexao::transacao();
-                      Esquema.php: cria as tabelas e acrescenta colunas novas em bancos antigos.
+                      Esquema.php: roda o sql/schema.sql e o sql/usuario-padrao.sql e acrescenta colunas novas em bancos antigos.
+sql/schema.sql        script de inicialização do banco: os CREATE TABLE de todas as tabelas.
+sql/usuario-padrao.sql   a conta padrão (padrao@educonnect.test), criada se ainda não existe.
 src/Models/           uma classe por tabela (Usuario, Turma, Participacao, Publicacao, Entrega, Anexo, Comentario, Convite),
                       com os dados de uma linha (deLinha) e regras pequenas (ehAdministrador, prazoVencido, foiCorrigida...).
 src/DAO/              uma classe por tabela com todo o SQL (buscarPorId, listar..., inserir, atualizar, excluir...), sempre com

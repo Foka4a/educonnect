@@ -175,7 +175,7 @@ function subpagina(string $tipo, $turma, ?Publicacao $editando, array $anexos): 
         </div>
 
         <footer class="rodape">
-            <p>Clone educacional para fins educacionais - sem vínculo com o Google.</p>
+            <p>EduConnect é um clone do Google Classroom feito para fins educacionais, sem vínculo com o Google.</p>
         </footer>
     </dialog>
     <?php
